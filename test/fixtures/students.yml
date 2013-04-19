@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  email: MyString
+  encrypted_password: MyString
+  level: 
+  location: MyString
+  hired_date: 2013-04-18 14:57:41
+  hired_company: MyString
+
+two:
+  name: MyString
+  email: MyString
+  encrypted_password: MyString
+  level: 
+  location: MyString
+  hired_date: 2013-04-18 14:57:41
+  hired_company: MyString

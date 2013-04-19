@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  video_url: MyString
+  project1_name: MyString
+  project1_url: MyString
+  project2_name: MyString
+  project2_url: MyString
+  project3_name: MyString
+  project3_url: MyString
+  resume_url: MyString
+  student: 
+
+two:
+  video_url: MyString
+  project1_name: MyString
+  project1_url: MyString
+  project2_name: MyString
+  project2_url: MyString
+  project3_name: MyString
+  project3_url: MyString
+  resume_url: MyString
+  student: 

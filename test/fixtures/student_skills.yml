@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  earned_at: 2013-04-18 15:00:20
+  skill: 
+  student: 
+
+two:
+  earned_at: 2013-04-18 15:00:20
+  skill: 
+  student: 

@@ -1,0 +1,84 @@
+.clear{
+	clear: both;
+}
+#main_body{
+	background-image: url("subtle_carbon.jpg");
+	padding-top: 60px;
+}
+input[type="checkbox"]{
+	margin: 0;
+	margin-right: 10px;
+}
+.main_nav{
+	border-bottom: 2px solid black;
+	margin-bottom: 20px;
+}
+#skill_search{
+	border: 1px solid black;
+	border-radius: 10px;
+	padding: 10px;
+	display: inline-block;
+	float: left;
+}
+	#skill_search label{
+		font-size: 11px;
+		display: block;
+		margin-left: 20px;
+	}
+		#skill_search label.belt{
+			font-weight: bold;
+			font-size: 13px;
+			margin-left: 0px;
+		}
+#site_search{
+	float: right;
+}
+	#site_search input[type="text"]{
+	    font-size:11px;
+	    height: 14px;
+	}
+#main_content{
+	display: inline-block;
+	float: right;
+	width: 730px;
+}
+	#main_content h4{
+		padding-left: 20px;
+		margin-left: 20px;
+		margin-right: 10px;
+	}
+	#main_content img{
+		width: 160px;
+	}
+	#main_content ul{
+		list-style: none;
+		display: inline-block;
+		margin: 0;
+	}
+		#main_content ul li{
+			float: left;
+			position: relative;
+			padding: 0 0 20px 20px;
+			cursor: pointer;
+		}
+			#main_content ul li p{
+				font-weight: bold;
+				font-size: 13px;
+			    position: absolute;
+			    width:140px;
+			 	top: 87px;
+			 	margin: 0 auto;
+			 	padding-left: 20px;
+				background-color: rgba(255, 255, 255, 0.8);
+			}
+#short_list{
+	position: relative;
+}
+	#short_list button{
+		z-index: 100;
+		position: absolute;
+		top: 0;
+		left: 158px;
+		padding: 0 3px;
+	}
+
