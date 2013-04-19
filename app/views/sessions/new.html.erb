@@ -1,0 +1,30 @@
+<% content_for :jquery do %>
+	<script>
+	$(document).ready(function(){
+		$('#login_email').focus();
+	});
+	</script>
+<% end %>
+
+	<div class="wrapper">
+		<div id="user_login" class="well">
+
+			<% if flash[:error] %>
+				<p class='alert alert-error'><%= flash[:error] %></p>
+			<% end %>
+
+			<%= simple_form_for(:session, :url => sessions_path) do |f| %>
+				<h1>Welcome to CodingDojo's network.</h1>
+				<label> Email: </label>
+				<input type="text" id="login_email" name="session[email]">
+				<div class="clear"></div>
+				<label> Password: </label>
+				<input type="password" name="session[password]">
+				<div class="clear"></div>
+				<input type="submit" class='btn btn-info' value="Login">
+				<!-- <a href=''>Forgot password?</a> -->
+				<div class="clear"></div>
+			<% end %>
+		</div>
+		<div class="clear"></div>
+	</div>	

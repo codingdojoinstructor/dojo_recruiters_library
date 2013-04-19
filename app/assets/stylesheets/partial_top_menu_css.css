@@ -1,0 +1,10 @@
+body{
+	background-image: url("/assets/subtle_carbon.jpg");
+}
+.wrapper{
+	margin: 0 auto;
+	width: 960px;
+}
+#main_search{
+	padding-right: 20px;
+}

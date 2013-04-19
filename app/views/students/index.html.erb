@@ -1,127 +1,162 @@
-<div id="main_body">
-		<div class="wrapper">
-			<form id="skill_search" class="well" action="" method="post">
-				<legend>Refine your search</legend>
-				<div class="white-belt">
-					<label class="belt"><input id="white-belt-cat" type="checkbox">White Belt</label>
-					<label><input type="checkbox">HTML(25)</label>
-					<label><input type="checkbox">CSS(22)</label>
-					<label><input type="checkbox">JQuery/Javascript(20)</label>
-				</div>
-				<div class="yellow-belt">
-					<label class="belt"><input id="yellow-belt-cat" type="checkbox">Yellow Belt</label>
-					<label><input type="checkbox">PHP(15)</label>
-					<label><input type="checkbox">Ajax(13)</label>
-					<label><input type="checkbox">MySQL/Database Design(11)</label>
-					<label><input type="checkbox">Agile(5)</label>
-				</div>
-				<div class="green-belt">
-					<label class="belt"><input id="green-belt-cat" type="checkbox">Green Belt</label>
-					<label><input type="checkbox">OOP(10)</label>
-					<label><input type="checkbox">Git/SVN(22)</label>
-					<label><input type="checkbox">Ruby(10)</label>
-					<label><input type="checkbox">Linux and Cloud(10)</label>
-				</div>
-				<div class="red-belt">
-					<label class="belt"><input id="red-belt-cat" type="checkbox">Red Belt</label>
-					<label><input type="checkbox">Ruby on Rails(15)</label>
-					<label><input type="checkbox">CodeIgniter(10)</label>
-				</div>
-				<div class="black-belt">
-					<label class="belt"><input id="black-belt-cat" type="checkbox">Black Belt</label>
-					<label><input type="checkbox">NodeJS(5)</label>
-					<label><input type="checkbox">TDD(15)</label>
-					<label><input type="checkbox">Python</label>
-					<label><input type="checkbox">Django</label>
-				</div>
-			</form>
-			<div id="main_content">
-				<div id="student_select">
-					<h4 class="well">Students matching selected criteria</h4>
-					<ul>
-						<li class="white-belt-student yellow-belt-student">
-							<img src="img/small_profile_pictures/jose2.jpg" alt="jose">
-							<p>Jose Flores</p>
+<% content_for :jquery do %>
+	<script>
+	$(document).ready(function(){
+
+		//temporary - when the topics are clicked automatically make the belt toggle
+		$('#skill_search div label').click(function(){
+			if(!$(this).hasClass('belt'))
+			{
+				$(this).parent().children('.belt').click();
+			}
+		});
+
+		$('.belt').click(function(){
+
+			var shown_belts = new Array;
+			// if($(this).children().prop("checked")){
+			// 	$(this).siblings().children().prop("checked", true);
+			// }
+			// else{
+			// 	$(this).siblings().children().prop("checked", false);
+			// }; //This bit controls the behavior of sub-checkboxes
+			$('.belt').each(function(){
+				if($(this).children().prop("checked")){
+					var a_belt = $(this).parent().attr("class") + "-student";
+					shown_belts.push(a_belt);
+				}
+			}); //This puts the class names of the selected belts into an array
+			$("#student_select").find("li").each(function(){
+				var current_student = $(this);
+				var visible = true;
+				for(var i=0; i<shown_belts.length; i++){ //go through all the selected belts
+					if(!current_student.hasClass(shown_belts[i])){
+						visible = false; //make current student not visible if they don't have a matching belt
+					}
+				}
+				visible ? current_student.fadeIn() : current_student.fadeOut(); //show or hide the current student
+			});
+			// console.log(shown_belts);
+		});// END OF BELT CLICK EVENT
+		$('#short_list button').click(function(){
+			$(this).parent().hide();
+		});
+		$('#student_select li').click(function(){
+			//var student_id = $(this).attr("id");
+			//redirect to page according to student_id
+		});
+		$('#short_list li').click(function(){
+			//var student_id = $(this).attr("id");
+			//redirect to page according to student_id
+		});
+	});
+	</script>
+<% end %>		
+	
+
+		<div class="navbar navbar-fixed-top navbar-inverse">
+			<div class="navbar-inner">
+				<div class="wrapper">
+					<a class="brand pull-left" href="/students">CodingDojo's Network Library</a>
+					<form id="main_search" class="navbar-search pull-right" action=''>
+						<input type="text" class="search-query span2" placeholder="Search">
+					</form>
+					<ul class="nav pull-right">
+						<li class="active">
+							<a href="/students">Students</a>
 						</li>
-						<li class="white-belt-student">
-							<img src="img/small_profile_pictures/ian2.jpg" alt="ian">
-							<p>Ian Dahlberg</p>
-						</li>
-						<li class="white-belt-student yellow-belt-student red-belt-student">
-							<img src="img/small_profile_pictures/miles3.jpg" alt="miles">
-							<p>Miles Fink</p>
-						</li>
-						<li class="green-belt-student red-belt-student">
-							<img src="img/small_profile_pictures/jt platt3.jpg" alt="jt platt">
-							<p>JT Platt</p>
-						</li>
-						<li class="green-belt-student red-belt-student black-belt-student">
-							<img src="img/small_profile_pictures/casey2.jpg" alt="casey">
-							<p>Casey McCallister</p>
-						</li>
-						<li class="green-belt-student">
-							<img src="img/small_profile_pictures/samson2.jpg" alt="samson">
-							<p>Samson Gowon</p>
-						</li>
-						<li class="white-belt-student yellow-belt-student green-belt-student red-belt-student black-belt-student">
-							<img src="img/small_profile_pictures/randall4.jpg" alt="randall">
-							<p>Randall Frisk</p>
-						</li>
-						<li class="white-belt-student yellow-belt-student red-belt-student">
-							<img src="img/small_profile_pictures/victor.jpg" alt="victor">
-							<p>Victor Tran</p>
-						</li>
-						<li class="green-belt-student black-belt-student">
-							<img src="img/small_profile_pictures/eylem2.jpg" alt="eylem">
-							<p>Eylem Ozaslan</p>
-						</li>
-						<li class="white-belt-student yellow-belt-student red-belt-student">
-							<img src="img/small_profile_pictures/cory2.jpg" alt="cory">
-							<p>Cory Whiteland</p>
-						</li>
-						<li class="white-belt-student green-belt-student red-belt-student">
-							<img src="img/small_profile_pictures/eva.jpg" alt="eva">
-							<p>Eva Roa</p>
-						</li>
-						<li class="green-belt-student">
-							<img src="img/small_profile_pictures/dilys.jpg" alt="dilys">
-							<p>Dilys Sun</p>
-						</li>
-					</ul>
-				</div>
-				<div id="short_list">
-					<h4 class="well">Candidates in your short list</h4>
-					<ul>
+						<!-- <li>
+							<a href="#">Companies</a>
+						</li> -->
 						<li>
-							<img src="img/small_profile_pictures/cory2.jpg" alt="cory">
-							<p>Cory Whiteland</p>
-							<button class="btn btn-danger">
-								<i class="icon-white icon-remove"></i>
-							</button>
-						</li>
-						<li>
-							<img src="img/small_profile_pictures/eva.jpg" alt="eva">
-							<p>Eva Roa</p>
-							<button class="btn btn-danger">
-								<i class="icon-white icon-remove"></i>
-							</button>
-						</li>
-						<li>
-							<img src="img/small_profile_pictures/dilys.jpg" alt="dilys">
-							<p>Dilys Sun</p>
-							<button class="btn btn-danger">
-								<i class="icon-white icon-remove"></i>
-							</button>
-						</li>
-						<li>
-							<img src="img/small_profile_pictures/victor.jpg" alt="victor">
-							<p>Victor Tran</p>
-							<button class="btn btn-danger">
-								<i class="icon-white icon-remove"></i>
-							</button>
+							<a href="/signout">Log Off</a>
 						</li>
 					</ul>
 				</div>
 			</div>
-		</div>	
-	</div>
+		</div>
+		
+			<form id="skill_search" class="well" action="" method="post">
+				<legend>Refine your search</legend>
+				<div class="white-belt">
+					<label class="belt"><input id="white-belt-cat" type="checkbox">White Belt</input></label>
+					<label>HTML</label>
+					<label>CSS</label>
+					<label>JQuery/Javascript</label>
+				</div>
+				<div class="yellow-belt">
+					<label class="belt"><input id="yellow-belt-cat" type="checkbox">Yellow Belt</input></label>
+					<label>PHP</label>
+					<label>Ajax</label>
+					<label>MySQL/Database Design</label>
+					<label>Agile</label>
+				</div>
+				<div class="green-belt">
+					<label class="belt"><input id="green-belt-cat" type="checkbox">Green Belt</input></label>
+					<label>OOP</label>
+					<label>Git/SVN</label>
+					<label>Ruby</label>
+					<label>Linux and Cloud</label>
+				</div>
+				<div class="red-belt">
+					<label class="belt"><input id="red-belt-cat" type="checkbox">Red Belt</input></label>
+					<label>Ruby on Rails</label>
+					<label>CodeIgniter</label>
+				</div>
+				<div class="black-belt">
+					<label class="belt"><input id="black-belt-cat" type="checkbox">Black Belt</input></label>
+					<label>NodeJS</label>
+					<label>TDD</label>
+					<label>Python</label>
+					<label>Django</label>
+				</div>
+			</form>
+			<div id="main_content">
+				<div id="student_select">
+					<h4 class="well">Students matching selected criteria
+					<% a = "hi" if is_admin? %>
+					<%= a %>
+		</h4>
+					<ul>
+						<% @students.each do |s| %>
+						<li class="<%= displayBelt(s) %>">
+							<a href="/students/<%= s.id %>"><img src="<%= s.student_profile.image_src %>" alt="<%= s.name %>">
+							<p><%= s.name %></p></a>
+						</li>
+						<% end %>
+					</ul>
+				</div>
+				<!-- <div id="short_list">
+					<h4 class="well">Candidates in your short list</h4>
+					<ul>
+						<li>
+							<img src="/assets/small_profile_pictures/Cory2.jpg" alt="cory">
+							<p>Cory Whiteland</p>
+							<button class="btn btn-danger">
+								<i class="icon-white icon-remove"></i>
+							</button>
+						</li>
+						<li>
+							<img src="/assets/small_profile_pictures/Eva.jpg" alt="eva">
+							<p>Eva Roa</p>
+							<button class="btn btn-danger">
+								<i class="icon-white icon-remove"></i>
+							</button>
+						</li>
+						<li>
+							<img src="/assets/small_profile_pictures/Dilys.jpg" alt="dilys">
+							<p>Dilys Sun</p>
+							<button class="btn btn-danger">
+								<i class="icon-white icon-remove"></i>
+							</button>
+						</li>
+						<li>
+							<img src="/assets/small_profile_pictures/Victor.jpg" alt="victor">
+							<p>Victor Tran</p>
+							<button class="btn btn-danger">
+								<i class="icon-white icon-remove"></i>
+							</button>
+						</li>
+					</ul>
+				</div> -->
+			</div>
+		

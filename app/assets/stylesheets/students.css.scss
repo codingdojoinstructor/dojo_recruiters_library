@@ -1,6 +1,8 @@
 // Place all the styles related to the Students controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+@import "bootstrap";
+
 *{
     padding: 0px;
     margin: 0px;	
@@ -44,6 +46,17 @@ img.main-photo{
     min-height:190px;
     margin-left: 20px;
 }
+.student_info h1{
+    
+}
+.student_info h2{
+    font-size:18px;
+    margin:10px 0px; 
+}
+.student_info p{
+    margin:10px 0px;
+}
+
 .short_thumb{
     width:75px;
     padding: 0 2px;

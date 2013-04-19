@@ -1,24 +1,26 @@
 class SessionsController < ApplicationController
   def new
+    render :layout => "login"
   end
 
   def create
-  	user = User.authenticate(params[:session][:email], params[:session][:password])
+    puts params
+
+  	user = Student.authenticate(params[:session][:email], params[:session][:password])
 
   	if user.nil?
-  		flash.now[:error] = "Invalid email/password combination."
-  		render :new
+  		flash[:error] = "Invalid email/password combination."
+  		redirect_to signin_path
   	else
   		sign_in user
   		redirect_to user
-  		# redirect_to user
   	end
 
   end
 
   def destroy
   	sign_out
-  	redirect_to signin_path
+    redirect_to signin_path
   end
 
 end

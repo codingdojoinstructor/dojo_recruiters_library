@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130418220039) do
+ActiveRecord::Schema.define(:version => 20130419043750) do
 
   create_table "belts", :force => true do |t|
     t.string   "name"
@@ -53,8 +53,10 @@ ActiveRecord::Schema.define(:version => 20130418220039) do
     t.integer  "student_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.float    "score"
   end
 
+  add_index "student_belts", ["belt_id", "student_id"], :name => "index_student_belts_on_belt_id_and_student_id", :unique => true
   add_index "student_belts", ["belt_id"], :name => "index_student_belts_on_belt_id"
   add_index "student_belts", ["student_id"], :name => "index_student_belts_on_student_id"
 

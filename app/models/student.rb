@@ -21,7 +21,7 @@ class Student < ActiveRecord::Base
   	   		:confirmation 	 => true,
   			:length	        => { :within => 6..40 }
 
-  before_save :encrypt_password
+  before_save :encrypt_password, :create_profile
 
   def has_password?(submitted_password)
   	encrypted_password == encrypt(submitted_password)
@@ -38,6 +38,12 @@ class Student < ActiveRecord::Base
 
 
   private
+
+    def create_profile
+      profile = StudentProfile.new()
+      self.student_profile = profile if self.new_record?
+    end
+
   	def encrypt_password
   		# generate a unique salt if it's a new user
   		self.salt = Digest::SHA2.hexdigest("#{Time.now.utc}--#{password}") if self.new_record?
