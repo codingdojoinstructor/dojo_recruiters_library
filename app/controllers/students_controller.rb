@@ -3,7 +3,6 @@ class StudentsController < ApplicationController
 
   def index
     @students = Student.all
-  	render :layout => "students_dashboard"
   end
 
   def show
@@ -17,8 +16,6 @@ class StudentsController < ApplicationController
         @belts[i] = belt.score if belt.belt_id == i and belt.score.to_i > 7
       end
     end
-
-    render :layout => "students"
   end
 
   def new
@@ -40,6 +37,5 @@ class StudentsController < ApplicationController
     @profile = @student.student_profile
    #  puts @profile, @student
    #  render :text => @profile.to_yaml
-  	render :layout => "students_edit"
   end 
 end

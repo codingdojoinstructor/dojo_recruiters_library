@@ -1,6 +1,5 @@
 class SessionsController < ApplicationController
   def new
-    render :layout => "login"
   end
 
   def create
@@ -13,7 +12,7 @@ class SessionsController < ApplicationController
   		redirect_to signin_path
   	else
   		sign_in user
-  		redirect_to user
+  		redirect_to students_path
   	end
 
   end
