@@ -5,6 +5,10 @@
 }
 .main_wrapper{
     padding-top: 67px;
+
+    p, h1, h2, label{
+        color:white;
+    }
 }
 #main_search{
     padding-right: 20px;
@@ -49,10 +53,13 @@
 
             a{
                 color:black;
-            }
 
-            a:hover{
-                color:#777777;
+                p{
+                    color:black;
+                }
+                p:hover{
+                    color:#777777;
+                }
             }
         }
     }
@@ -71,6 +78,7 @@
         font-size: 11px;
         display: block;
         margin-left: 30px;
+        color:black;
     }
 
     label.belt{
@@ -219,3 +227,7 @@
         }
     } //end of .certified for the student show page
 } //end of .student_profile page for the student show page
+
+.well label{
+    color:black;
+}

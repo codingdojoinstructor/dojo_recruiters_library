@@ -1,18 +1,17 @@
-<div class="wrapper">
-	<img src="/assets/profile_pictures/Jose2.jpg" alt="jose">
+	<img src="<%= @profile.image_src %>" alt="<%= @student.name %>">
 	<div id="forms" class="well span7">
-
 
 		<%= simple_form_for(@profile, :url => student_path) do |f| %>
 			<legend>Update Project Information</legend>
+			<%= f.input :image_src, label: 'Profile Picture' %>
+			<%= f.input :video_url, label: 'Video Vimeo URL' %>
 			<%= f.input :project1_name, label: 'Project 1 Name' %>
-			<%= f.input :project1_url, label: 'Project 1 URL'  %>
+			<%= f.input :project1_url, label: 'Project 1 Vimeo URL'  %>
 			<%= f.input :project2_name, label: 'Project 2 Name'  %>
-			<%= f.input :project2_url, label: 'Project 2 URL'  %>
+			<%= f.input :project2_url, label: 'Project 2 Vimeo URL'  %>
 			<%= f.input :project3_name, label: 'Project 3 Name'  %>
-			<%= f.input :project3_url, label: 'Project 3 URL'  %>
+			<%= f.input :project3_url, label: 'Project 3 Vimeo URL'  %>
 			<%= f.input :resume_url, label: 'Resume URL'  %>
-			<%= f.submit :text=>"Update" %>
+			<%= f.submit :text=>"Update", :class=>"btn btn-primary" %>
 		<% end %>
 	</div>
-</div>

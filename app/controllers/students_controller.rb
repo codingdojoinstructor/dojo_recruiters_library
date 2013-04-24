@@ -19,6 +19,17 @@ class StudentsController < ApplicationController
   end
 
   def new
+    @student = Student.new()
+  end
+
+  def create
+    @student = Student.new(params[:student])
+    
+    if @student.save
+      redirect_to @student, notice: 'Comment was successfully created.'
+    else
+      render action: "new"
+    end
 
   end
 

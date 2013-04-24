@@ -1,2 +1,9 @@
-<h1>Students#new</h1>
-<p>Find me in app/views/students/new.html.erb</p>
+<h1>Create a new student</h1>
+
+<%= simple_form_for(@student) do |f| %>
+	<%= f.input :name %>
+	<%= f.input :email %>
+	<%= f.input :password, :label => "Set new password" %>
+	<%= f.input :location %>
+	<%= f.submit :text=>"Create new", :class => 'btn btn-primary' %>
+<% end %>

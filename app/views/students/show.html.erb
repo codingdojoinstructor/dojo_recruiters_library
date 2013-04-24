@@ -6,23 +6,31 @@
 			<div class="student_info">
 				<h1><%= @student.name %></h1>
 				<h2><%= @student.location %></h2>
-				<p><a href="<%= @profile.resume_url %>" target="_blank"><%= @student.name %>'s Resume</a></p>
+				<p><a href="<%= @profile.resume_url %>" target="_blank"><%= @student.name + "'s resume" if @profile.resume_url != nil%></a></p>
 			</div>
 		</div>
 		<div class="certified">
 			<ul class="video-list">
+				<% if @profile.video_url != nil %>
 				<li>
 					<iframe class="profile-video" src="<%= @profile.video_url %>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe><p>Video introduction</p>
 				</li>
+				<% end %>
+				<% if @profile.project1_name != nil %>
 				<li>
 					<iframe class="profile-video" src="<%= @profile.project1_url %>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe><p><%= @profile.project1_name %></p>
 				</li>
+				<% end %>
+				<% if @profile.project2_name != nil %>
 				<li>
 					<iframe class="profile-video" src="<%= @profile.project2_url %>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe><p><%= @profile.project2_name %></p>
 				</li>
+				<% end %>
+				<% if @profile.project3_name != nil %>
 				<li>
 					<iframe title="Project1" class="profile-video" src="<%= @profile.project3_url %>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe><p><%= @profile.project3_name %></p>
 				</li>
+				<% end %>
 			</ul>
 			<h3 class="title">Certified Topics</h3>
 			<div class="belt-scores <%= "no-score" if @belts[1] == "N/C" %>">
