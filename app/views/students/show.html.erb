@@ -7,6 +7,10 @@
 				<h1><%= @student.name %></h1>
 				<h2><%= @student.location %></h2>
 				<p><a href="<%= @profile.resume_url %>" target="_blank"><%= @student.name + "'s resume" if @profile.resume_url != nil%></a></p>
+
+				<% if is_admin? %>
+				<p><a href="/students/<%= @student.id %>/edit" class="btn btn-primary">Edit Info</a></p>
+				<% end %>
 			</div>
 		</div>
 		<div class="certified">

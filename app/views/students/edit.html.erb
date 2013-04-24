@@ -1,8 +1,11 @@
+<div class="edit_profile">
 	<img src="<%= @profile.image_src %>" alt="<%= @student.name %>">
 	<div id="forms" class="well span7">
 
+		<a href="/students/<%= @student.id %>" class='btn'>Go Back</a>
+
 		<%= simple_form_for(@profile, :url => student_path) do |f| %>
-			<legend>Update Project Information</legend>
+			<legend>Update Projects Information</legend>
 			<%= f.input :image_src, label: 'Profile Picture' %>
 			<%= f.input :video_url, label: 'Video Vimeo URL' %>
 			<%= f.input :project1_name, label: 'Project 1 Name' %>
@@ -15,3 +18,4 @@
 			<%= f.submit :text=>"Update", :class=>"btn btn-primary" %>
 		<% end %>
 	</div>
+</div>

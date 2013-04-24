@@ -228,6 +228,13 @@
     } //end of .certified for the student show page
 } //end of .student_profile page for the student show page
 
-.well label{
-    color:black;
+.edit_profile{
+    .well label{
+        color:black;
+    }
+
+    img{
+        margin-left:45px;
+        width: 275px;
+    }
 }

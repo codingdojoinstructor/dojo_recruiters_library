@@ -16,12 +16,12 @@ module SessionsHelper
   end
 
   def is_admin?
+    @current_user ||= Student.find(session[:user_id]) if session[:user_id]
     if @current_user.nil?
-      return false
+      false
     else
       @current_user.level == 9
     end
-    
   end
 
   def signed_in?

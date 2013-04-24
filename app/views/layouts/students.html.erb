@@ -25,7 +25,9 @@
 						<a href="#">Companies</a>
 					</li> -->
 					<li>
-						<a href="/signout">Log Off</a>
+						<a href="/students/<%= @current_user.id %>/edit/">Edit Profile</a>
+					<li>
+						<a href="<%= signout_path %>">Log Off</a>
 					</li>
 				</ul>
 			</div>

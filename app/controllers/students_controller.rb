@@ -1,6 +1,10 @@
 class StudentsController < ApplicationController
   include StudentsHelper
 
+  before_filter :require_admin_access, :only => [:new, :create]
+  before_filter :require_user_access, :only => [:edit, :update]
+  before_filter :require_login
+
   def index
     @students = Student.all
   end
@@ -49,4 +53,28 @@ class StudentsController < ApplicationController
    #  puts @profile, @student
    #  render :text => @profile.to_yaml
   end 
+
+  private
+
+  def require_login
+    unless signed_in?
+      flash[:error] = "You must be logged in to access this section"
+      redirect_to signin_path
+    end
+  end
+
+  def require_user_access
+    unless current_user?(Student.find(params[:id])) or is_admin?
+      flash[:error] = "You don't have sufficient privilege to perform that action. You have been redirected."
+      redirect_to students_path
+    end
+  end
+
+  def require_admin_access
+    unless is_admin?
+      flash[:error] = "You don't have sufficient privilege to perform that action. You have been redirected."
+      redirect_to students_path 
+    end
+  end
+
 end

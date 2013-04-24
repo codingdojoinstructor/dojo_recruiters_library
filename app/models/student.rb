@@ -7,7 +7,7 @@ class Student < ActiveRecord::Base
   has_many :belts, :through =>:student_belts
 
   attr_accessor :password
-  attr_accessible :email, :password, :hired_company, :hired_date, :level, :location, :name
+  attr_accessible :email, :password, :hired_company, :hired_date, :location, :name
 
   email_regex = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]+)\z/i
 
