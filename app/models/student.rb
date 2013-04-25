@@ -19,7 +19,8 @@ class Student < ActiveRecord::Base
 
   validates :password, 	:presence => true,
   	   		  :confirmation 	 => true,
-  	        :length	        => { :within => 6..40 }
+  	        :length	        => { :within => 6..40 },
+            :if => :password_changed?
 
   before_save :encrypt_password, :create_profile
 
@@ -41,6 +42,11 @@ class Student < ActiveRecord::Base
     def create_profile
       profile = StudentProfile.new()
       self.student_profile = profile if self.new_record?
+    end
+
+    # see if the user entered the password information or if it's a new record that needs the password 
+    def password_changed?
+        !self.password.blank? or self.encrypted_password.blank?
     end
 
   	def encrypt_password

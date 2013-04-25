@@ -28,6 +28,7 @@ class RecruitersController < ApplicationController
 
   def update
     @recruiter = Recruiter.find(params[:id])
+
     if @recruiter.update_attributes(params[:recruiter])
       redirect_to @recruiter, notice: 'Recruiter was successfully updated.'
     else

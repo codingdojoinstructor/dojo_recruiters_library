@@ -9,11 +9,11 @@ class Recruiter < ActiveRecord::Base
   					:length  	=> { :maximum => 50 }
   validates :email,	:presence	=> true,
   					:format		=> { :with => email_regex },
-           			:uniqueness => { :case_sensitive => false }
-
+           	:uniqueness => { :case_sensitive => false }
   validates :password, :presence => true,
-  	   		:confirmation 	 	=> true,
-  	        :length	        	=> { :within => 6..40 }
+  	   		  :confirmation 	 	=> true,
+  	        :length	        	=> { :within => 6..40 },
+            :if => :password_changed?
 
   before_save :encrypt_password
 
@@ -28,17 +28,20 @@ class Recruiter < ActiveRecord::Base
    	return nil if user.nil?
    	return user if user.has_password?(submitted_password)
   end
-
-
-
+  
   private
+
+    # see if the user entered the password information or if it's a new record that needs the password 
+    def password_changed?
+        !self.password.blank? or self.encrypted_password.blank?
+    end
 
   	def encrypt_password
   		# generate a unique salt if it's a new user
   		self.salt = Digest::SHA2.hexdigest("#{Time.now.utc}--#{password}") if self.new_record?
   	
   		# encrypt the password and store that in the encrypted_password field
-  		self.encrypted_password = encrypt(password)
+  		self.encrypted_password = encrypt(password) if !password.blank?
   	end
 
   	# encrypt the password using both the salt and the passed password
