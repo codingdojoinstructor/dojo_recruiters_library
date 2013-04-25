@@ -100,10 +100,12 @@
 
 					<h4 class="well">Students matching selected criteria</h4>
 					<ul>
-						<% @students.each do |s| %>
-						<li class="<%= displayBelt(s) %>">
-							<a href="/students/<%= s.id %>"><img src="<%= s.student_profile.image_src %>" alt="<%= s.name %>">
-							<p><%= s.name %></p></a>
+						<% @students.each do |student| %>
+						<li class="<%= displayBelt(student) %>">
+							<a href="/students/<%= student.id %>">
+								<img src="<%= student.student_profile.image_src ? student.student_profile.image_src : "/assets/default_prof_pic.jpg" %>" alt="<%= student.name %>">
+								<p><%= student.name %></p>
+							</a>
 						</li>
 						<% end %>
 					</ul>

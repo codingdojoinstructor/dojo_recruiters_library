@@ -1,5 +1,5 @@
 class Student < ActiveRecord::Base
-  has_one :student_profile
+  has_one :student_profile, :dependent => :destroy
 
   has_many :student_skills
   has_many :skills, :through=> :student_skills
