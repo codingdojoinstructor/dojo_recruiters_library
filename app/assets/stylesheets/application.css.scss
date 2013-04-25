@@ -24,3 +24,17 @@
 body{
 	background-image: url("/assets/subtle_carbon.jpg");
 }
+
+.wrapper{
+	width:980px;
+	background-color:white;
+	margin:10px auto;
+	padding:10px;
+	border-radius:10px;
+
+	.input {
+		input, textarea{
+			width:500px;
+		}
+	}
+}

@@ -7,7 +7,7 @@ class Student < ActiveRecord::Base
   has_many :belts, :through =>:student_belts
 
   attr_accessor :password
-  attr_accessible :email, :password, :hired_company, :hired_date, :location, :name
+  attr_accessible :email, :password, :hired_company, :hired_date, :location, :name, :status
 
   email_regex = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]+)\z/i
 
@@ -15,18 +15,17 @@ class Student < ActiveRecord::Base
   					:length  	=> { :maximum => 50 }
   validates :email,	:presence	=> true,
   					:format		=> { :with => email_regex },
-           	:uniqueness 	    => { :case_sensitive => false }
+           	:uniqueness 	=> { :case_sensitive => false }
 
   validates :password, 	:presence => true,
-  	   		:confirmation 	 => true,
-  			:length	        => { :within => 6..40 }
+  	   		  :confirmation 	 => true,
+  	        :length	        => { :within => 6..40 }
 
   before_save :encrypt_password, :create_profile
 
   def has_password?(submitted_password)
   	encrypted_password == encrypt(submitted_password)
   end
-
 
   # class method that checks whether the user's email and submitted_password are valid
   def self.authenticate(email, submitted_password)
@@ -37,8 +36,8 @@ class Student < ActiveRecord::Base
   end
 
 
-  private
 
+  private
     def create_profile
       profile = StudentProfile.new()
       self.student_profile = profile if self.new_record?

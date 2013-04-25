@@ -5,5 +5,6 @@
 	<%= f.input :email %>
 	<%= f.input :password, :label => "Set new password" %>
 	<%= f.input :location %>
+	<%= f.input :status, :name=>'status', :collection => -1..2, :label => "Status (0 for inactive, 1 for active, 2 for already hired, -1 for banned)" %>
 	<%= f.submit :text=>"Create new", :class => 'btn btn-primary' %>
 <% end %>

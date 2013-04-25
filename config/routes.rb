@@ -1,6 +1,6 @@
 Codingdojo::Application.routes.draw do
 
- resources :students
+ resources :students, :recruiters
  resources :sessions, :only => [:new, :create, :destroy]
 
  match "/signin",  :to => 'sessions#new'

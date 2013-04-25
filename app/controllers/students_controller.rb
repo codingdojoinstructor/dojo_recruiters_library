@@ -40,11 +40,24 @@ class StudentsController < ApplicationController
   def update
     @student = Student.find(params[:id])
     @profile = @student.student_profile
-    if @profile.update_attributes(params[:user])
-      redirect_to @student, notice: 'Student was successfully updated.'
-    else
-      render action: "edit"
+
+     if(params[:student_profile])
+      if(@profile.update_attributes(params[:student_profile]))
+        flash.now[:notice] = 'Student profile/project information was successfully updated.'
+      else
+        flash.now[:error] = "Something went wrong"
+      end
+    elsif(params[:student]) 
+      # prevent normal user from updating the status
+      params[:student].delete("status") unless is_admin?
+      if @student.update_attributes(params[:student])
+        flash.now[:notice] = 'Student information was successfully updated.'
+      else
+        flash.now[:error] = "Something went wrong"
+      end
     end
+
+    render action: "edit"
   end
 
   def edit
@@ -55,7 +68,6 @@ class StudentsController < ApplicationController
   end 
 
   private
-
   def require_login
     unless signed_in?
       flash[:error] = "You must be logged in to access this section"

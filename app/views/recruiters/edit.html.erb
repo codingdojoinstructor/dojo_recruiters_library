@@ -1,0 +1,15 @@
+<h1>Editing Recruiter Information</h1>
+
+<%= @recruiter.errors.full_messages %>
+
+<%= simple_form_for(@recruiter) do |f| %>
+	<%= f.input :name %>
+	<%= f.input :email %>
+	<%= f.input :individual_description %>
+	<%= f.input :company %>
+	<%= f.input :company_description %>
+	<%= f.submit :text=>"Create new recruiter", :class => 'btn btn-primary' %>
+<% end %>
+
+<%= link_to 'Show', @recruiter %> |
+<%= link_to 'Back', recruiters_path %>
