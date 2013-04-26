@@ -11,13 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130425175528) do
-
-  create_table "belts", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
+ActiveRecord::Schema.define(:version => 20130426130527) do
 
   create_table "favorites", :force => true do |t|
     t.integer  "recruiter_id"
@@ -49,19 +43,6 @@ ActiveRecord::Schema.define(:version => 20130425175528) do
     t.datetime "updated_at",  :null => false
   end
 
-  create_table "student_belts", :force => true do |t|
-    t.datetime "earned_at"
-    t.integer  "belt_id"
-    t.integer  "student_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.float    "score"
-  end
-
-  add_index "student_belts", ["belt_id", "student_id"], :name => "index_student_belts_on_belt_id_and_student_id", :unique => true
-  add_index "student_belts", ["belt_id"], :name => "index_student_belts_on_belt_id"
-  add_index "student_belts", ["student_id"], :name => "index_student_belts_on_student_id"
-
   create_table "student_profiles", :force => true do |t|
     t.string   "image_src"
     t.string   "video_url"
@@ -73,11 +54,19 @@ ActiveRecord::Schema.define(:version => 20130425175528) do
     t.string   "project3_url"
     t.string   "resume_url"
     t.integer  "student_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.float    "white_belt_score"
+    t.float    "yellow_belt_score"
+    t.float    "green_belt_score"
+    t.float    "red_belt_score"
+    t.float    "black_belt_score"
+    t.date     "white_belt_date"
+    t.date     "yellow_belt_date"
+    t.date     "green_belt_date"
+    t.date     "red_belt_date"
+    t.date     "black_belt_date"
   end
-
-  add_index "student_profiles", ["student_id"], :name => "index_student_profiles_on_student_id"
 
   create_table "student_skills", :force => true do |t|
     t.datetime "earned_at"

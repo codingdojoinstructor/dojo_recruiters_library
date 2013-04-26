@@ -3,9 +3,7 @@ class Student < ActiveRecord::Base
 
   has_many :student_skills
   has_many :skills, :through=> :student_skills
-  has_many :student_belts
-  has_many :belts, :through =>:student_belts
-
+  
   attr_accessor :password
   attr_accessible :email, :password, :password_confirmation, :hired_company, :hired_date, :location, :name, :status
 

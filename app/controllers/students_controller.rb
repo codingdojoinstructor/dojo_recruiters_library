@@ -12,14 +12,6 @@ class StudentsController < ApplicationController
   def show
     @student = Student.find(params[:id])
     @profile = @student.student_profile
-    belts = @student.student_belts.order("belt_id ASC")
-
-    @belts = {1=>"N/C", 2=>"N/C", 3=>"N/C", 4=>"N/C", 5=>"N/C"}
-    for i in 1..5
-      belts.each do |belt|
-        @belts[i] = belt.score if belt.belt_id == i and belt.score.to_i > 7
-      end
-    end
   end
 
   def new
@@ -63,7 +55,6 @@ class StudentsController < ApplicationController
   def edit
     @student = Student.find(params[:id])
     @profile = @student.student_profile
-    @belts = Belt.all
   end 
 
   private

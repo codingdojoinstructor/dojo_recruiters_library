@@ -101,7 +101,7 @@
 					<h4 class="well">Students matching selected criteria</h4>
 					<ul>
 						<% @students.each do |s| %>
-						<li class="<%= displayBelt(s) %>">
+						<li class="">
 							<a href="/students/<%= s.id %>"><img src="<%= s.student_profile.image_src %>" alt="<%= s.name %>">
 							<p><%= s.name %></p></a>
 						</li>

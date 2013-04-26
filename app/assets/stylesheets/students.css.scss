@@ -179,6 +179,10 @@
 
             .competencies{
                 height:150px;
+
+                ul li{
+                    display:block;
+                }
             }
 
             .white-belt, .yellow-belt, .green-belt, .red-belt, .black-belt{
@@ -221,10 +225,7 @@
             background:none;
             margin:0px;
         }
-        .belt-exams tr td{
-            font-size:14px;
-            color: black;
-        }
+
     } //end of .certified for the student show page
 } //end of .student_profile page for the student show page
 

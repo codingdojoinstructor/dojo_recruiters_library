@@ -37,97 +37,51 @@
 				<% end %>
 			</ul>
 			<h3 class="title">Certified Topics</h3>
-			<div class="belt-scores <%= "no-score" if @belts[1] == "N/C" %>">
-				<div class="competencies">
-					<h3 class="belt-title">White Belt</h3>
-					<table class="belt-exams">
-						<tr>
-							<td>HTML</td>
-						</tr>
-						<tr>
-							<td>CSS</td>
-						</tr>
-						<tr>
-							<td class="unavailable">jQuery/Javascript</td>
-						</tr>
-					</table>
-				</div>
-				<div class="white-belt"><h3 class="score"><%= @belts[1] %></h3></div>
-			</div>
-			
-			<div class="belt-scores <%= "no-score" if @belts[2] == "N/C" %>">
+			<div class="belt-scores <%= "no-score" if @profile.white_belt_score.nil? %>">
 				<div class="competencies">
 					<h3 class="belt-title">Yellow Belt</h3>
-					<table class="belt-exams">
-						<tr>
-							<td>PHP</td>
-						</tr>
-						<tr>
-							<td class="unavailable">MySQL/Database Design</td>
-						</tr>
-						<tr>
-							<td>Agile</td>
-						</tr>
-					</table>
+					<ul>
+						<li>HTML</li>
+						<li>CSS</li>
+						<li>jQuery/Javascript</li>
+					</ul>
 				</div>
-				<div class="yellow-belt"><h3 class="score"><%= @belts[2] %></h3></div>
+				<div class="yellow-belt"><h3 class="score"><%= @profile.white_belt_score %></h3></div>
 			</div>
-			<div class="belt-scores <%= "no-score" if @belts[3] == "N/C" %>">
+			
+			<div class="belt-scores <%= "no-score" if @profile.yellow_belt_score.nil? %>">
 				<div class="competencies">
 					<h3 class="belt-title">Green Belt</h3>
-					<table class="belt-exams">
-						<tr>
-							<td class="unavailable">OOP</td>
-						</tr>
-						<tr>
-							<td class="unavailable">Git/SVN</td>
-						</tr>
-						<tr>
-							<td>Ruby</td>
-						</tr>
-						<tr>
-							<td class="unavailable">Ajax</td>
-						</tr>
-					</table>
+					<ul>
+						<li>PHP</li>
+						<li>MySQL/Database Design</li>
+						<li>Agile</li>
+					</ul>
 				</div>
-				<div class="green-belt"><h3 class="score"><%= @belts[3] %></h3></div>
+				<div class="green-belt"><h3 class="score">2<%= @profile.yellow_belt_score %></h3></div>
 			</div>
-			<div class="belt-scores <%= "no-score" if @belts[4] == "N/C" %>">
+			<div class="belt-scores <%= "no-score" if @profile.green_belt_score.nil? %>">
 				<div class="competencies">
 					<h3 class="belt-title">Red Belt</h3>
-					<table class="belt-exams">
-						<tr>
-							<td>Ruby on Rails</td>
-						</tr>
-						<tr>
-							<td class="unavailable">CodeIgniter</td>
-						</tr>
-						<tr>
-							<td class="unavailable">Linux and Cloud</td>
-						</tr>
-					</table>
+					<ul>
+						<li>OOP</li>
+						<li>Git/SVN</li>
+						<li>Ruby</li>
+						<li>Ajax</li>
+					</ul>
 				</div>
-				<div class="red-belt"><h3 class="score"><%= @belts[4] %></h3></div>
+				<div class="red-belt"><h3 class="score"><%= @profile.green_belt_score %></h3></div>
 			</div>
-			<div class="belt-scores <%= "no-score" if @belts[5] == "N/C" %>">
+			<div class="belt-scores <%= "no-score" if @profile.black_belt_score.nil? %>">
 				<div class="competencies">
 					<h3 class="belt-title">Black Belt</h3>
-					<table class="belt-exams">
-						<tr>
-							<td class="unavailable">Node.JS</td>
-						</tr>
-						<tr>
-							<td class="unavailable">TDD</td>
-						</tr>
-						<tr>
-							<td class="unavailable">Python</td>
-						</tr>
-						<tr>
-							<td class="unavailable">Django</td>
-						</tr>
-					</table>
+					<ul>
+						<li>Ruby on Rails</li>
+						<li>CodeIgniter</li>
+						<li>Linux and Cloud</li>
+					</ul>
 				</div>
-				<div class="black-belt"><h3 class="score"><%= @belts[5] %></h3></div>
+				<div class="black-belt"><h3 class="score"><%= @profile.black_belt_score %></h3></div>
 			</div>
 
 		</div><!-- end certified -->
