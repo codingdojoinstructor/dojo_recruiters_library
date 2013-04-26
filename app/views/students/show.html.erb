@@ -1,4 +1,6 @@
-
+<% content_for :title do %>
+	<%= @student.name %> | CodingDojo's Network Library
+<% end %>
 	<div class="student_profile">
 		<div class="main_profile">
 			<p><a href="<%= students_path %>">Dashboard</a> > <%= @student.name %></p>

@@ -1,3 +1,6 @@
+<% content_for :title do %>
+	Edit Profile
+<% end %>
 <% content_for :jquery do %>
 	<script>
 	$(document).ready(function(){
@@ -16,7 +19,7 @@
 
 		<% if(flash[:error]) %>
 		<div class='alert alert-danger'><%= flash[:error] %></div>
-		<% end %>
+			<% end %>
 
 		<a href="/students/<%= @student.id %>" class='btn'>Go Back</a>
 
