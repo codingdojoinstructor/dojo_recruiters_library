@@ -37,7 +37,7 @@
 				<% end %>
 			</ul>
 			<h3 class="title">Certified Topics</h3>
-			<div class="belt-scores <%= "no-score" if @profile.white_belt_score.nil? %>">
+			<div class="belt-scores <%= "no-score" if @profile.yellow_belt_score.nil? %>">
 				<div class="competencies">
 					<h3 class="belt-title">Yellow Belt</h3>
 					<ul>
@@ -46,21 +46,21 @@
 						<li>jQuery/Javascript</li>
 					</ul>
 				</div>
-				<div class="yellow-belt"><h3 class="score"><%= @profile.white_belt_score %></h3></div>
+				<div class="yellow-belt"><h3 class="score"><%= @profile.yellow_belt_score %>&nbsp;</h3></div>
 			</div>
 			
-			<div class="belt-scores <%= "no-score" if @profile.yellow_belt_score.nil? %>">
+			<div class="belt-scores <%= "no-score" if @profile.green_belt_score.nil? %>">
 				<div class="competencies">
 					<h3 class="belt-title">Green Belt</h3>
 					<ul>
 						<li>PHP</li>
-						<li>MySQL/Database</li>
+						<li>MySQL/Database Design</li>
 						<li>Agile</li>
 					</ul>
 				</div>
-				<div class="green-belt"><h3 class="score">2<%= @profile.yellow_belt_score %></h3></div>
+				<div class="green-belt"><h3 class="score"><%= @profile.green_belt_score %>&nbsp;</h3></div>
 			</div>
-			<div class="belt-scores <%= "no-score" if @profile.green_belt_score.nil? %>">
+			<div class="belt-scores <%= "no-score" if @profile.red_belt_score.nil? %>">
 				<div class="competencies">
 					<h3 class="belt-title">Red Belt</h3>
 					<ul>
@@ -70,7 +70,7 @@
 						<li>Ajax</li>
 					</ul>
 				</div>
-				<div class="red-belt"><h3 class="score"><%= @profile.green_belt_score %></h3></div>
+				<div class="red-belt"><h3 class="score"><%= @profile.red_belt_score %>&nbsp;</h3></div>
 			</div>
 			<div class="belt-scores <%= "no-score" if @profile.black_belt_score.nil? %>">
 				<div class="competencies">
@@ -81,7 +81,7 @@
 						<li>Linux and Cloud</li>
 					</ul>
 				</div>
-				<div class="black-belt"><h3 class="score"><%= @profile.black_belt_score %></h3></div>
+				<div class="black-belt"><h3 class="score"><%= @profile.black_belt_score %>&nbsp;</h3></div>
 			</div>
 
 		</div><!-- end certified -->

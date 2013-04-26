@@ -6,7 +6,11 @@ class StudentsController < ApplicationController
   before_filter :require_login
 
   def index
-    @students = Student.all
+    if is_admin?
+      @students = Student.all if is_admin?
+    else
+      @students = Student.where("status > ?", 0)
+    end
   end
 
   def show

@@ -2,15 +2,15 @@ module StudentsHelper
 
 	def displayBelt(student)
 
-		student_belts = student.student_belts.order("belt_id ASC")
-	    belts = {1=>"white-belt-student", 2=>"yellow-belt-student", 3=>"green-belt-student", 4=>"red-belt-student", 5=>"black-belt-student"}
-	    belt_class = ""
+		profile = student.student_profile
+		puts profile
 
-	    for i in 1..5
-	      student_belts.each do |belt|
-	      	belt_class << belts[i] + " " if belt.belt_id == i
-	      end
-	    end
+		belt_class = "white-belt-student "
+
+		belt_class << "yellow-belt-student " unless profile.yellow_belt_score.nil?
+	    belt_class << "green-belt-student " unless profile.green_belt_score.nil?
+	    belt_class << "red-belt-student " unless profile.red_belt_score.nil?
+	    belt_class << "black-belt-student " unless profile.black_belt_score.nil?
 
 	    belt_class
 	end

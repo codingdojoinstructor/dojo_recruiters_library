@@ -56,35 +56,33 @@
 				<legend>Refine your search</legend>
 				<div class="white-belt">
 					<label class="belt"><input id="white-belt-cat" type="checkbox">White Belt</input></label>
+					<label>Just started</label>
+				</div>
+				<div class="yellow-belt">
+					<label class="belt"><input id="yellow-belt-cat" type="checkbox">Yellow Belt</input></label>
 					<label>HTML</label>
 					<label>CSS</label>
 					<label>JQuery/Javascript</label>
 				</div>
-				<div class="yellow-belt">
-					<label class="belt"><input id="yellow-belt-cat" type="checkbox">Yellow Belt</input></label>
+				<div class="green-belt">
+					<label class="belt"><input id="yellow-belt-cat" type="checkbox">Green Belt</input></label>
 					<label>PHP</label>
 					<label>Ajax</label>
 					<label>MySQL/Database Design</label>
 					<label>Agile</label>
 				</div>
-				<div class="green-belt">
-					<label class="belt"><input id="green-belt-cat" type="checkbox">Green Belt</input></label>
+				<div class="red-belt">
+					<label class="belt"><input id="green-belt-cat" type="checkbox">Red Belt</input></label>
 					<label>OOP</label>
 					<label>Git/SVN</label>
 					<label>Ruby</label>
-					<label>Linux and Cloud</label>
-				</div>
-				<div class="red-belt">
-					<label class="belt"><input id="red-belt-cat" type="checkbox">Red Belt</input></label>
-					<label>Ruby on Rails</label>
-					<label>CodeIgniter</label>
+					<label>Linux and Cloud Server</label>
 				</div>
 				<div class="black-belt">
-					<label class="belt"><input id="black-belt-cat" type="checkbox">Black Belt</input></label>
-					<label>NodeJS</label>
+					<label class="belt"><input id="red-belt-cat" type="checkbox">Black Belt</input></label>
+					<label>Ruby on Rails</label>
+					<label>CodeIgniter</label>
 					<label>TDD</label>
-					<label>Python</label>
-					<label>Django</label>
 				</div>
 			</form>
 
@@ -101,7 +99,7 @@
 					<h4 class="well">Students matching selected criteria</h4>
 					<ul>
 						<% @students.each do |s| %>
-						<li class="">
+						<li class="<%= displayBelt(s) %>">
 							<a href="/students/<%= s.id %>"><img src="<%= s.student_profile.image_src %>" alt="<%= s.name %>">
 							<p><%= s.name %></p></a>
 						</li>
