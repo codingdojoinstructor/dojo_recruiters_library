@@ -1,7 +1,7 @@
 class Recruiter < ActiveRecord::Base
 
   attr_accessor :password
-  attr_accessible :name, :email, :password, :individual_description, :company, :company_description
+  attr_accessible :name, :email, :password, :password_confirmation, :individual_description, :company, :company_description
 
   email_regex = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]+)\z/i
 
@@ -13,6 +13,8 @@ class Recruiter < ActiveRecord::Base
   validates :password, :presence => true,
   	   		  :confirmation 	 	=> true,
   	        :length	        	=> { :within => 6..40 },
+            :if => :password_changed?
+  validates :password_confirmation, :presence => true,
             :if => :password_changed?
 
   before_save :encrypt_password
@@ -28,12 +30,13 @@ class Recruiter < ActiveRecord::Base
    	return nil if user.nil?
    	return user if user.has_password?(submitted_password)
   end
-  
-  private
+
+private
 
     # see if the user entered the password information or if it's a new record that needs the password 
+    # this is to allow admin to update the recruiters information without having to change the password
     def password_changed?
-        !self.password.blank? or self.encrypted_password.blank?
+        !password.blank? or self.encrypted_password.blank?
     end
 
   	def encrypt_password

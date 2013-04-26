@@ -1,13 +1,11 @@
-<div class='alt_wrapper'>
+<div id='alt_wrapper'>
 <h1>Recruiters/Companies</h1>
 
 <table class="table">
   <tr>
     <th>Name</th>
     <th>Email</th>
-    <th>Description</th>
     <th>Company</th>
-    <th>Company Description</th>
     <th></th>
   </tr>
 
@@ -15,9 +13,7 @@
   <tr>
     <td><%= recruiter.name %></td>
     <td><%= recruiter.email %></td>
-    <td><%= recruiter.individual_description %></td>
     <td><%= recruiter.company %></td>
-    <td><%= recruiter.company_description %></td>
     <td><%= link_to 'Show', recruiter, :class=>'btn btn-primary' %></td>
     <td><%= link_to 'Edit', edit_recruiter_path(recruiter), :class=>'btn' %></td>
     <td><%= link_to 'Destroy', recruiter, :class=>'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -27,5 +23,5 @@
 
 <br />
 
-<%= link_to 'New Recruiter', new_recruiter_path %>
+<%= link_to 'Add a New Recruiter', new_recruiter_path, :class=>'btn btn-primary' %>
 </div>

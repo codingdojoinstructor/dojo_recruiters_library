@@ -7,7 +7,7 @@ class Student < ActiveRecord::Base
   has_many :belts, :through =>:student_belts
 
   attr_accessor :password
-  attr_accessible :email, :password, :hired_company, :hired_date, :location, :name, :status
+  attr_accessible :email, :password, :password_confirmation, :hired_company, :hired_date, :location, :name, :status
 
   email_regex = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]+)\z/i
 
@@ -20,6 +20,8 @@ class Student < ActiveRecord::Base
   validates :password, 	:presence => true,
   	   		  :confirmation 	 => true,
   	        :length	        => { :within => 6..40 },
+            :if => :password_changed?
+  validates :password_confirmation, :presence => true,
             :if => :password_changed?
 
   before_save :encrypt_password, :create_profile

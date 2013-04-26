@@ -63,8 +63,7 @@ class StudentsController < ApplicationController
   def edit
     @student = Student.find(params[:id])
     @profile = @student.student_profile
-   #  puts @profile, @student
-   #  render :text => @profile.to_yaml
+    @belts = Belt.all
   end 
 
   private
@@ -77,14 +76,15 @@ class StudentsController < ApplicationController
 
   def require_user_access
     unless current_user?(Student.find(params[:id])) or is_admin?
-      flash[:error] = "You don't have sufficient privilege to perform that action. You have been redirected."
+      flash[:error] = "User access required. You don't have sufficient privilege to perform that action. You have been redirected."
       redirect_to students_path
     end
   end
 
   def require_admin_access
+    puts "is admin?", is_admin?
     unless is_admin?
-      flash[:error] = "You don't have sufficient privilege to perform that action. You have been redirected."
+      flash[:error] = "admin access required. You don't have sufficient privilege to perform that action. You have been redirected."
       redirect_to students_path 
     end
   end

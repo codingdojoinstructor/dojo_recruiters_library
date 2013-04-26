@@ -15,8 +15,12 @@ group :production do
   gem 'pg', '0.12.2'
 end
 
+gem "paperclip", "~> 3.4.1"
+
 gem 'bootstrap-sass', '~> 2.3.1.0'
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
+
 gem 'simple_form'
 gem 'rails-footnotes', '>= 3.7.9', :group => :development
 

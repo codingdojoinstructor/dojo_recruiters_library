@@ -1,5 +1,14 @@
 module SessionsHelper
 
+  def sign_in_recruiter(recruiter)
+    session[:recruiter_id] = recruiter.id
+    self.current_user = recruiter
+  end
+
+  def is_recruiter?
+    session[:recruiter_id]
+  end
+
   def sign_in(user)
     session[:user_id] = user.id
     self.current_user = user
@@ -12,16 +21,16 @@ module SessionsHelper
 
   # getter method
   def current_user
-    @current_user ||= Student.find(session[:user_id]) if session[:user_id]
+    if @current_user.nil? and session[:user_id]
+      @current_user = Student.find(session[:user_id])
+    elsif @current_user.nil? and session[:recruiter_id]
+      @current_user = Recruiter.find(session[:recruiter_id])
+    end
+    return @current_user
   end
 
   def is_admin?
-    @current_user ||= Student.find(session[:user_id]) if session[:user_id]
-    if @current_user.nil?
-      false
-    else
-      @current_user.level == 9
-    end
+    current_user.level == 9
   end
 
   def signed_in?
@@ -30,6 +39,7 @@ module SessionsHelper
 
   def sign_out
     session[:user_id] = nil
+    session[:recruiter_id] = nil
     self.current_user = nil
   end
 

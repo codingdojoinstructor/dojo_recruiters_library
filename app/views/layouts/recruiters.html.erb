@@ -18,19 +18,16 @@
 					<input type="text" class="search-query span2" placeholder="Search">
 				</form>
 				<ul class="nav pull-right">
-					<li class="active">
+					<li>
 						<a href="<%= students_path %>">Students</a>
 					</li>
 					<% if(is_admin?) %>
-					<li>
+					<li class="active">
 						<a href="<%= recruiters_path %>">Companies</a>
 					</li>
 					<% end %>
-					<% if !is_recruiter? %>
 					<li>
 						<a href="/students/<%= @current_user.id %>/edit/">Edit Profile</a>
-					</li>
-					<% end %>
 					<li>
 						<a href="<%= signout_path %>">Log Off</a>
 					</li>
