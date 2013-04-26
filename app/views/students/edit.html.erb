@@ -16,8 +16,6 @@
 
 		<% if(flash[:error]) %>
 		<div class='alert alert-danger'><%= flash[:error] %></div>
-
-		<%= @student.errors.full_messages %>
 		<% end %>
 
 		<a href="/students/<%= @student.id %>" class='btn'>Go Back</a>
@@ -30,6 +28,8 @@
 			<% end %>
 
 			<%= f.input :email %>
+			<%= f.input :password, :value => "", :input_html => { :value => "" }, :label => "Password (leave this empty if you don't want to change the password)" %>
+			<%= f.input :password_confirmation %>
 			<%= f.submit "Update", :class => "btn btn-primary" %>
 		<% end %>
 
