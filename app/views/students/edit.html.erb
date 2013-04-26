@@ -49,6 +49,7 @@
 			<%= f.input :project3_url, label: 'Project 3 Vimeo URL'  %>
 			<%= f.input :resume_url, label: 'Resume URL'  %>
 		
+			<%  if is_admin? %>
 			<%= f.input :yellow_belt_score, :collection => [7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0], label: 'Yellow Belt Score' %>
 			<%= f.input :yellow_belt_date, as: :string, label: 'Yellow Belt Earned Date', input_html: { class: 'datepicker' }%>
 			<%= f.input :green_belt_score, :collection => [7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0], label: 'Green Belt Score' %>
@@ -57,6 +58,7 @@
 			<%= f.input :red_belt_date, as: :string, label: 'Red Belt Earned Date', input_html: { class: 'datepicker' } %>
 			<%= f.input :black_belt_score, :collection => [7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0], label: 'Black Belt Score' %>
 			<%= f.input :black_belt_date, as: :string, label: 'Black Belt Earned Date', input_html: { class: 'datepicker' } %>
+			<%  end %>
 			<%= f.submit :class=>"btn btn-primary" %>
 		<% end %>
 
