@@ -37,7 +37,7 @@ class StudentsController < ApplicationController
     @student = Student.find(params[:id])
     @profile = @student.student_profile
 
-     if(params[:student_profile])
+    if(params[:student_profile])
       if(@profile.update_attributes(params[:student_profile]))
         flash.now[:notice] = 'Student profile/project information was successfully updated.'
       else

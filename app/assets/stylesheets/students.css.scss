@@ -76,6 +76,27 @@
             }
         }
     }
+    span.student_belt{
+        background-image: image-url('border_belts/white_border.png');
+        width: 160px;
+        height: 107px;
+        position: absolute;
+        top: -7px;
+        left: 26px;
+
+    }
+    span.yellow_belt {
+        background-image: image-url('border_belts/yellow_border.png') !important;
+    }
+    span.green_belt {
+        background-image: image-url('border_belts/green_border.png') !important;
+    }
+    span.red_belt {
+        background-image: image-url('border_belts/red_border.png') !important;
+    }
+    span.black_belt {
+        background-image: image-url('border_belts/black_border.png') !important;
+    }
 }   //end of .dashboard_students
 
 

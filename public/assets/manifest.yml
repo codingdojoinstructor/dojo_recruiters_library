@@ -1,4 +1,14 @@
 ---
+border_belts/black_border.png: border_belts/black_border-f4e63fe53245ba6a16edc0f449f22240.png
+border_belts/black_border/index.png: border_belts/black_border-f4e63fe53245ba6a16edc0f449f22240.png
+border_belts/green_border.png: border_belts/green_border-6503aa1ed119ae4b325f6bf63eb01adb.png
+border_belts/green_border/index.png: border_belts/green_border-6503aa1ed119ae4b325f6bf63eb01adb.png
+border_belts/red_border.png: border_belts/red_border-24ae0106e663ecae9c90204d69d58687.png
+border_belts/red_border/index.png: border_belts/red_border-24ae0106e663ecae9c90204d69d58687.png
+border_belts/white_border.png: border_belts/white_border-9c87448d96e1d2034acdfcc29b90f7ef.png
+border_belts/white_border/index.png: border_belts/white_border-9c87448d96e1d2034acdfcc29b90f7ef.png
+border_belts/yellow_border.png: border_belts/yellow_border-eb44b3e7b6f4d6d62b95398d9744c81f.png
+border_belts/yellow_border/index.png: border_belts/yellow_border-eb44b3e7b6f4d6d62b95398d9744c81f.png
 default_prof_pic.jpg: default_prof_pic-ac5604f57ddc83b5aaafc1d38bf37a81.jpg
 default_prof_pic/index.jpg: default_prof_pic-ac5604f57ddc83b5aaafc1d38bf37a81.jpg
 profile_pictures/Angie.jpg: profile_pictures/Angie-db9894292c1967d5b1334c6a2a93a47e.jpg
@@ -29,8 +39,6 @@ profile_pictures/Greg.jpg: profile_pictures/Greg-cd62a2cf5ec5578a4de108b415bbe06
 profile_pictures/Greg/index.jpg: profile_pictures/Greg-cd62a2cf5ec5578a4de108b415bbe066.jpg
 profile_pictures/Greg2.jpg: profile_pictures/Greg2-988e5b2e73596db7902513111770d8a8.jpg
 profile_pictures/Greg2/index.jpg: profile_pictures/Greg2-988e5b2e73596db7902513111770d8a8.jpg
-profile_pictures/IMG_1774.JPG: profile_pictures/IMG_1774-29f7668fca29ace685f3edc5f825e946.JPG
-profile_pictures/IMG_1774/index.JPG: profile_pictures/IMG_1774-29f7668fca29ace685f3edc5f825e946.JPG
 profile_pictures/Ian.jpg: profile_pictures/Ian-00104bcdd68c07e90a4613b7faff3ff4.jpg
 profile_pictures/Ian/index.jpg: profile_pictures/Ian-00104bcdd68c07e90a4613b7faff3ff4.jpg
 profile_pictures/Ian2.jpg: profile_pictures/Ian2-54c77f0fd1f6d7f92b34d7ac416a88c8.jpg
@@ -43,8 +51,8 @@ profile_pictures/JT Platt3.jpg: profile_pictures/JT Platt3-d7674007db61c72e94d70
 profile_pictures/JT Platt3/index.jpg: profile_pictures/JT Platt3-d7674007db61c72e94d70f6531179b82.jpg
 profile_pictures/JT Theodore.jpg: profile_pictures/JT Theodore-e1b9c06c030598a58e898cb8cb88b07d.jpg
 profile_pictures/JT Theodore/index.jpg: profile_pictures/JT Theodore-e1b9c06c030598a58e898cb8cb88b07d.jpg
-profile_pictures/Jeremy.JPG: profile_pictures/Jeremy-c871be266eea7964fcbe7355dbe29865.JPG
-profile_pictures/Jeremy/index.JPG: profile_pictures/Jeremy-c871be266eea7964fcbe7355dbe29865.JPG
+profile_pictures/Jeremy.jpg: profile_pictures/Jeremy-c871be266eea7964fcbe7355dbe29865.jpg
+profile_pictures/Jeremy/index.jpg: profile_pictures/Jeremy-c871be266eea7964fcbe7355dbe29865.jpg
 profile_pictures/Jose.jpg: profile_pictures/Jose-6939b4af17c14fe4aadcb24097e94a1e.jpg
 profile_pictures/Jose/index.jpg: profile_pictures/Jose-6939b4af17c14fe4aadcb24097e94a1e.jpg
 profile_pictures/Jose2.jpg: profile_pictures/Jose2-cb96933bc5514fc3e65d88eb907914b8.jpg
@@ -89,6 +97,8 @@ profile_pictures/Scott.jpg: profile_pictures/Scott-033bb09bef76c80124f3e28c72b42
 profile_pictures/Scott/index.jpg: profile_pictures/Scott-033bb09bef76c80124f3e28c72b42a1a.jpg
 profile_pictures/Scott2.jpg: profile_pictures/Scott2-0e554b9ecac8dfef4d4b73b07f9cd766.jpg
 profile_pictures/Scott2/index.jpg: profile_pictures/Scott2-0e554b9ecac8dfef4d4b73b07f9cd766.jpg
+profile_pictures/Tamara.jpg: profile_pictures/Tamara-29f7668fca29ace685f3edc5f825e946.jpg
+profile_pictures/Tamara/index.jpg: profile_pictures/Tamara-29f7668fca29ace685f3edc5f825e946.jpg
 profile_pictures/Victor.jpg: profile_pictures/Victor-12d1859cc427e84b387be962fadb9d42.jpg
 profile_pictures/Victor/index.jpg: profile_pictures/Victor-12d1859cc427e84b387be962fadb9d42.jpg
 profile_pictures/Victor2.jpg: profile_pictures/Victor2-3125efcce1c3328e344ef70ec27d2692.jpg

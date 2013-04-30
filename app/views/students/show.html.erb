@@ -8,7 +8,9 @@
 			<div class="student_info">
 				<h1><%= @student.name %></h1>
 				<h2><%= @student.location %></h2>
-				<p><a href="<%= @profile.resume_url %>" target="_blank"><%= @student.name + "'s resume" if @profile.resume_url != nil%></a></p>
+			<% if @profile.resume_url != nil and @profile.resume_url != "" %>
+				<p><a href="<%= @profile.resume_url %>" target="_blank"><%= @student.name + "'s resume" %></a></p>
+			<% end %>
 
 				<% if is_admin? %>
 				<p><a href="/students/<%= @student.id %>/edit" class="btn btn-primary">Edit Info</a></p>
