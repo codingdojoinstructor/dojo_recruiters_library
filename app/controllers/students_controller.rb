@@ -1,3 +1,5 @@
+require 'open-uri'
+
 class StudentsController < ApplicationController
   include StudentsHelper
 
@@ -16,6 +18,17 @@ class StudentsController < ApplicationController
   def show
     @student = Student.find(params[:id])
     @profile = @student.student_profile
+  end
+
+  def display_resume
+      @student = Student.find(params[:id])
+      @profile = @student.student_profile
+
+      file_name = @profile[:pdf_resume_file_name]
+      file_path = @profile.resume.path
+      data = File.open(file_path, 'rb'){|f| f.read}
+
+      send_data data, :disposition => 'inline', :type => 'application/pdf'
   end
 
   def new
@@ -40,17 +53,38 @@ class StudentsController < ApplicationController
     if(params[:student_profile])
 
       # Saving
-      if((params[:student_profile][:action] == 'upload_file' or params[:student_profile][:action] == 'add_link') and is_admin?)
-          if(params[:student_profile][:action] == 'upload_file')
+      if((params[:student_profile][:action] == 'upload_picture_file' or params[:student_profile][:action] == 'add_picture_link') and is_admin?)
+          if(params[:student_profile][:action] == 'upload_picture_file')
               profile =  @profile.update_attributes(:avatar=>params[:student_profile][:avatar], :image_src=>nil)
-          elsif(params[:student_profile][:action] == 'add_link')
+          elsif(params[:student_profile][:action] == 'add_picture_link')
               profile =  @profile.update_attributes(:image_src=>params[:student_profile][:image_src])
           end
 
           if(profile)
               flash.now[:notice] = 'Student profile picture was successfully updated.'
           else
-              flash.now[:error] = @profile.errors.full_messages
+              flash.now[:error] = ''
+
+              @profile.errors.full_messages.each do |message|
+                  flash[:error] = flash[:error] + message
+              end
+          end
+      elsif((params[:student_profile][:action] == 'upload_resume_file' or params[:student_profile][:action] == 'add_resume_link') and is_admin?)
+          if(params[:student_profile][:action] == 'upload_resume_file')
+              profile =  @profile.update_attributes(:resume=>params[:student_profile][:resume], :resume_url=>nil)
+          elsif(params[:student_profile][:action] == 'add_resume_link')
+              profile =  @profile.update_attributes(:resume_url=>params[:student_profile][:resume_url])
+          end
+
+          if(profile)
+              flash.now[:notice] = 'Student profile picture was successfully updated.'
+          else
+              flash.now[:error] = ''
+
+              @profile.errors.full_messages.each do |message|
+                  flash[:error] = flash[:error] + message
+              end
+
           end
       elsif(@profile.update_attributes(params[:student_profile]))
             flash.now[:notice] = 'Student profile/project information was successfully updated.'

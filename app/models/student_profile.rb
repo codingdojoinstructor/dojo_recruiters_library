@@ -8,8 +8,12 @@ class StudentProfile < ActiveRecord::Base
 
     has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/assets/default_prof_pic.jpg"
 
-    has_attached_file :resume, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/assets/default_prof_pic.jpg"
+    has_attached_file :resume
 
-    validates_attachment_content_type  :avatar, :content_type => ['image/jpeg', 'image/png', 'image/jpg']
+    validates_attachment_content_type :avatar,
+                                      :content_type => ['image/jpeg', 'image/png', 'image/jpg']
 
+    validates_attachment_content_type :resume,
+                                      :content_type => [ 'application/pdf' ],
+                                      :message => "only pdf files are allowed"
 end

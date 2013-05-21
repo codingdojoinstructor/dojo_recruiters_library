@@ -1,92 +1,121 @@
 <% content_for :title do %>
 	<%= @student.name %> | CodingDojo's Network Library
 <% end %>
-	<div class="student_profile">
-		<div class="main_profile">
-			<p><a href="<%= students_path %>">Dashboard</a> > <%= @student.name %></p>
-			<img id="main_photo" class="main-photo" src="<%= @profile.image_src.nil? || @profile.image_src == "" ? @profile.avatar.url(:medium) : @profile.image_src %>" />
-			<div class="student_info">
-				<h1><%= @student.name %></h1>
-				<h2><%= @student.location %></h2>
-			<% if @profile.resume_url != nil and @profile.resume_url != "" %>
-				<p><a href="<%= @profile.resume_url %>" target="_blank"><%= @student.name + "'s resume" %></a></p>
-			<% end %>
 
-				<% if is_admin? %>
-				<p><a href="/students/<%= @student.id %>/edit" class="btn btn-primary">Edit Info</a></p>
-				<% end %>
-			</div>
-		</div>
-		<div class="certified">
-			<ul class="video-list">
-				<% if @profile.video_url != nil %>
-				<li>
-					<iframe class="profile-video" src="<%= @profile.video_url %>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe><p>Video introduction</p>
-				</li>
-				<% end %>
-				<% if @profile.project1_name != nil %>
-				<li>
-					<iframe class="profile-video" src="<%= @profile.project1_url %>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe><p><%= @profile.project1_name %></p>
-				</li>
-				<% end %>
-				<% if @profile.project2_name != nil %>
-				<li>
-					<iframe class="profile-video" src="<%= @profile.project2_url %>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe><p><%= @profile.project2_name %></p>
-				</li>
-				<% end %>
-				<% if @profile.project3_name != nil %>
-				<li>
-					<iframe title="Project1" class="profile-video" src="<%= @profile.project3_url %>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe><p><%= @profile.project3_name %></p>
-				</li>
-				<% end %>
-			</ul>
-			<h3 class="title">Certified Topics</h3>
-			<div class="belt-scores <%= "no-score" if @profile.yellow_belt_score.nil? %>">
-				<div class="competencies">
-					<h3 class="belt-title">Yellow Belt</h3>
-					<ul>
-						<li>HTML</li>
-						<li>CSS</li>
-						<li>jQuery/Javascript</li>
-					</ul>
-				</div>
-				<div class="yellow-belt"><h3 class="score"><%= @profile.yellow_belt_score %>&nbsp;</h3></div>
-			</div>
+<% content_for :jquery do %>
+    <script>
+        $(document).ready(function(){
+            $('#profile_tab a').click(function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            })
+        });
+    </script>
+<% end %>
 
-			<div class="belt-scores <%= "no-score" if @profile.green_belt_score.nil? %>">
-				<div class="competencies">
-					<h3 class="belt-title">Green Belt</h3>
-					<ul>
-						<li>PHP</li>
-						<li>MySQL/Database Design</li>
-						<li>Agile</li>
-					</ul>
-				</div>
-				<div class="green-belt"><h3 class="score"><%= @profile.green_belt_score %>&nbsp;</h3></div>
-			</div>
-			<div class="belt-scores <%= "no-score" if @profile.red_belt_score.nil? %>">
-				<div class="competencies">
-					<h3 class="belt-title">Red Belt</h3>
-					<ul>
-						<li>OOP</li>
-						<li>Git/SVN</li>
-						<li>Ruby</li>
-						<li>Ajax</li>
-					</ul>
-				</div>
-				<div class="red-belt"><h3 class="score"><%= @profile.red_belt_score %>&nbsp;</h3></div>
-			</div>
-			<div class="belt-scores <%= "no-score" if @profile.black_belt_score.nil? %>">
-				<div class="competencies">
-					<h3 class="belt-title">Black Belt</h3>
-					<ul>
-						<li>Ruby on Rails</li>
-						<li>CodeIgniter</li>
-						<li>Linux and Cloud</li>
-					</ul>
-				</div>
-				<div class="black-belt"><h3 class="score"><%= @profile.black_belt_score %>&nbsp;</h3></div>
-			</div>
+<div class="student_profile">
+    <div class="main_profile">
+        <p><a href="<%= students_path %>">Dashboard</a> > <%= @student.name %></p>
+        <img id="main_photo" class="main-photo" src="<%= @profile.image_src.nil? || @profile.image_src == "" ? @profile.avatar.url(:medium) : @profile.image_src %>" />
+        <div class="student_info">
+            <h1><%= @student.name %></h1>
+            <h2><%= @student.location %></h2>
+            <% if @profile.resume_url != nil and @profile.resume_url != "" %>
+            <p><a href="<%= @profile.resume_url %>" target="_blank"><%= @student.name + "'s resume" %></a></p>
+            <% end %>
 
-		</div><!-- end certified -->
-	</div> <!-- end of student profile -->
+            <% if is_admin? %>
+            <p><a href="/students/<%= @student.id %>/edit" class="btn btn-primary">Edit Info</a></p>
+            <% end %>
+        </div>
+    </div>
+    <div class='profile_information'>
+        <ul class="nav nav-tabs" id="profile_tab">
+            <li class="active"><a href="#overview">Overview</a></li>
+            <li><a href="#resume">Resume</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="overview">
+                <div class="certified">
+                    <ul class="video-list">
+                        <% if @profile.video_url != nil %>
+                        <li>
+                        <iframe class="profile-video" src="<%= @profile.video_url %>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe><p>Video introduction</p>
+                        </li>
+                        <% end %>
+                        <% if @profile.project1_name != nil %>
+                        <li>
+                        <iframe class="profile-video" src="<%= @profile.project1_url %>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe><p><%= @profile.project1_name %></p>
+                        </li>
+                        <% end %>
+                        <% if @profile.project2_name != nil %>
+                        <li>
+                        <iframe class="profile-video" src="<%= @profile.project2_url %>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe><p><%= @profile.project2_name %></p>
+                        </li>
+                        <% end %>
+                        <% if @profile.project3_name != nil %>
+                        <li>
+                        <iframe title="Project1" class="profile-video" src="<%= @profile.project3_url %>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe><p><%= @profile.project3_name %></p>
+                        </li>
+                        <% end %>
+                    </ul>
+                    <h3 class="title">Certified Topics</h3>
+                    <div class="belt-scores <%= "no-score" if @profile.yellow_belt_score.nil? %>">
+                        <div class="competencies">
+                            <h3 class="belt-title">Yellow Belt</h3>
+                            <ul>
+                                <li>HTML</li>
+                                <li>CSS</li>
+                                <li>jQuery/Javascript</li>
+                            </ul>
+                        </div>
+                        <div class="yellow-belt"><h3 class="score"><%= @profile.yellow_belt_score %>&nbsp;</h3></div>
+                    </div>
+                    <div class="belt-scores <%= "no-score" if @profile.green_belt_score.nil? %>">
+                        <div class="competencies">
+                            <h3 class="belt-title">Green Belt</h3>
+                            <ul>
+                                <li>PHP</li>
+                                <li>MySQL/Database Design</li>
+                                <li>Agile</li>
+                            </ul>
+                        </div>
+                        <div class="green-belt"><h3 class="score"><%= @profile.green_belt_score %>&nbsp;</h3></div>
+                    </div>
+                    <div class="belt-scores <%= "no-score" if @profile.red_belt_score.nil? %>">
+                        <div class="competencies">
+                            <h3 class="belt-title">Red Belt</h3>
+                            <ul>
+                             <li>OOP</li>
+                                <li>Git/SVN</li>
+                                <li>Ruby</li>
+                                <li>Ajax</li>
+                            </ul>
+                        </div>
+                        <div class="red-belt"><h3 class="score"><%= @profile.red_belt_score %>&nbsp;</h3></div>
+                    </div>
+                    <div class="belt-scores <%= "no-score" if @profile.black_belt_score.nil? %>">
+                        <div class="competencies">
+                            <h3 class="belt-title">Black Belt</h3>
+                            <ul>
+                                <li>Ruby on Rails</li>
+                                <li>CodeIgniter</li>
+                                <li>Linux and Cloud</li>
+                            </ul>
+                        </div>
+                        <div class="black-belt"><h3 class="score"><%= @profile.black_belt_score %>&nbsp;</h3></div>
+                    </div>
+                 </div><!-- end certified -->
+            </div>
+            <div class="tab-pane" id="resume">
+                <div class='resume'>
+                    <% if !@profile.resume_url.nil? %>
+                        <embed class='view_resume' src='<%= @profile.resume_url %>'></embed>
+                    <% elsif !@profile.resume.path.nil? %>
+                        <embed class='view_resume' src='/resume/<%= @student.id %>'></embed>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- end of student profile -->

@@ -9,6 +9,8 @@ Codingdojo::Application.routes.draw do
  match "/change_password/:id", :to => 'sessions#change_password'
  match "/signout", :to => 'sessions#destroy'
 
+ match "/resume/:id", :to => 'students#display_resume'
+
  root :to => 'sessions#new'
 
   # The priority is based upon order of creation:
