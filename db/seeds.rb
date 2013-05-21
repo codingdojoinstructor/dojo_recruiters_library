@@ -3,8 +3,8 @@
 #
 # Examples:
 #
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+#   cities = City.request_renew([{ name: 'Chicago' }, { name: 'Copenhagen' }])
+#   Mayor.request_renew(name: 'Emanuel', city: cities.first)
 # name: string
 # email: string
 # password: string

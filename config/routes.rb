@@ -1,9 +1,12 @@
 Codingdojo::Application.routes.draw do
 
  resources :students, :recruiters
- resources :sessions, :only => [:new, :create, :destroy]
+ resources :sessions, :only => [:new, :create, :request_password, :change_password, :update_password, :destroy]
 
  match "/signin",  :to => 'sessions#new'
+ match "/renewal",  :to => 'sessions#request_password'
+ match "/update_password",  :to => 'sessions#update_password'
+ match "/change_password/:id", :to => 'sessions#change_password'
  match "/signout", :to => 'sessions#destroy'
 
  root :to => 'sessions#new'

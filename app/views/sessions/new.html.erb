@@ -1,30 +1,65 @@
-<% content_for :jquery do %>
-	<script>
-	$(document).ready(function(){
-		$('#login_email').focus();
-	});
-	</script>
-<% end %>
+<div class="wrapper">
+    <div class='content'>
 
-	<div class="wrapper">
-		<div id="user_login" class="well">
+        <div id="user_login" class="well">
+            <h1>Welcome to CodingDojo's network.</h1>
 
-			<% if flash[:error] %>
-				<p class='alert alert-error'><%= flash[:error] %></p>
-			<% end %>
+              <% if flash[:error] %>
+                  <p class='alert alert-error'><%= flash[:error] %></p>
+              <% elsif flash[:message] %>
+                  <p class='alert alert-success'><%= flash[:message] %></p>
+              <% end %>
 
-			<%= simple_form_for(:session, :url => sessions_path) do |f| %>
-				<h1>Welcome to CodingDojo's network.</h1>
-				<label> Email: </label>
-				<input type="text" id="login_email" name="session[email]">
-				<div class="clear"></div>
-				<label> Password: </label>
-				<input type="password" name="session[password]">
-				<div class="clear"></div>
-				<input type="submit" class='btn btn-info' value="Login">
-				<!-- <a href=''>Forgot password?</a> -->
-				<div class="clear"></div>
-			<% end %>
-		</div>
-		<div class="clear"></div>
-	</div>	
+
+          <!-- CREATE USER LOGIN FORM -->
+            <%= simple_form_for(:session, :html=> {:class => 'form-horizontal'}, :url => sessions_path) do |f| %>
+                <div class='control-group form-inline'>
+                    <label class='control-label'> Email: </label>
+                    <div class='controls'>
+                        <input type="text" id="login_email" class='span4' name="session[email]" value="<%= flash[:email] %>">
+                    </div>
+                </div>
+
+              <div class='control-group'>
+                    <label class='control-label'> Password: </label>
+                    <div class='controls'>
+                        <input type="password" class='span4' name="session[password]">
+                     </div>
+              </div>
+
+              <div class='control-group pull-right'>
+                    <a href='#modal' data-toggle='modal' class='forgot-password'>Forgot password?</a>
+                    <input type="submit" class='btn btn-info' value="Login">
+              </div>
+              <div class="clear"></div>
+            <% end %>
+            <!-- END OF LOGIN FORM -->
+
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+
+<!-- CREATE MODAL -->
+<div id='modal' class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class='title'></h3>
+    </div>
+    <div class="modal-body">
+          <p class='alert'></p>
+          <p>Email me a link to reset my password.</p>
+          <%= simple_form_for(:request_password, :html=> {:class => 'form-horizontal request_password_renewal'}, :url => renewal_path, :remote => true) do |f| %>
+            <div class='control-group form-inline'>
+                <label class='control-label'> Email: </label>
+                <div class='controls'>
+                    <input type="text" id="reset_email" class='span4' name="session[email]">
+                    <input type="submit" class='btn btn-info pull-right' value="Submit">
+                    <div class="clear"></div>
+                </div>
+            </div>
+              <div class="clear"></div>
+          <% end %>
+    </div>
+    <div class="modal-footer"></div>
+</div>

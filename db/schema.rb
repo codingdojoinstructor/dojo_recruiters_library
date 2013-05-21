@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130426130527) do
+ActiveRecord::Schema.define(:version => 20130521001847) do
 
   create_table "favorites", :force => true do |t|
     t.integer  "recruiter_id"
@@ -54,8 +54,8 @@ ActiveRecord::Schema.define(:version => 20130426130527) do
     t.string   "project3_url"
     t.string   "resume_url"
     t.integer  "student_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
     t.float    "white_belt_score"
     t.float    "yellow_belt_score"
     t.float    "green_belt_score"
@@ -66,7 +66,21 @@ ActiveRecord::Schema.define(:version => 20130426130527) do
     t.date     "green_belt_date"
     t.date     "red_belt_date"
     t.date     "black_belt_date"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
+    t.string   "avatar_url_file_name"
+    t.string   "avatar_url_content_type"
+    t.integer  "avatar_url_file_size"
+    t.datetime "avatar_url_updated_at"
+    t.string   "resume_file_name"
+    t.string   "resume_content_type"
+    t.integer  "resume_file_size"
+    t.datetime "resume_updated_at"
   end
+
+  add_index "student_profiles", ["student_id"], :name => "index_student_profiles_on_student_id"
 
   create_table "student_skills", :force => true do |t|
     t.datetime "earned_at"
@@ -88,9 +102,13 @@ ActiveRecord::Schema.define(:version => 20130426130527) do
     t.string   "salt"
     t.datetime "hired_date"
     t.string   "hired_company"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
     t.integer  "status"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
   end
 
 end

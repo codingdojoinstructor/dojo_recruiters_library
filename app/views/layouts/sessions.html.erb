@@ -2,8 +2,8 @@
 <html>
 <head>
   <title>Welcome to CodingDojo's Library!</title>
-  <%= stylesheet_link_tag "application", "sessions" %>
-  <%= javascript_include_tag "application" %>
+  <%= stylesheet_link_tag "application", "sessions", :cache => false  %>
+  <%= javascript_include_tag "application", "sessions" %>
   <%= csrf_meta_tags %>
 
   <%= yield :jquery %>

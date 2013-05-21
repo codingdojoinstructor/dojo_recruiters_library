@@ -3,68 +3,106 @@
 <% end %>
 <% content_for :jquery do %>
 	<script>
-	$(document).ready(function(){
-		$('.datepicker').datepicker();
-	});
+
+        $(document).ready(function(){
+            $('.datepicker').datepicker();
+
+            $("a[data-toggle='upload_type']").click(function(e){
+                e.preventDefault();
+                $("a[data-toggle='upload_type']").removeClass('active');
+
+                $(this).addClass('active')
+                       .parents('form')
+                            .find("input.upload_type")
+                            .hide()
+                       .parents('form')
+                            .find("input.upload_type."+ $(this)
+                                .attr('data-action'))
+                                .show()
+                            .siblings('input[name="student_profile[action]"]')
+                                .val($(this).attr('data-action'));
+            });
+
+            $("a[data-action='upload_file']").click();
+        });
+
 	</script>
 <% end %>
 
 	<div class="edit_profile">
-	<img src="<%= @profile.image_src %>" alt="<%= @student.name %>">
-	<div id="forms" class="well span7">
+        <div class='picture_box pull-right'>
+            <img src="<%= @profile.image_src.nil? || @profile.image_src == "" ? @profile.avatar.url(:medium) : @profile.image_src %>" alt="<%= @student.name %>" class='picture' />
+            <%  if is_admin? %>
+                <%= simple_form_for(@profile, :url => student_path, :html => {:class=>'upload_picture', :multipart => true}) do |f| %>
+                    <div class='form-inline'>
+                        <p>
+                          <a href='#' data-toggle='upload_type' data-action='upload_file' class='active'>Upload a file</a> or
+                          <a href='#' data-toggle='upload_type' data-action='add_link'>add a link</a> to change profile picture
+                        </p>
+                    </div>
+                    <div class='form-inline'>
+                        <%= f.file_field :avatar, label: 'Profile Picture', :class=>'pull-left upload_type upload_file' %>
+                        <%= f.text_field :image_src, label: 'Profile Picture', :class=>'pull-left upload_type add_link' %>
+                        <%= f.hidden_field :action, :value => "" %>
+                        <%= f.submit "Update", :class => "btn btn-primary btn-mini pull-right" %>
+                    </div>
+                    <div class='clear'></div>
+                <% end %>
+              <div class='clear'></div>
+            <% end %>
+        </div>
+        <div id="forms" class="well span7">
 
-		<% if(flash[:notice]) %>
-		<div class='alert'><%= flash[:notice] %></div>
-		<% end %>
+            <% if(flash[:notice]) %>
+            <div class='alert'><%= flash[:notice] %></div>
+            <% end %>
 
-		<% if(flash[:error]) %>
-		<div class='alert alert-danger'><%= flash[:error] %></div>
-			<% end %>
+            <% if(flash[:error]) %>
+            <div class='alert alert-danger'><%= flash[:error] %></div>
+            <% end %>
 
-		<a href="/students/<%= @student.id %>" class='btn'>Go Back</a>
+            <a href="/students/<%= @student.id %>" class='btn'>Go Back</a>
 
-		<%= simple_form_for(@student) do |f| %>
-			<legend>Update Student Information</legend>
-			<%  if is_admin? %>
-			<%= f.input :name %>
-			<%= f.input :status, :collection => -1..2, :label => "Status (0 for inactive, 1 for active, 2 for already hired, -1 for banned)" %>
-			<% end %>
+            <%= simple_form_for(@student) do |f| %>
+                <legend>Update Student Information</legend>
+                <%  if is_admin? %>
+                <%= f.input :name %>
+                <%= f.input :status, :collection => -1..2, :label => "Status (0 for inactive, 1 for active, 2 for already hired, -1 for banned)" %>
+                <% end %>
 
-			<%= f.input :email %>
-			<%= f.input :password, :value => "", :input_html => { :value => "" }, :label => "Password (leave this empty if you don't want to change the password)" %>
-			<%= f.input :password_confirmation %>
-			<%= f.submit "Update", :class => "btn btn-primary" %>
-		<% end %>
+                <%= f.input :email %>
+                <%= f.input :password, :value => "", :input_html => { :value => "" }, :label => "Password (leave this empty if you don't want to change the password)" %>
+                <%= f.input :password_confirmation %>
+                <%= f.submit "Update", :class => "btn btn-primary" %>
+            <% end %>
 
-		<%= simple_form_for(@profile, :url => student_path) do |f| %>
-			<legend>Update Projects Information</legend>
-			
-			<%  if is_admin? %>
-			<%= f.input :image_src, label: 'Profile Picture' %>
-			<%= f.input :video_url, label: 'Video Vimeo URL' %>
-			<%  end %>
+            <%= simple_form_for(@profile, :url => student_path) do |f| %>
+                <legend>Update Projects Information</legend>
 
-			<%= f.input :project1_name, label: 'Project 1 Name' %>
-			<%= f.input :project1_url, label: 'Project 1 Vimeo URL'  %>
-			<%= f.input :project2_name, label: 'Project 2 Name'  %>
-			<%= f.input :project2_url, label: 'Project 2 Vimeo URL'  %>
-			<%= f.input :project3_name, label: 'Project 3 Name'  %>
-			<%= f.input :project3_url, label: 'Project 3 Vimeo URL'  %>
-			<%= f.input :resume_url, label: 'Resume URL'  %>
-		
-			<%  if is_admin? %>
-			<%= f.input :yellow_belt_score, :collection => [7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0], label: 'Yellow Belt Score' %>
-			<%= f.input :yellow_belt_date, as: :string, label: 'Yellow Belt Earned Date', input_html: { class: 'datepicker' }%>
-			<%= f.input :green_belt_score, :collection => [7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0], label: 'Green Belt Score' %>
-			<%= f.input :green_belt_date, as: :string, label: 'Green Belt Earned Date', input_html: { class: 'datepicker' } %>
-			<%= f.input :red_belt_score, :collection => [7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0], label: 'Red Belt Score' %>
-			<%= f.input :red_belt_date, as: :string, label: 'Red Belt Earned Date', input_html: { class: 'datepicker' } %>
-			<%= f.input :black_belt_score, :collection => [7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0], label: 'Black Belt Score' %>
-			<%= f.input :black_belt_date, as: :string, label: 'Black Belt Earned Date', input_html: { class: 'datepicker' } %>
-			<%  end %>
-			<%= f.submit :class=>"btn btn-primary" %>
-		<% end %>
+                <%  if is_admin? %>
+                <%= f.input :video_url, label: 'Video Vimeo URL' %>
+                <%  end %>
 
+                <%= f.input :project1_name, label: 'Project 1 Name' %>
+                <%= f.input :project1_url, label: 'Project 1 Vimeo URL'  %>
+                <%= f.input :project2_name, label: 'Project 2 Name'  %>
+                <%= f.input :project2_url, label: 'Project 2 Vimeo URL'  %>
+                <%= f.input :project3_name, label: 'Project 3 Name'  %>
+                <%= f.input :project3_url, label: 'Project 3 Vimeo URL'  %>
+                <%= f.input :resume_url, label: 'Resume URL'  %>
 
-	</div>
-</div>
+                <%  if is_admin? %>
+                <%= f.input :yellow_belt_score, :collection => [7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0], label: 'Yellow Belt Score' %>
+                <%= f.input :yellow_belt_date, as: :string, label: 'Yellow Belt Earned Date', input_html: { class: 'datepicker' }%>
+                <%= f.input :green_belt_score, :collection => [7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0], label: 'Green Belt Score' %>
+                <%= f.input :green_belt_date, as: :string, label: 'Green Belt Earned Date', input_html: { class: 'datepicker' } %>
+                <%= f.input :red_belt_score, :collection => [7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0], label: 'Red Belt Score' %>
+                <%= f.input :red_belt_date, as: :string, label: 'Red Belt Earned Date', input_html: { class: 'datepicker' } %>
+                <%= f.input :black_belt_score, :collection => [7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0], label: 'Black Belt Score' %>
+                <%= f.input :black_belt_date, as: :string, label: 'Black Belt Earned Date', input_html: { class: 'datepicker' } %>
+                <%  end %>
+                <%= f.submit :class=>"btn btn-primary" %>
+            <% end %>
+        </div>
+        <div class='clear'></div>
+    </div>

@@ -2,10 +2,17 @@
 	padding-right: 20px;
 }
 .wrapper{
-	margin: 0 auto;
-	margin-top: 80px;
-	min-height: 532px;
-	width: 960px;
+  margin: 0 auto;
+  margin-top: 40px;
+  width: 960px;
+  height: 625px;
+  padding-top: 40px;
+}
+
+.wrapper .content{
+    width: 929px;
+    margin: 0 auto;
+    min-height: 532px;
 	background:
 		url('/assets/small_profile_pictures/Angie.jpg') 0px 10px no-repeat,
 		url('/assets/small_profile_pictures/Ben2.jpg') 192px 10px no-repeat,
@@ -35,30 +42,73 @@ h1{
     margin-top:0;
     margin-bottom: 30px;
 }
-#user_login{
-	width: 380px;
+div#user_login,
+div#user_change_password{
 	margin: 0 auto;
 	margin-top:106px;
-	padding: 60px;
 	border-radius: 10px;
 	background-color: rgba(255, 255, 255, 0.8);
+    width: 460px;
+    padding: 20px;
 }
-#login_form{
-	color: black;
-}
-	#login_form a{
-	    float: right;
-	    font-size: 11pt;
-	    margin-top: 6px;
-	    margin-right: 20px;
-	    color: black;
-	    text-decoration: underline;
-	}
-	#login_form input{
-	    float: right;
-	}
-	#login_form label{
-	    float: left;
-	    margin-top: 5px;
-	    font-weight: bold;
-	}
+
+    div#user_login h1,
+    div#user_change_password h1{
+        margin-bottom: 5px;
+    }
+
+    div#user_login form,
+    div#user_change_password form,
+    div#modal form{
+        width: 389px!important;
+        padding: 10px;
+        margin: 5px 25px;
+    }
+
+    div#user_change_password form{
+        margin: 5px;
+        width: 440px!important;
+    }
+
+    div#user_login p.alert.alert-error,
+    div#user_change_password p.alert.alert-error,
+    div#modal p.alert.alert-error{
+      min-height: 20px;
+    }
+
+    div#modal p.alert,
+    div#user_change_password p.alert{
+      display: none;
+    }
+
+
+
+    div#modal form{
+        width: 490px !important;
+        margin: 10px;
+    }
+
+div#user_login form div.control-group label.control-label,
+        div#user_change_password form div.control-group label.control-label,
+        div#modal form div.control-group label.control-label{
+            text-align: left!important;
+            width: 50px!important;
+        }
+
+        div#user_change_password form div.control-group label.control-label{
+            width: 140px!important;
+        }
+
+        div#user_login form div.control-group .controls,
+        div#user_change_password form div.control-group .controls,
+        div#modal form div.control-group .controls{
+            margin-left: 90px;
+        }
+
+        div#user_login form div.control-group a{
+           font-size: 11pt;
+           margin-top: 6px;
+           margin-right: 20px;
+           color: black;
+           text-decoration: underline;
+        }

@@ -1,8 +1,8 @@
 require 'test_helper'
 
 class SessionsControllerTest < ActionController::TestCase
-  test "should get create" do
-    get :create
+  test "should get request_renew" do
+    get :request_renew
     assert_response :success
   end
 

@@ -11,6 +11,7 @@ class Student < ActiveRecord::Base
 
   validates :name,	:presence 	=> true,
   					:length  	=> { :maximum => 50 }
+
   validates :email,	:presence	=> true,
   					:format		=> { :with => email_regex },
            	:uniqueness 	=> { :case_sensitive => false }
@@ -34,6 +35,20 @@ class Student < ActiveRecord::Base
 
    	return nil if user.nil?
    	return user if user.has_password?(submitted_password)
+  end
+
+  def self.authenticate_email(email)
+      user = find_by_email(email)
+
+      return nil if user.nil?
+      return user
+  end
+
+  def self.user_exist(id, email)
+      user = find_by_email(email)
+
+      return nil if user.nil?
+      return user if user.id == id
   end
 
 

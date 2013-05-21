@@ -106,6 +106,7 @@
     border-radius: 10px;
     padding: 10px;
     display: inline-block;
+    width: 190px;
     float: left;
 
     label{
@@ -270,10 +271,56 @@
     .well label{
         color:black;
     }
-
-    img{
-        margin-left:45px;
-        width: 275px;
-        height: 160px;
-    }
 }
+
+  .edit_profile .picture_box{
+    position: relative;
+    margin: 0 35px;
+
+  }
+
+      .edit_profile .picture_box img{
+         width: 275px;
+         height: 160px;
+         margin-left: 2px;
+      }
+
+      .edit_profile .picture_box form.upload_picture{
+        width: 275px;
+        margin: 5px 0;
+        color: #fff;
+      }
+
+        .edit_profile .picture_box form.upload_picture input[type='submit']{
+          margin: 10px 0;
+          width:50px;
+        }
+
+        .edit_profile .picture_box form.upload_picture input[type='file'],
+        .edit_profile .picture_box form.upload_picture input[type='text']{
+          line-height: 25px;
+          width: 190px;
+          margin-top: 10px;
+          font-size: 12px;
+          margin-right: 0;
+        }
+
+        .edit_profile .picture_box form.upload_picture input[type='text']{
+            line-height: 13px;
+            height: 13px;
+        }
+
+            .edit_profile .picture_box form.upload_picture div p{
+                font-size: 12px;
+                margin-bottom: 0;
+            }
+
+.edit_profile .picture_box form.upload_picture .upload_type{
+  display: none;
+}
+
+      .edit_profile .picture_box form.upload_picture a.active{
+         color: #fff;
+      }
+
+

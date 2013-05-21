@@ -1,7 +1,7 @@
 class StudentsController < ApplicationController
   include StudentsHelper
 
-  before_filter :require_admin_access, :only => [:new, :create]
+  before_filter :require_admin_access, :only => [:new, :request_renew]
   before_filter :require_user_access, :only => [:edit, :update]
   before_filter :require_login
 
@@ -38,17 +38,31 @@ class StudentsController < ApplicationController
     @profile = @student.student_profile
 
     if(params[:student_profile])
-      if(@profile.update_attributes(params[:student_profile]))
-        flash.now[:notice] = 'Student profile/project information was successfully updated.'
+
+      # Saving
+      if((params[:student_profile][:action] == 'upload_file' or params[:student_profile][:action] == 'add_link') and is_admin?)
+          if(params[:student_profile][:action] == 'upload_file')
+              profile =  @profile.update_attributes(:avatar=>params[:student_profile][:avatar], :image_src=>nil)
+          elsif(params[:student_profile][:action] == 'add_link')
+              profile =  @profile.update_attributes(:image_src=>params[:student_profile][:image_src])
+          end
+
+          if(profile)
+              flash.now[:notice] = 'Student profile picture was successfully updated.'
+          else
+              flash.now[:error] = @profile.errors.full_messages
+          end
+      elsif(@profile.update_attributes(params[:student_profile]))
+            flash.now[:notice] = 'Student profile/project information was successfully updated.'
       else
-        flash.now[:error] = "Something went wrong"
+            flash.now[:error] = "Something went wrong"
       end
     elsif(params[:student]) 
       # prevent normal user from updating the status
       params[:student].delete("status") unless is_admin?
       params[:student].delete("password") if params[:student][:password] == ""
 
-      if @student.update_attributes(params[:student])
+      if @student.update_attributes.(params[:student])
         flash.now[:notice] = 'Student information was successfully updated.'
       else
         flash.now[:error] = "Something went wrong"
@@ -61,7 +75,7 @@ class StudentsController < ApplicationController
   def edit
     @student = Student.find(params[:id])
     @profile = @student.student_profile
-  end 
+  end
 
   private
   def require_login
