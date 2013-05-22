@@ -11,6 +11,10 @@ Codingdojo::Application.routes.draw do
 
  match "/resume/:id", :to => 'students#display_resume'
 
+ match "/terms_and_conditions", :to => 'recruiters#display_terms'
+
+ match "/terms",  :to => 'recruiters#term_approval'
+
  root :to => 'sessions#new'
 
   # The priority is based upon order of creation:

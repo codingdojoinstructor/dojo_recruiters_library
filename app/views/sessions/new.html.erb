@@ -12,7 +12,7 @@
 
 
           <!-- CREATE USER LOGIN FORM -->
-            <%= simple_form_for(:session, :html=> {:class => 'form-horizontal'}, :url => sessions_path) do |f| %>
+            <%= simple_form_for(:session, :html=> {:class => 'form-horizontal user_login'}, :url => sessions_path) do |f| %>
                 <div class='control-group form-inline'>
                     <label class='control-label'> Email: </label>
                     <div class='controls'>
@@ -42,24 +42,5 @@
 
 <!-- CREATE MODAL -->
 <div id='modal' class="modal hide fade">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3 class='title'></h3>
-    </div>
-    <div class="modal-body">
-          <p class='alert'></p>
-          <p>Email me a link to reset my password.</p>
-          <%= simple_form_for(:request_password, :html=> {:class => 'form-horizontal request_password_renewal'}, :url => renewal_path, :remote => true) do |f| %>
-            <div class='control-group form-inline'>
-                <label class='control-label'> Email: </label>
-                <div class='controls'>
-                    <input type="text" id="reset_email" class='span4' name="session[email]">
-                    <input type="submit" class='btn btn-info pull-right' value="Submit">
-                    <div class="clear"></div>
-                </div>
-            </div>
-              <div class="clear"></div>
-          <% end %>
-    </div>
     <div class="modal-footer"></div>
 </div>

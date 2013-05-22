@@ -1,5 +1,12 @@
 class SessionsController < ApplicationController
   def new
+      if signed_in?
+          if defined?(current_user.terms_status)  and current_user.terms_status != 1
+
+          else
+              redirect_to students_path
+          end
+      end
   end
 
   def create
@@ -9,42 +16,50 @@ class SessionsController < ApplicationController
       recruiter = Recruiter.authenticate(params[:session][:email], params[:session][:password])
       if recruiter.nil?
         flash[:error] = "Invalid email/password combination."
-  		  redirect_to signin_path
+        flash[:location] = nil
       else
         sign_in_recruiter recruiter
-        redirect_to students_path
+
+        if recruiter.terms_status.nil? or recruiter.terms_status != 1
+            flash[:location] = 'terms'
+        else
+            flash[:location] = students_path
+        end
       end
 
   	else
   		sign_in user
-  		redirect_to students_path
-  	end
-
+        flash[:location] = students_path
+    end
   end
 
   def request_password
 
-      student = Student.authenticate_email(params[:session][:email])
+      if(params[:session][:action] == 'get_form')
+          flash[:result] = nil
+      elsif(params[:session][:action] == 'send_form')
 
-      if student.nil?
-          flash[:notice] = "Email was sent to the email"
           flash[:result] = 'alert-success'
-      else
-          flash[:result] = 'alert-success'
-          flash[:notice] = "Password Reset email was sent to " + params[:session][:email]
-      end
+          student = Student.authenticate_email(params[:session][:email])
 
-      respond_to do |format|
           if student.nil?
-              format.html { redirect_to @student.new }
-              format.js
+              flash[:notice] = "Email was sent to the email"
           else
-              Emailer.email_verification_password(student).deliver
-              format.html { redirect_to @student.new }
+              flash[:notice] = "Password Reset email was sent to " + params[:session][:email]
           end
 
-          format.html { redirect_to @student.new }
-          format.js
+          respond_to do |format|
+              if student.nil?
+                  format.html { redirect_to @student.new }
+                  format.js
+              else
+                  Emailer.email_verification_password(student).deliver
+                  format.html { redirect_to @student.new }
+              end
+
+              format.html { redirect_to @student.new }
+              format.js
+          end
       end
   end
 

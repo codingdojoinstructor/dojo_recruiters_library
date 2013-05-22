@@ -117,8 +117,8 @@ class StudentsController < ApplicationController
       flash[:error] = "You must be logged in to access this section"
       redirect_to signin_path
     end
-  end
 
+end
   def require_user_access
     unless current_user?(Student.find(params[:id])) or is_admin?
       flash[:error] = "User access required. You don't have sufficient privilege to perform that action. You have been redirected."

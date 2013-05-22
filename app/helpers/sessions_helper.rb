@@ -33,6 +33,11 @@ module SessionsHelper
     current_user.level == 9
   end
 
+  def inactive_recruiter?
+      current_user.terms_status != 1
+  end
+
+
   def signed_in?
     !current_user.nil?
   end

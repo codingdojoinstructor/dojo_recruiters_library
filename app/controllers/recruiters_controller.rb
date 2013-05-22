@@ -1,3 +1,5 @@
+require 'open-uri'
+
 class RecruitersController < ApplicationController
   before_filter :require_login, :require_admin_access
 
@@ -15,7 +17,15 @@ class RecruitersController < ApplicationController
 
   def edit
     @recruiter = Recruiter.find(params[:id])
-   end
+  end
+
+  def display_terms
+      file_path = PLACEMENT_TERMS_PATH
+      file_name = "Placement Terms"
+      data = File.open(file_path, 'rb'){|f| f.read}
+
+      send_data data, :disposition => 'inline', :type => 'application/pdf'
+  end
 
   def create
     @recruiter = Recruiter.new(params[:recruiter])
@@ -42,8 +52,26 @@ class RecruitersController < ApplicationController
     redirect_to recruiters_url
   end
 
+  def term_approval
+      if defined?(params[:recruiter][:term_status])
+          @recruiter = Recruiter.find(current_user.id)
+          if @recruiter.update_attributes(:terms_status => params[:recruiter][:term_status])
+              flash[:location] = students_path
+          else
+              sign_out
+              flash[:location] = nil
+          end
+      else
+          sign_out
+          flash[:location] = nil
+      end
+
+
+
+  end
 
   private
+
   def require_login
     unless signed_in?
       flash[:error] = "You must be logged in to access this section"
@@ -52,9 +80,9 @@ class RecruitersController < ApplicationController
   end
 
   def require_admin_access
-    unless is_admin?
+    unless is_admin? or inactive_recruiter?
       flash[:error] = "You don't have sufficient privilege to perform that action. You have been redirected."
-      redirect_to signin_path 
+      redirect_to signin_path
     end
   end
 
