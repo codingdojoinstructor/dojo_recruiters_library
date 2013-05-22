@@ -12,19 +12,34 @@
 </p>
 
 <p>
+    <b>Title:</b>
+    <%= @recruiter.title %>
+</p>
+
+
+ <p>
   <b>Company:</b>
   <%= @recruiter.company %>
 </p>
 
 <p>
-  <b>Company Description:</b>
-  <%= @recruiter.company_description %>
+    <b>No. of Engineers:</b>
+    <%= @recruiter.engineers_managed %>
 </p>
 
-<p>
-  <b>Individual Description:</b>
-  <%= @recruiter.individual_description %>
-</p>
+<% if !@recruiter.company_description.nil? and @recruiter.company_description != '' %>
+    <p>
+      <b>Company Description:</b>
+      <%= @recruiter.company_description %>
+    </p>
+<% end %>
+
+<% if !@recruiter.individual_description.nil? and @recruiter.individual_description != '' %>
+    <p>
+      <b>Individual Description:</b>
+      <%= @recruiter.individual_description %>
+      </p>
+<% end %>
 
 
 <%= link_to 'Edit', edit_recruiter_path(@recruiter) %> |

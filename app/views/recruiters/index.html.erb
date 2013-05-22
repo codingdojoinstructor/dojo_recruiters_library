@@ -5,7 +5,9 @@
   <tr>
     <th>Name</th>
     <th>Email</th>
+    <th>Title</th>
     <th>Company</th>
+    <th>No. of Engineers</th>
     <th></th>
   </tr>
 
@@ -13,7 +15,9 @@
   <tr>
     <td><%= recruiter.name %></td>
     <td><%= recruiter.email %></td>
+    <td><%= recruiter.title %></td>
     <td><%= recruiter.company %></td>
+    <td><%= recruiter.engineers_managed %></td>
     <td><%= link_to 'Show', recruiter, :class=>'btn btn-primary' %></td>
     <td><%= link_to 'Edit', edit_recruiter_path(recruiter), :class=>'btn' %></td>
     <td><%= link_to 'Destroy', recruiter, :class=>'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } %></td>

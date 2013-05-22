@@ -1,7 +1,7 @@
 class Recruiter < ActiveRecord::Base
 
   attr_accessor :password
-  attr_accessible :name, :email, :password, :password_confirmation, :individual_description, :company, :company_description
+  attr_accessible :name, :email, :password, :password_confirmation, :individual_description, :company, :company_description, :title, :engineers_managed
 
   email_regex = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]+)\z/i
 
@@ -11,11 +11,17 @@ class Recruiter < ActiveRecord::Base
   					:format		=> { :with => email_regex },
            	:uniqueness => { :case_sensitive => false }
   validates :password, :presence => true,
-  	   		  :confirmation 	 	=> true,
+  	   		:confirmation 	 	=> true,
   	        :length	        	=> { :within => 6..40 },
             :if => :password_changed?
   validates :password_confirmation, :presence => true,
             :if => :password_changed?
+
+  validates :title, :presence => true
+
+  validates :engineers_managed, :presence => true,
+            :numericality => { :only_integer => true },
+            :length	      => { :minimum => 0, :maximum => 30 }
 
   before_save :encrypt_password
 

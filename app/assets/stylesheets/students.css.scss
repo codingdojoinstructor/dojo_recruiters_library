@@ -208,6 +208,7 @@ div.profile_information{
     }
   }
   .certified{
+    padding-top: 10px;
 
     ul.video-list{
       margin: 0px 0px 10px 0px;
@@ -238,9 +239,10 @@ div.profile_information{
     background: rgba(255,255,255, .4);
     color:white;
 
+
     .belt-scores{
       display:inline-block;
-      margin: 0px 18px 20px 18px;
+      margin: 0px 15px 20px 15px;
       color:white;
       height: 300px;
       width: 200px;
@@ -251,9 +253,21 @@ div.profile_information{
       .competencies{
         height:150px;
 
+        ul{
+          margin-left: 3px;
+        }
+
         ul li{
           display:block;
         }
+      }
+
+      .belt-scores:first-child{
+        margin-left: 18px;
+      }
+
+      .belt-scores:last-child{
+        margin-right: 18px;
       }
 
       .white-belt, .yellow-belt, .green-belt, .red-belt, .black-belt{

@@ -4,10 +4,12 @@
 <%= simple_form_for(@recruiter) do |f| %>
 	<%= f.input :name %>
 	<%= f.input :email %>
+	<%= f.input :title %>
 	<%= f.input :password %>
 	<%= f.input :password_confirmation %>
 	<%= f.input :individual_description %>
 	<%= f.input :company %>
+	<%= f.input :engineers_managed %>
 	<%= f.input :company_description %>
 	<%= f.submit :text=>"Create new recruiter", :class => 'btn btn-primary' %>
 <% end %>
