@@ -1,4 +1,6 @@
 require 'open-uri'
+require 'rubygems'
+require 'pdf/reader'
 
 class RecruitersController < ApplicationController
   before_filter :require_login, :require_admin_access
@@ -53,21 +55,26 @@ class RecruitersController < ApplicationController
   end
 
   def term_approval
-      if defined?(params[:recruiter][:term_status])
-          @recruiter = Recruiter.find(current_user.id)
-          if @recruiter.update_attributes(:terms_status => params[:recruiter][:term_status])
+      if defined?(params[:recruiter][:terms_status]) && !params[:recruiter][:terms_status].nil? && params[:recruiter][:terms_status] != ''
+          if current_user.update_attributes(:terms_status => params[:recruiter][:terms_status])
+              message = ''
+              PDF::Reader.open(PLACEMENT_TERMS_PATH) do |reader|
+                  reader.pages.each do |page|
+                      message = message + page.text
+                  end
+              end
               flash[:location] = students_path
+              current_user.update_attributes(:terms_and_condition => message)
           else
               sign_out
               flash[:location] = nil
+              flash[:message] = 'Internal server error occured. You have been logged out.'
           end
       else
           sign_out
           flash[:location] = nil
+          flash[:message] = 'You have declined the terms and condition. You have been logged out.'
       end
-
-
-
   end
 
   private

@@ -1,0 +1,23 @@
+<% if !flash[:location].nil? %>
+    $("form.user_login").siblings("p.alert.alert-error").hide();
+    document.location = '<%= flash[:location] %>';
+<% end %>
+
+
+if($("form.user_login").siblings("p.alert.alert-error").length > 0)
+    $("form.user_login").siblings("p.alert.alert-error").html("<%= escape_javascript(flash[:message]) %>");
+else{
+    error = "<p class='alert alert-error'><%= escape_javascript(flash[:message]) %></p>";
+    $("form.user_login").before(error);
+}
+
+$("form.user_login")[0].reset();
+
+var modal = $("div#modal");
+
+$(modal).modal({
+    keyboard: true,
+    backdrop: true
+});
+
+$(modal).modal('hide');

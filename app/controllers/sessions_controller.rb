@@ -64,10 +64,8 @@ class SessionsController < ApplicationController
   end
 
   def change_password
-      secret = Digest::SHA1.hexdigest("codingDojoLibrary")
-
       encrypted = params[:id].gsub("@", '\/')
-      new_encryption = ActiveSupport::MessageEncryptor.new(secret)
+      new_encryption = ActiveSupport::MessageEncryptor.new(SECRET)
 
       student = new_encryption.decrypt(encrypted).split(/:@:/)
 
@@ -96,9 +94,7 @@ class SessionsController < ApplicationController
   end
 
   def update_password
-      secret = Digest::SHA1.hexdigest("codingDojoLibrary")
-
-      new_encryption = ActiveSupport::MessageEncryptor.new(secret)
+      new_encryption = ActiveSupport::MessageEncryptor.new(SECRET)
       encrypt = params[:id]
       id = new_encryption.decrypt(encrypt)
 

@@ -118,12 +118,21 @@ class StudentsController < ApplicationController
       redirect_to signin_path
     end
 
-end
+    if defined?(current_user.terms_status) && inactive_recruiter?
+        sign_out
+        flash[:error] = "You must agree first in the terms and condition to perform this action. You have been logged out."
+        redirect_to signin_path
+    end
+
+  end
   def require_user_access
     unless current_user?(Student.find(params[:id])) or is_admin?
       flash[:error] = "User access required. You don't have sufficient privilege to perform that action. You have been redirected."
       redirect_to students_path
     end
+
+
+
   end
 
   def require_admin_access

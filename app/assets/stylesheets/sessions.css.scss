@@ -81,13 +81,6 @@ div#user_change_password{
       display: none;
     }
 
-
-
-    div#modal form{
-        width: 490px !important;
-        margin: 10px;
-    }
-
 div#user_login form div.control-group label.control-label,
         div#user_change_password form div.control-group label.control-label,
         div#modal form div.control-group label.control-label{
@@ -117,3 +110,20 @@ div#user_login form div.control-group label.control-label,
   width: 526px;
   height: 460px;
 }
+
+
+
+div#modal form{
+  width: 490px !important;
+  margin: 10px;
+}
+
+
+div#modal  form.approve_terms{
+  width: 530px!important;
+  padding: 0;
+  margin: 20px 0 0 0;
+}
+    div#modal  form.approve_terms div.controls{
+      margin-left: 0!important;
+    }
