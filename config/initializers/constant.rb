@@ -1,2 +1,2 @@
-PLACEMENT_TERMS_PATH = 'public/placement_terms.pdf'
+PLACEMENT_TERMS_PATH = 'doc/placement_terms.pdf'
 SECRET = Digest::SHA1.hexdigest("codingDojoLibrary")
