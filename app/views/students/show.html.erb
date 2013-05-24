@@ -111,8 +111,8 @@
                 <div class='resume'>
                     <% if !@profile.resume_url.nil? %>
                         <embed class='view_resume' src='<%= @profile.resume_url %>'></embed>
-                    <% elsif !@profile.resume.path.nil? %>
-                        <embed class='view_resume' src='/resume/<%= @student.id %>'></embed>
+                    <% elsif !@profile.resume.url.nil? %>
+                        <embed class='view_resume' src='/resume/<%= @student.resume.url %>'></embed>
                     <% end %>
                 </div>
             </div>
