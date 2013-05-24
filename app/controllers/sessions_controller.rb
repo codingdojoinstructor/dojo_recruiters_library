@@ -42,11 +42,7 @@ class SessionsController < ApplicationController
           flash[:result] = 'alert-success'
           student = Student.authenticate_email(params[:session][:email])
 
-          if student.nil?
-              flash[:notice] = "Email was sent to the email"
-          else
-              flash[:notice] = "Password Reset email was sent to " + params[:session][:email]
-          end
+          flash[:notice] = "Password Reset email was sent to " + params[:session][:email]
 
           respond_to do |format|
               if student.nil?
