@@ -25,7 +25,7 @@ class StudentsController < ApplicationController
       @profile = @student.student_profile
 
       file_name = @profile[:pdf_resume_file_name]
-      file_path = @profile.resume.url
+      file_path = @profile.resume.path
       data = File.open(file_path, 'rb'){|f| f.read}
 
       send_data data, :disposition => 'inline', :type => 'application/pdf'
@@ -120,7 +120,7 @@ class StudentsController < ApplicationController
 
     if is_recruiter? && inactive_recruiter?
         if current_user.status == 0
-            flash[:error] = "Your account is still inactive."
+            flash[:error] = "Your account is still inactive. We'll get back to you soon."
         else
             flash[:error] = "You must agree first in the terms and condition to perform this action. You have been logged out."
         end
