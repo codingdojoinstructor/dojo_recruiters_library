@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130522020119) do
+ActiveRecord::Schema.define(:version => 20130524071304) do
 
   create_table "favorites", :force => true do |t|
     t.integer  "recruiter_id"
@@ -37,7 +37,8 @@ ActiveRecord::Schema.define(:version => 20130522020119) do
     t.string   "title"
     t.integer  "engineers_managed"
     t.text     "terms_and_condition"
-    t.integer  "terms_status"
+    t.integer  "status"
+    t.string   "company_website"
   end
 
   create_table "skills", :force => true do |t|

@@ -3,7 +3,7 @@ require 'rubygems'
 require 'pdf/reader'
 
 class RecruitersController < ApplicationController
-  before_filter :require_login, :require_admin_access
+  before_filter :require_login, :require_admin_access, :only => [:index, :show, :new, :edit, :create, :update, :destroy, :display_terms, :term_approval]
 
   def index
     @recruiters = Recruiter.all
@@ -21,16 +21,10 @@ class RecruitersController < ApplicationController
     @recruiter = Recruiter.find(params[:id])
   end
 
-  def display_terms
-      file_path = PLACEMENT_TERMS_PATH
-      file_name = "Placement Terms"
-      data = File.open(file_path, 'rb'){|f| f.read}
-
-      send_data data, :disposition => 'inline', :type => 'application/pdf'
-  end
-
   def create
     @recruiter = Recruiter.new(params[:recruiter])
+    @recruiter.status = 2  # Newly added recruiter status but not yet logged in in the Recruiter's Library Site
+
     if @recruiter.save
       redirect_to @recruiter, notice: 'Recruiter was successfully created.'
     else
@@ -54,9 +48,17 @@ class RecruitersController < ApplicationController
     redirect_to recruiters_url
   end
 
+  def display_terms
+      file_path = PLACEMENT_TERMS_PATH
+      file_name = "Placement Terms"
+      data = File.open(file_path, 'rb'){|f| f.read}
+
+      send_data data, :disposition => 'inline', :type => 'application/pdf'
+  end
+
   def term_approval
-      if defined?(params[:recruiter][:terms_status]) && !params[:recruiter][:terms_status].nil? && params[:recruiter][:terms_status] != ''
-          if current_user.update_attributes(:terms_status => params[:recruiter][:terms_status])
+      if defined?(params[:recruiter][:status]) && !params[:recruiter][:status].nil? && params[:recruiter][:status] != ''
+          if current_user.update_attributes(:status => params[:recruiter][:status])
               message = ''
               PDF::Reader.open(PLACEMENT_TERMS_PATH) do |reader|
                   reader.pages.each do |page|
@@ -75,6 +77,41 @@ class RecruitersController < ApplicationController
           flash[:location] = nil
           flash[:message] = 'You have declined the terms and condition. You have been logged out.'
       end
+  end
+
+  def request_leads
+    flash[:action] = params[:form][:action]
+    flash[:result] = nil
+
+    if flash[:action] == 'request company profile'
+        @recruiter = Recruiter.new
+    elsif flash[:action] == 'submit company profile'
+        @recruiter = Recruiter.new(params[:recruiter])
+    elsif flash[:action] == 'request leads'
+        @recruiter = Recruiter.where(:email=>params[:recruiter][:email])
+
+        if @recruiter.length == 0
+
+            @recruiter = Recruiter.new(params[:recruiter])
+            @recruiter.status = 0
+            @recruiter.password = 123456
+            @recruiter.password_confirmation = 123456
+
+            if @recruiter.save
+                Emailer.new_leads(@recruiter).deliver
+                flash[:result] = 'success'
+            else
+                flash[:result] = 'internal server error occurred'
+            end
+        else
+            flash[:result] = 'recruiter exist'
+        end
+    end
+
+    respond_to do |format|
+        format.html
+        format.js
+    end
   end
 
   private

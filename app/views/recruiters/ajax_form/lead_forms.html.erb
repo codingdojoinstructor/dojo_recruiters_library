@@ -1,0 +1,75 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <% if result.nil? %>
+        <h3 class='title'>Find great software engineers</h3>
+  <% elsif result == 'success' || result == 'recruiter exist' %>
+        <h3 class='title'>Hello <%= recruiter.name %></h3>
+  <% else  %>
+        <h3 class='title'>Ooooops...</h3>
+        <% #recruiter.errors.full_messages %>
+  <% end %>
+</div>
+<div class="modal-body">
+  <% if result.nil? %>
+      <div class='step_box'>
+          <ul class='leads_step'>
+            <li>
+                <span class='encirle'>1</span>
+                <p>Request an invite and join our network</p>
+            </li>
+            <li>
+                <span class='encirle'>2</span>
+                <p>Learn more about students and what they have built</p>
+            </li>
+            <li>
+                <span class='encirle'>3</span>
+                <p>Get introduced and hire!</p>
+            </li>
+            <div class='clear'></div>
+          </ul>
+      </div>
+
+      <%= simple_form_for(recruiter,  :html=> {:class => 'form-inline company_profile'}, :url => :leads, :remote => true) do |f| %>
+          <% if action == 'request company profile' %>
+              <p>Join our network</p>
+              <%= f.input :name %>
+              <div class='clear'></div>
+              <%= f.input :company %>
+              <div class='clear'></div>
+              <%= f.input :engineers_managed %>
+              <div class='clear'></div>
+              <input type="hidden" id="action" class='span4' name="form[action]" value='submit company profile'>
+              <%= f.submit :value=>"Next", :class => 'btn btn-primary pull-right' %>
+              <div class='clear'></div>
+          <% elsif action == 'submit company profile' %>
+
+              <%= f.input :company_website %>
+              <div class='clear'></div>
+              <%= f.input :title %>
+              <div class='clear'></div>
+              <%= f.input :email %>
+              <div class='clear'></div>
+
+              <%= f.input :name, :as => :hidden %>
+              <%= f.input :company, :as => :hidden %>
+              <%= f.input :engineers_managed, :as => :hidden %>
+
+              <input type="hidden" id="action" class='span4' name="form[action]" value='request leads'>
+              <%= f.submit :value=>"Request an invite", :class => 'btn btn-primary pull-right' %>
+              <div class='clear'></div>
+          <% end %>
+      <% end %>
+  <% elsif result == 'success'  %>
+    <div class='alert alert-success'>
+      <p>Thank you for subscribing to CodingDojo's network. We'll come back to you soon!</p>
+    </div>
+  <% elsif result == 'internal server error occurred'  %>
+      <div class='alert alert-error'>
+        <p>Unexpected Internal Server Occure. Please contact the administrator: <span class='underline'>noahguillen@village88.com</span>. Thank You</p>
+      </div>
+  <% else  %>
+      <div class='alert alert-warning'>
+        <p>You are already subscribed to CodingDojo's network. Kindly wait as we get back to you.</p>
+      </div>
+  <% end %>
+</div>

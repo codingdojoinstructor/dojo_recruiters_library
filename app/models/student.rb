@@ -48,7 +48,8 @@ class Student < ActiveRecord::Base
       user = find_by_email(email)
 
       return nil if user.nil?
-      return user if user.id == id
+      return user if user.id == id and user.status != 0 #Only active recruiter can change the password
+      return nil
   end
 
 

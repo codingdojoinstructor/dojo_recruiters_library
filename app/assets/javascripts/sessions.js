@@ -102,5 +102,10 @@ $(document).ready(function(){
         return false;
     });
 
+    $("a.new_leads").click(function(e){
+        e.preventDefault();
+        $.post(this.getAttribute('data-link'), "form[action]="+this.getAttribute('data-action'), null, "script")
+    });
+
 });
 

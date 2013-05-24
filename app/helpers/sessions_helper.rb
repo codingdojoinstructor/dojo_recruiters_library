@@ -34,7 +34,7 @@ module SessionsHelper
   end
 
   def inactive_recruiter?
-      current_user.terms_status != 1
+      current_user.status != 1
   end
 
 

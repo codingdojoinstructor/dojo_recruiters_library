@@ -1,0 +1,22 @@
+
+var modal = $("div#modal");
+
+$(modal).modal({
+    keyboard: false,
+    backdrop: 'static'
+});
+
+
+$(modal).html('<%= escape_javascript(render :template => "recruiters/ajax_form/lead_forms.html.erb", :formats => [:html], :locals => {:action => flash[:action], :recruiter => @recruiter, :result => flash[:result]} ) %>');
+
+$(modal).children('div.modal-body').css('max-height', '400px');
+
+//VERTICAL ALIGNMENT
+var modal_height = $(modal).height();
+var height = 625;
+
+var modal_top = (height / 2) - (modal_height / 2);
+
+$(modal).css('top', modal_top + "px");
+
+$(modal).modal('show');

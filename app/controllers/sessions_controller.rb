@@ -1,9 +1,7 @@
 class SessionsController < ApplicationController
   def new
       if signed_in?
-          if defined?(current_user.terms_status)  and current_user.terms_status != 1
-
-          else
+          if (!is_recruiter?) or (is_recruiter? and !inactive_recruiter?)
               redirect_to students_path
           end
       end
@@ -20,7 +18,7 @@ class SessionsController < ApplicationController
       else
         sign_in_recruiter recruiter
 
-        if recruiter.terms_status.nil? or recruiter.terms_status != 1
+        if recruiter.status == 2
             flash[:location] = 'terms'
         else
             flash[:location] = students_path
@@ -42,11 +40,7 @@ class SessionsController < ApplicationController
           flash[:result] = 'alert-success'
           student = Student.authenticate_email(params[:session][:email])
 
-          if student.nil?
-              flash[:notice] = "Email was sent to the email"
-          else
-              flash[:notice] = "Password Reset email was sent to " + params[:session][:email]
-          end
+          flash[:notice] = "Password Reset email was sent to " + params[:session][:email]
 
           respond_to do |format|
               if student.nil?

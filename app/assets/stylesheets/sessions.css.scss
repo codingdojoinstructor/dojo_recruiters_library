@@ -127,3 +127,82 @@ div#modal  form.approve_terms{
     div#modal  form.approve_terms div.controls{
       margin-left: 0!important;
     }
+
+div.lead_form{
+  width: 424px;
+}
+
+ul.leads_step{
+  margin: 0px auto;
+  padding: 5px 0 5px 15px;
+  list-style-type: none;
+  width: 500px;
+}
+
+    ul.leads_step li{
+      float: left;
+      width: 134px;
+      text-align: center;
+      padding: 20px 5px 10px 5px;
+      border: 1px solid #ddd;
+      margin: 10px 5px;
+      height: 110px;
+    }
+
+        ul.leads_step li span{
+            background: #aaa;
+            color: #fff;
+            font-size: 12px;
+            font-weight: bold;
+            line-height: 12px;
+            margin-right: 5px;
+            margin-top: 5px;
+            padding: 5px 9px;
+            width: 12px;
+            opacity: .75;
+            -webkit-border-radius: 12px;
+            -moz-border-radius: 12px;
+            border-radius: 12px;
+          }
+
+          ul.leads_step li p{
+            margin-top: 22px;
+          }
+
+#modal form.company_profile{
+  margin:0px 0px 0px 20px;
+
+  width: 450px!important;
+}
+
+#modal form.company_profile div.string,
+#modal form.company_profile div.email,
+#modal form.company_profile div.integer{
+  margin: 5px;
+}
+
+  #modal form.company_profile label{
+     float: left;
+     line-height: 30px;
+   }
+
+  #modal form.company_profile input[type=text],
+  #modal form.company_profile input[type='email'],
+  #modal form.company_profile input[type='number']{
+    float: right;
+  }
+
+#modal form.company_profile input.btn{
+    margin: 10px 5px;
+}
+
+#modal form.company_profile p{
+  font-weight: bold;
+  font-size: 16px;
+  text-decoration: underline;
+  margin-bottom: 5px;
+}
+
+#modal div.step_box{
+  width: 525px;
+}

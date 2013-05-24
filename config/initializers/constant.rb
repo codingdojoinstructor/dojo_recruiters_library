@@ -1,2 +1,8 @@
+#TERMS AND CONDTION PDF FILE PATH
 PLACEMENT_TERMS_PATH = 'doc/placement_terms.pdf'
+
+#SECRET KEY FOR CHANGE PASSWORD LINK
 SECRET = Digest::SHA1.hexdigest("codingDojoLibrary")
+
+#EMAILS FOR NEW LEADS
+CODINGDOJO_MASTER = 'jsupsupin@village88.com'

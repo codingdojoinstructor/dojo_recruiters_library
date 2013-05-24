@@ -7,7 +7,10 @@
     <th>Email</th>
     <th>Title</th>
     <th>Company</th>
+    <th>Website</th>
     <th>No. of Engineers</th>
+    <th></th>
+    <th></th>
     <th></th>
   </tr>
 
@@ -17,6 +20,7 @@
     <td><%= recruiter.email %></td>
     <td><%= recruiter.title %></td>
     <td><%= recruiter.company %></td>
+    <td><%= recruiter.company_website %></td>
     <td><%= recruiter.engineers_managed %></td>
     <td><%= link_to 'Show', recruiter, :class=>'btn btn-primary' %></td>
     <td><%= link_to 'Edit', edit_recruiter_path(recruiter), :class=>'btn' %></td>

@@ -15,6 +15,8 @@ Codingdojo::Application.routes.draw do
 
  match "/terms",  :to => 'recruiters#term_approval'
 
+ match "/leads",  :to => 'recruiters#request_leads'
+
  root :to => 'sessions#new'
 
   # The priority is based upon order of creation:

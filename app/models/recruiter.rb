@@ -1,7 +1,7 @@
 class Recruiter < ActiveRecord::Base
 
   attr_accessor :password
-  attr_accessible :name, :email, :password, :password_confirmation, :individual_description, :company, :company_description, :title, :engineers_managed, :terms_status, :terms_and_condition
+  attr_accessible :name, :email, :password, :password_confirmation, :individual_description, :company, :company_description, :title, :engineers_managed, :status, :terms_and_condition, :company_website
 
   email_regex = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]+)\z/i
 

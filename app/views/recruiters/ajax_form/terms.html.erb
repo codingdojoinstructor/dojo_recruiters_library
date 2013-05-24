@@ -8,7 +8,7 @@
   <%= simple_form_for(:term_approval, :html=> {:class => 'form-horizontal approve_terms'}, :url => terms_path, :remote => true) do |f| %>
       <div class='control-group form-inline'>
         <div class='controls'>
-          <label class='checkbox'> <input type="checkbox" value='1' name="recruiter[terms_status]">I have read and agreed to the following terms and conditions</label>
+          <label class='checkbox'> <input type="checkbox" value='1' name="recruiter[status]">I have read and agreed to the following terms and conditions</label>
           <input type="hidden" id="action" class='span4' name="recruiter[action]" value='send_form'>
           <input type="submit" class='btn btn-info pull-right' value="Continue">
           <div class="clear"></div>

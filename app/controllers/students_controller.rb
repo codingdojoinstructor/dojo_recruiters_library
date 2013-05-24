@@ -118,9 +118,14 @@ class StudentsController < ApplicationController
       redirect_to signin_path
     end
 
-    if defined?(current_user.terms_status) && inactive_recruiter?
+    if is_recruiter? && inactive_recruiter?
+        if current_user.status == 0
+            flash[:error] = "Your account is still inactive."
+        else
+            flash[:error] = "You must agree first in the terms and condition to perform this action. You have been logged out."
+        end
+
         sign_out
-        flash[:error] = "You must agree first in the terms and condition to perform this action. You have been logged out."
         redirect_to signin_path
     end
 

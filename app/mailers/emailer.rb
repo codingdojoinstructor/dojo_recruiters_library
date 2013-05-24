@@ -4,8 +4,8 @@ class Emailer < ActionMailer::Base
     def email_verification_password(user)
         @user = user
         @url  = "http://codingdojo.herokuapp.com"
-        #@link  = "http://codingdojo.herokuapp.com/change_password/"
-        @link  = "http://localhost:3000/change_password/"
+        @link  = "http://codingdojo.herokuapp.com/change_password/"
+        #@link  = "http://localhost:3000/change_password/"
 
         secret = Digest::SHA1.hexdigest("codingDojoLibrary")
 
@@ -25,5 +25,10 @@ class Emailer < ActionMailer::Base
         @url  = "http://codingdojo.herokuapp.com"
 
         mail(:to => user.email, :subject => "Coding Dojo Recruiters Library, Your password has changed")
+    end
+
+    def new_leads(recruiter)
+        @recruiter = recruiter
+        mail(:to => CODINGDOJO_MASTER, :subject => "Coding Dojo Recruiters Library, New Recruiter Request")
     end
 end
