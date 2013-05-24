@@ -2,8 +2,10 @@
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
   <% if result.nil? %>
         <h3 class='title'>Find great software engineers</h3>
-  <% elsif result == 'success' || result == 'recruiter exist' %>
+  <% elsif result == 'success'%>
         <h3 class='title'>Hello <%= recruiter.name %></h3>
+  <% elsif result result == 'recruiter exist'%>
+        <h3 class='title'>Hello <%= recruiter[0].name %></h3>
   <% else  %>
         <h3 class='title'>Ooooops...</h3>
         <% #recruiter.errors.full_messages %>
