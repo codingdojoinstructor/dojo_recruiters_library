@@ -112,7 +112,7 @@
                     <% if !@profile.resume_url.nil? %>
                         <embed class='view_resume' src='<%= @profile.resume_url %>'></embed>
                     <% elsif !@profile.resume.url.nil? %>
-                        <embed class='view_resume' src='<%= @student.resume.url %>'></embed>
+                        <embed class='view_resume' src='<%= @profile.resume.url %>'></embed>
                     <% end %>
                 </div>
             </div>
