@@ -16,6 +16,7 @@ group :production do
 end
 
 gem "paperclip", "~> 3.4.1"
+gem 'aws-sdk'
 gem "pdf-reader"
 
 gem 'bootstrap-sass', '~> 2.3.1.0'
