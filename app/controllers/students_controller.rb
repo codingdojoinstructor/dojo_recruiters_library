@@ -25,7 +25,7 @@ class StudentsController < ApplicationController
       @profile = @student.student_profile
 
       file_name = @profile[:pdf_resume_file_name]
-      file_path = @profile.resume.path
+      file_path = @profile.resume.url
       data = File.open(file_path, 'rb'){|f| f.read}
 
       send_data data, :disposition => 'inline', :type => 'application/pdf'
