@@ -1,54 +1,163 @@
+<% content_for :jquery do %>
+    <script>
+        $.tablesorter.addParser({
+            // set a unique id
+            id: 'sort_by_value',
+            is: function(s) {
+                // return false so this parser is not auto detected
+                return false;
+            },
+            format: function(s, element) {
+                // format your data for normalization
+                s = $(element).children('tbody').children('tr').children('td').attr('data-value')
+                return s;
+            },
+            // set type, either numeric or text
+            type: 'numeric'
+        });
+
+        $(document).ready(function(){
+            $("table#recruiter_activities").tablesorter(
+              {
+                  widgets : ['uitheme'],
+                  headers: {
+                    0: { sorting: 'sort_by_value'},
+                    2: { sorting: 'sort_by_value'}
+                  },
+                  headerTemplate : '{content} {icon}' // new in v2.7. Needed to add the bootstrap icon!
+              }
+            );
+        });
+    </script>
+<% end %>
+
+
+
+<div class='recruiter_profile'>
+    <p><a href="<%= recruiters_path %>">Recruiters</a> > <%= @recruiter.name %></p>
+    <p id="notice"><%= notice %></p>
+
+    <div class='recruiter_information'>
+       <h2><%= @recruiter.name %></h2>
+       <h4><%= @recruiter.title %> - <%= @recruiter.email %></h4>
+    </div>
+</div>
 <div id='alt_wrapper'>
-<p id="notice"><%= notice %></p>
+    <div class='company_information'>
+        <h5><%= @recruiter.name %> is from <%= @recruiter.company %> <%= @recruiter.company_website.nil? ? '' : "(#{@recruiter.company_website})" %> and currently managing <%= "#{@recruiter.engineers_managed} " "engineer".pluralize(@recruiter.engineers_managed) %>. </h5>
+        <div>
+           <p><b>Company Description</b></p>
+           <p class='paragraph'><small><%= @recruiter.company_description %></small></p>
+        </div>
+        <div>
+           <p><b>Individual Description</b></p>
+           <p class='paragraph'><small><%= @recruiter.individual_description %></small></p>
+        </div>
+    </div>
+    <div>
+        <%= link_to 'Edit Information', edit_recruiter_path(@recruiter), :class=>'btn btn-primary pull-right' %>
+        <div class='clear'></div>
+    </div>
+</div>
+<div id='alt_wrapper'>
+    <div class='recruiter_activities'>
+        <div class='title'>
+            <h4 class='pull-left'>Recruiter Activities</h4>
+            <p class='group_filter pull-right'>Group By:
+                <span>
+                    <% if defined?(params[:filter]) && params[:filter] == 'group_by_student'
+                           group_by_date   = ''
+                           group_by_student = 'active'
+                       else
+                           group_by_date   = 'active'
+                           group_by_student = ''
+                       end
+                    %>
 
-<p>
-  <b>Name:</b>
-  <%= @recruiter.name %>
-</p>
+                    <%= link_to 'Date', @recruiter, :class=>group_by_date %> |
+                    <%= link_to 'Student', recruiter_filter_path(@recruiter, :filter => 'group_by_student'), :class=> group_by_student %>
+                </span>
+            </p>
+            <div class='clear'></div>
+        </div>
+        <table id='recruiter_activities' class="table tablesorter recruiter_activities">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Student</th>
+                    <th>Total Time Spent</th>
+                </tr>
+            </thead>
+            <tbody>
+            <%
+               if defined?(params[:filter]) && params[:filter] == 'group_by_student'
+                   group_filter = "student_id"
+               else
+                    group_filter = "DATE(created_at), student_id"
+               end
 
-<p>
-  <b>Email:</b>
-  <%= @recruiter.email %>
-</p>
+               @recruiter.recruiter_views.all(:order => "created_at desc, student_id asc", :group => group_filter).each do |recruiter_view|
+                     student = @recruiter.students.find(recruiter_view.student_id)
 
-<p>
-    <b>Title:</b>
-    <%= @recruiter.title %>
-</p>
+                     if defined?(params[:filter]) && params[:filter] == 'group_by_student'
+                         recruiter_student_from = @recruiter.recruiter_views.where(:student_id=>recruiter_view.student_id).first
+                         recruiter_student_to   = @recruiter.recruiter_views.where(:student_id=>recruiter_view.student_id).last
+                         total = @recruiter.recruiter_views.get_total_hours(nil, student.id)
 
+                         date_value = recruiter_student_from.created_at.strftime("%Y-%m-%d 00:00:00").to_time.to_i
 
- <p>
-  <b>Company:</b>
-  <%= @recruiter.company %>
-</p>
+                         if recruiter_student_from.created_at.strftime("%Y") == recruiter_student_to.created_at.strftime("%Y")
+                            if recruiter_student_from.created_at.strftime("%m") == recruiter_student_to.created_at.strftime("%m")
+                                if recruiter_student_from.created_at.strftime("%d") == recruiter_student_to.created_at.strftime("%d")
+                                    date_text = recruiter_student_from.created_at.strftime("%B %d, %Y")
+                                else
+                                    date_text = recruiter_student_from.created_at.strftime("%B %d") + " - " + recruiter_student_to.updated_at.strftime("%d, %Y")
+                                end
+                            else
+                                date_text = recruiter_student_from.created_at.strftime("%B %d") + " - " + recruiter_student_to.updated_at.strftime("%B %d, %Y")
+                            end
+                         else
+                             date_text = recruiter_student_from.created_at.strftime("%B %d, %Y") + " - " + recruiter_student_to.updated_at.strftime("%B %d, %Y")
+                         end
+                     else
+                         total = @recruiter.recruiter_views.get_total_hours(recruiter_view.created_at, student.id)
 
-  <p>
-    <b>Company Website:</b>
-    <%= @recruiter.company_website %>
-  </p>
+                         date_value = recruiter_view.created_at.strftime("%Y-%m-%d 00:00:00").to_time.to_i
+                         date_text = recruiter_view.created_at.strftime("%B %d, %Y")
+                     end
 
-
-  <p>
-    <b>No. of Engineers:</b>
-    <%= @recruiter.engineers_managed %>
-</p>
-
-<% if !@recruiter.company_description.nil? and @recruiter.company_description != '' %>
-    <p>
-      <b>Company Description:</b>
-      <%= @recruiter.company_description %>
-    </p>
-<% end %>
-
-<% if !@recruiter.individual_description.nil? and @recruiter.individual_description != '' %>
-    <p>
-      <b>Individual Description:</b>
-      <%= @recruiter.individual_description %>
-      </p>
-<% end %>
-
-
-<%= link_to 'Edit', edit_recruiter_path(@recruiter) %> |
-<%= link_to 'Back', recruiters_path %>
-
+                    if total[:total] > 0
+            %>
+                        <tr id='recruiter_<%=recruiter_view.id%>'>
+                            <td data-value='<%= date_value %>'>
+                                <p><small><%= date_text %></small></p>
+                            </td>
+                            <td>
+                                <img class='pull-left' src='<%= student.student_profile.image_src.nil? || student.student_profile.image_src == "" ? student.student_profile.avatar.url(:thumb) : student.student_profile.image_src %>'>
+                                <p class='pull-left student_name'><%= student.name %></p>
+                                <div class='clear'></div>
+                            </td>
+                            <td data-value='<%=total[:total]%>'>
+                                <p>
+                                    <% if(total[:total_hours] > 0) %>
+                                        <small><%=total[:total_hours_text]%></small>
+                                    <% end %>
+                                    <% if(total[:total_minutes] > 0) %>
+                                        <small><%=total[:total_minutes_text]%></small>
+                                    <% end %>
+                                    <% if(total[:total_seconds] > 0) %>
+                                        <small>
+                                        <% if(total[:total_minutes] > 0 || total[:total_hours] > 0) %>
+                                            and
+                                        <% end %>
+                                        <%=total[:total_seconds_text]%></small>
+                                    <% end %>
+                                </p>
+                            </td>
+                        </tr>
+                    <% end %>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
 </div>

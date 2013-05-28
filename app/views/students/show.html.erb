@@ -8,8 +8,29 @@
             $('#profile_tab a').click(function (e) {
                 e.preventDefault();
                 $(this).tab('show');
-            })
+            });
+
+            <% if is_recruiter? %>
+                    $(window).bind('beforeunload', function () {
+                        $.ajax({
+                            url: '<%= recruiter_view_path(@recruiter_view.id) %>',
+                            type: 'PUT',
+                            data: '&action=update_recruiter_view',
+                            success: function(data) {
+                                //DO NOTHING
+                            },
+                            async : false
+                        });
+                    });
+
+                    $(window).bind('load', function () {
+
+                    });
+            <% end %>
         });
+
+
+
     </script>
 <% end %>
 

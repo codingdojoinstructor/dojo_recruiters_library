@@ -1,9 +1,14 @@
 class Recruiter < ActiveRecord::Base
 
+  has_many :recruiter_views
+  has_many :students, :as => :candidate, :through => :recruiter_views
+
   attr_accessor :password
   attr_accessible :name, :email, :password, :password_confirmation, :individual_description, :company, :company_description, :title, :engineers_managed, :status, :terms_and_condition, :company_website
 
   email_regex = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]+)\z/i
+
+  validates :company,	:presence 	=> true
 
   validates :name,	:presence 	=> true,
   					:length  	=> { :maximum => 50 }

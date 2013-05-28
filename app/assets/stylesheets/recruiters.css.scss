@@ -1,3 +1,51 @@
 // Place all the styles related to the Recruiters controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+div.recruiter_profile h4{
+  color: #777777;
+  margin-bottom: 15px;
+}
+
+  table.table.recruiter_activities p{
+  margin: 10px 0;
+}
+
+table.table.recruiter_activities img{
+  margin-right: 10px;
+  width: 50px;
+}
+
+table.table.recruiter_activities th{
+  font-weight: bold;
+}
+
+table.table.recruiter_activities i.tablesorter-icon{
+  float: right;
+  display: inline-block;
+}
+
+div.recruiter_activities p.group_filter{
+  margin: 10px 3px 0 0;
+  font-weight: bold;
+}
+
+  div.recruiter_activities p.group_filter span{
+    margin-left: 5px;
+    font-weight: normal;
+  }
+
+      div.recruiter_activities p.group_filter span  a.active{
+        color: #000;
+      }
+
+      div.recruiter_activities p.group_filter  span a.active:hover{
+          text-decoration: none;
+      }
+
+p.paragraph{
+  text-indent: 30px;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+

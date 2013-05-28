@@ -3,6 +3,9 @@ class Student < ActiveRecord::Base
 
   has_many :student_skills
   has_many :skills, :through=> :student_skills
+
+  has_many :recruiter_views
+  has_many :recruiters, :through => :recruiter_views
   
   attr_accessor :password
   attr_accessible :email, :password, :password_confirmation, :hired_company, :hired_date, :location, :name, :status

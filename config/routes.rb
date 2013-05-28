@@ -1,5 +1,7 @@
 Codingdojo::Application.routes.draw do
 
+  get "recruiter_view/create"
+
  resources :students, :recruiters
  resources :sessions, :only => [:new, :create, :request_password, :change_password, :update_password, :destroy]
 
@@ -16,6 +18,11 @@ Codingdojo::Application.routes.draw do
  match "/terms",  :to => 'recruiters#term_approval'
 
  match "/leads",  :to => 'recruiters#request_leads'
+
+
+ match "/recruiter_view/:id",  :to => 'recruiters#update_view', :as => 'recruiter_view'
+
+ match '/recruiters/:id/:filter', :as => 'recruiter_filter', :controller => 'recruiters', :action => 'show', :conditions => { :method => :get }
 
  root :to => 'sessions#new'
 

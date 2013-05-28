@@ -1,4 +1,5 @@
 require 'open-uri'
+require 'net/http'
 
 class StudentsController < ApplicationController
   include StudentsHelper
@@ -13,11 +14,43 @@ class StudentsController < ApplicationController
     else
       @students = Student.where("status > ?", 0)
     end
+
+    if is_recruiter?
+        @recruiter_views = RecruiterView.where(:recruiter_id => current_user.id, :status => 0)
+
+        @recruiter_views.each do |recruiter_view|
+            recruiter_view.status = 1
+            recruiter_view.updated_at = recruiter_view.updated_at
+            recruiter_view.save
+        end
+    end
+
   end
 
   def show
     @student = Student.find(params[:id])
     @profile = @student.student_profile
+
+    if is_recruiter?
+        if !Net::HTTPNotModified
+            @recruiter_views = RecruiterView.where(:recruiter_id => current_user.id, :student_id => @student.id, :status => 0)
+            @recruiter_views.status = 1
+            @recruiter_views.updated_at = Time.now
+            @recruiter_views.save
+        end
+
+        @recruiter_views = RecruiterView.where(:recruiter_id => current_user.id, :status => 0).last
+
+        if @recruiter_views.nil?
+            @recruiter_view = RecruiterView.new(:student_id => @student.id, :recruiter_id => current_user.id, :status => 0)
+            @recruiter_view.save
+        elsif @recruiter_views.student_id != @student.id
+            @recruiter_view = RecruiterView.new(:student_id => @student.id, :recruiter_id => current_user.id, :status => 0)
+            @recruiter_view.save
+        else
+            @recruiter_view = @recruiter_views
+        end
+    end
   end
 
   def display_resume

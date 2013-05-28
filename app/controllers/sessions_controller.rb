@@ -122,7 +122,17 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-  	sign_out
+    if is_recruiter?
+        recruiter_views = RecruiterView.where(:recruiter_id => current_user.id, :status => 0)
+
+        recruiter_views.each do |recruiter_view|
+            recruiter_view.status = 1
+            recruiter_view.updated_at = recruiter_view.updated_at
+            recruiter_view.save
+        end
+    end
+
+    sign_out
     redirect_to signin_path
   end
 
