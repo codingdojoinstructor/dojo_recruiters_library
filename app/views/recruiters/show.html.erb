@@ -96,7 +96,7 @@
             <%
                if defined?(params[:filter]) && params[:filter] == 'group_by_student'
                    group_filter = "student_id"
-                   select_columns = 'COUNT(id), COUNT(recruiter_id), student_id, MIN(created_at) as created_at_from, MAX(created_at) as created_at_to , MAX(updated_at) as updated_at_to'
+                   select_columns = 'COUNT(id), COUNT(recruiter_id), student_id, MIN(created_at) as created_at, MAX(created_at) as created_at_to , MAX(updated_at) as updated_at_to'
                else
                     group_filter = "DATE(created_at), student_id"
                     select_columns = 'COUNT(id), COUNT(recruiter_id), student_id, MAX(created_at) as created_at, MAX(updated_at) as updated_at'
@@ -109,20 +109,20 @@
                      if defined?(params[:filter]) && params[:filter] == 'group_by_student'
                          total = @recruiter.recruiter_views.get_total_hours(nil, student.id)
 
-                         date_value = recruiter_view.created_at_from.to_time.strftime("%Y-%m-%d 00:00:00").to_time.to_i
+                         date_value = recruiter_view.created_at.to_time.strftime("%Y-%m-%d 00:00:00").to_time.to_i
 
-                         if recruiter_view.created_at_from.to_time.strftime("%Y") == recruiter_view.created_at_to.to_time   .strftime("%Y")
-                            if recruiter_view.created_at_from.to_time.strftime("%m") == recruiter_view.created_at_to.to_time.strftime("%m")
-                                if recruiter_view.created_at_from.to_time.strftime("%d") == recruiter_view.created_at_to.to_time.strftime("%d")
-                                    date_text = recruiter_view.created_at_from.to_time.strftime("%B %d, %Y")
+                         if recruiter_view.created_at.to_time.strftime("%Y") == recruiter_view.created_at_to.to_time   .strftime("%Y")
+                            if recruiter_view.created_at.to_time.strftime("%m") == recruiter_view.created_at_to.to_time.strftime("%m")
+                                if recruiter_view.created_at.to_time.strftime("%d") == recruiter_view.created_at_to.to_time.strftime("%d")
+                                    date_text = recruiter_view.created_at.to_time.strftime("%B %d, %Y")
                                 else
-                                    date_text = recruiter_view.created_at_from.to_time.strftime("%B %d") + " - " + recruiter_view.updated_at_to.to_time.strftime("%d, %Y")
+                                    date_text = recruiter_view.created_at.to_time.strftime("%B %d") + " - " + recruiter_view.updated_at_to.to_time.strftime("%d, %Y")
                                 end
                             else
-                                date_text = recruiter_view.created_at_from.to_time.strftime("%B %d") + " - " + recruiter_view.updated_at_to.to_time.strftime("%B %d, %Y")
+                                date_text = recruiter_view.created_at.to_time.strftime("%B %d") + " - " + recruiter_view.updated_at_to.to_time.strftime("%B %d, %Y")
                             end
                          else
-                             date_text = recruiter_view.created_at_from.to_time.strftime("%B %d, %Y") + " - " + recruiter_view.updated_at_to.to_time.strftime("%B %d, %Y")
+                             date_text = recruiter_view.created_at.to_time.strftime("%B %d, %Y") + " - " + recruiter_view.updated_at_to.to_time.strftime("%B %d, %Y")
                          end
                      else
                          total = @recruiter.recruiter_views.get_total_hours(recruiter_view.created_at, student.id)
