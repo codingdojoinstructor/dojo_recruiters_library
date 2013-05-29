@@ -17,16 +17,18 @@
         });
 
         $(document).ready(function(){
-            $("table#recruiter_activities").tablesorter(
-              {
-                  widgets : ['uitheme'],
-                  headers: {
-                    0: { sorting: 'sort_by_value'},
-                    2: { sorting: 'sort_by_value'}
-                  },
-                  headerTemplate : '{content} {icon}' // new in v2.7. Needed to add the bootstrap icon!
-              }
-            );
+            if($("table#recruiter_activities").find("tr").size() > 1){
+                $("table#recruiter_activities").tablesorter(
+                  {
+                      widgets : ['uitheme'],
+                      headers: {
+                        0: { sorting: 'sort_by_value'},
+                        2: { sorting: 'sort_by_value'}
+                      },
+                      headerTemplate : '{content} {icon}' // new in v2.7. Needed to add the bootstrap icon!
+                  }
+                );
+            }
         });
     </script>
 <% end %>
