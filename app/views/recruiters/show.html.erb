@@ -1,19 +1,21 @@
 <% content_for :jquery do %>
     <script>
-        $.tablesorter.addParser({
-            // set a unique id
-            id: 'sort_by_value',
-            is: function(s) {
-                // return false so this parser is not auto detected
-                return false;
-            },
-            format: function(s, element) {
-                // format your data for normalization
-                s = $(element).children('tbody').children('tr').children('td').attr('data-value')
-                return s;
-            },
-            // set type, either numeric or text
-            type: 'numeric'
+        $(function(){
+            $.tablesorter.addParser({
+                // set a unique id
+                id: 'sort_by_value',
+                is: function(s) {
+                    // return false so this parser is not auto detected
+                    return false;
+                },
+                format: function(s, element) {
+                    // format your data for normalization
+                    s = $(element).children('tbody').children('tr').children('td').attr('data-value');
+                    return s;
+                },
+                // set type, either numeric or text
+                type: 'numeric'
+            });
         });
 
         $(document).ready(function(){
@@ -94,11 +96,15 @@
             <%
                if defined?(params[:filter]) && params[:filter] == 'group_by_student'
                    group_filter = "student_id"
+                   select_columns = 'id, recruiter_id, student_id'
                else
                     group_filter = "DATE(created_at), student_id"
+                    select_columns = 'id, recruiter_id, student_id, created_at, updated_at'
                end
 
-               @recruiter.recruiter_views.all(:order => "created_at desc, student_id asc", :group => group_filter).each do |recruiter_view|
+               recruiter_views = @recruiter.recruiter_views.all
+
+               recruiter_views.all(:select=> select_columns, :order => "created_at desc, student_id asc", :group => group_filter).each do |recruiter_view|
                      student = @recruiter.students.find(recruiter_view.student_id)
 
                      if defined?(params[:filter]) && params[:filter] == 'group_by_student'
