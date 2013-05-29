@@ -96,10 +96,10 @@
             <%
                if defined?(params[:filter]) && params[:filter] == 'group_by_student'
                    group_filter = "student_id"
-                   select_columns = 'COUNT(id), recruiter_id, student_id, MIN(created_at) as created_at_from, MAX(created_at) as created_at_to , MAX(updated_at) as updated_at_to'
+                   select_columns = 'COUNT(id), COUNT(recruiter_id), student_id, MIN(created_at) as created_at_from, MAX(created_at) as created_at_to , MAX(updated_at) as updated_at_to'
                else
                     group_filter = "DATE(created_at), student_id"
-                    select_columns = 'COUNT(id), recruiter_id, student_id, MAX(created_at) as created_at, updated_at'
+                    select_columns = 'COUNT(id), COUNT(recruiter_id), student_id, MAX(created_at) as created_at, MAX(updated_at) as updated_at'
                end
 
                @recruiter.recruiter_views.all(:select=> select_columns, :order => "created_at desc, student_id asc", :group => group_filter).each do |recruiter_view|
