@@ -95,14 +95,14 @@
             <tbody>
             <%
                if defined?(params[:filter]) && params[:filter] == 'group_by_student'
-                   group_filter = "student_id"
+                   group_filter = "id, student_id"
                    select_columns = 'id, recruiter_id, student_id'
                else
-                    group_filter = "DATE(created_at), student_id"
+                    group_filter = "id, DATE(created_at), student_id"
                     select_columns = 'id, recruiter_id, student_id, created_at, updated_at'
                end
 
-               @recruiter.recruiter_views.unscoped.all(:select=> select_columns, :order => "created_at desc, student_id asc", :group => group_filter).each do |recruiter_view|
+               @recruiter.recruiter_views.all(:select=> select_columns, :order => "created_at desc, student_id asc", :group => group_filter).each do |recruiter_view|
 
                      student = @recruiter.students.find(recruiter_view.student_id)
 
