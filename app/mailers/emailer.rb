@@ -31,4 +31,15 @@ class Emailer < ActionMailer::Base
         @recruiter = recruiter
         mail(:to => CODINGDOJO_MASTER, :subject => "Coding Dojo Recruiters Library, New Recruiter Request")
     end
+
+    def send_introduction_email(student, recruiter)
+        @recruiter = recruiter
+        @student   = student
+
+        mail(:to => @student.email,
+             :subject => @student.title,
+             :reply_to => @recruiter.email) do |format|
+             format.html
+        end
+    end
 end

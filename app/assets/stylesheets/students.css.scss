@@ -388,3 +388,62 @@ form.upload_resume input[type='text']{
       }
 
 
+#modal{
+  width: 530px;
+}
+
+#modal form.get_introduce{
+  margin:0px 0px 0px 20px;
+
+  width: 450px!important;
+}
+
+#modal form.get_introduce div.string,
+#modal form.get_introduce div.text,
+#modal form.get_introduce div.email,
+#modal form.get_introduce div.integer{
+  margin: 5px;
+}
+
+#modal form.get_introduce label{
+  float: left;
+  line-height: 30px;
+  color: #000;
+  margin-right: 10px;
+  width: 66px;
+}
+
+#modal form.get_introduce input[type=text],
+#modal form.get_introduce input[type='email'],
+#modal form.get_introduce textarea,
+#modal form.get_introduce input[type='number']{
+  float: left;
+  margin-right: 0px;
+  width: 340px;
+}
+
+#modal form.get_introduce textarea{
+    max-height: 200px;
+    max-width: 340px;
+    min-width: 340px;
+}
+
+#modal form.get_introduce input.btn{
+  margin: 10px 5px;
+}
+
+#modal form.get_introduce p{
+  font-weight: bold;
+  font-size: 16px;
+  text-decoration: underline;
+  margin-bottom: 5px;
+}
+
+#modal form.get_introduce input.btn{
+  margin: 10px 16px 10px 5px;
+}
+
+#modal div.alert{
+  width: 414px;
+  margin-left: 20px;
+}

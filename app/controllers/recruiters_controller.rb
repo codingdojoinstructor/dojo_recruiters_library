@@ -121,6 +121,27 @@ class RecruitersController < ApplicationController
     end
   end
 
+  def get_introduce
+      @student = Student.find(params[:id])
+
+      if defined?(params[:form][:action]) && params[:form][:action] == 'send_email'
+
+          @student.title         = params[:student][:title]
+          @student.message       = params[:student][:message]
+
+          Emailer.send_introduction_email(@student, current_user).deliver
+          flash[:result] = 'success'
+      else
+          flash[:result] = nil
+      end
+
+      respond_to do |format|
+          format.html
+          format.js
+      end
+  end
+
+
   private
 
   def require_login

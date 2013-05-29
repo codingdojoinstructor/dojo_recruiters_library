@@ -1,0 +1,13 @@
+$("div#modal").html('<%= escape_javascript(render :template => "recruiters/ajax_form/get_introduce.html.erb", :formats  => [:html], :locals   => {:result => flash[:result], :student => @student }) %>')
+
+$(modal).children('div.modal-body').css('max-height', '400px');
+
+//VERTICAL ALIGNMENT
+var modal_height = $(modal).height();
+var height = 625;
+
+var modal_top = (height / 2) - (modal_height / 2);
+
+$(modal).css('top', modal_top + "px");
+
+$(modal).modal('show');

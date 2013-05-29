@@ -24,6 +24,8 @@ Codingdojo::Application.routes.draw do
 
  match '/recruiters/:id/:filter', :as => 'recruiter_filter', :controller => 'recruiters', :action => 'show', :conditions => { :method => :get }
 
+ match '/recruiter/student/:id', :as => 'send_email_to_student', :controller => 'recruiters', :action => 'get_introduce'
+
  root :to => 'sessions#new'
 
   # The priority is based upon order of creation:

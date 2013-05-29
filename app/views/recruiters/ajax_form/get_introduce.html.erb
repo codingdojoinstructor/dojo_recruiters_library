@@ -1,0 +1,23 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <h3 class='title'><% if result != 'success' %> Get Introduce to <%=student.name %><% end %></h3>
+</div>
+<div class="modal-body">
+    <% if result != 'success' %>
+        <%= simple_form_for(student,  :html=> {:class => 'form-inline get_introduce'}, :url => :send_email_to_student, :remote => true) do |f| %>
+              <%= f.input :title, label: "Title", required: true %>
+              <div class='clear'></div>
+              <%= f.input :message, label: "Message", :as => :text, required: true %>
+              <div class='clear'></div>
+
+              <%= f.input :email, :as => :hidden %>
+              <%= f.input :id, :as => :hidden %>
+
+              <input type="hidden" id="action" class='span4' name="form[action]" value='send_email'>
+              <%= f.submit :value=>"Send", :class => 'btn btn-primary pull-right' %>
+              <div class='clear'></div>
+        <% end %>
+    <% else %>
+        <div class='alert alert-success'>Email was successfully sent to <%=student.name %>. Thank you and have a good day!</div>
+    <% end %>
+</div>

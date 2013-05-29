@@ -4,6 +4,10 @@
 
 <% content_for :jquery do %>
     <script>
+        jQuery.ajaxSetup({
+            'beforeSend': function(xhr) {xhr.setRequestHeader("Accept", "text/javascript")}
+        })
+
         $(document).ready(function(){
             $('#profile_tab a').click(function (e) {
                 e.preventDefault();
@@ -23,14 +27,14 @@
                         });
                     });
 
-                    $(window).bind('load', function () {
-
+                    $("a.get_introduce").click(function(e){
+                        e.preventDefault();
+                        $.post(this.getAttribute('data-link'), null, "script")
                     });
+
+
             <% end %>
         });
-
-
-
     </script>
 <% end %>
 
@@ -47,6 +51,8 @@
 
             <% if is_admin? %>
             <p><a href="/students/<%= @student.id %>/edit" class="btn btn-primary">Edit Info</a></p>
+             <% elsif is_recruiter? %>
+            <p><a href="#modal" class='get_introduce btn btn-primary' data-link='<%= send_email_to_student_path(@student.id) %>' data-action='get_introduces'>Get Introduce</a></p>
             <% end %>
         </div>
     </div>
@@ -140,3 +146,8 @@
         </div>
     </div>
 </div> <!-- end of student profile -->
+
+<!-- CREATE MODAL -->
+<div id='modal' class="modal hide fade">
+  <div class="modal-footer"></div>
+</div>

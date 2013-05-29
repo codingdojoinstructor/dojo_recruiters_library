@@ -7,7 +7,8 @@ class Student < ActiveRecord::Base
   has_many :recruiter_views
   has_many :recruiters, :through => :recruiter_views
   
-  attr_accessor :password
+  attr_accessor :password, :title, :message
+
   attr_accessible :email, :password, :password_confirmation, :hired_company, :hired_date, :location, :name, :status
 
   email_regex = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]+)\z/i
