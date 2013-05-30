@@ -9,30 +9,45 @@
         })
 
         $(document).ready(function(){
+
             $('#profile_tab a').click(function (e) {
                 e.preventDefault();
                 $(this).tab('show');
             });
 
             <% if is_recruiter? %>
-                    $(window).bind('beforeunload', function () {
-                        $.ajax({
-                            url: '<%= recruiter_view_path(@recruiter_view.id) %>',
-                            type: 'PUT',
-                            data: '&action=update_recruiter_view',
-                            success: function(data) {
-                                //DO NOTHING
-                            },
-                            async : false
-                        });
-                    });
+                status = 1;
 
-                    $("a.get_introduce").click(function(e){
+                $("a").click(function(e){
+                    var location = $(this).attr('href')
+                    if(location == '/students' || location == '/signout'){
                         e.preventDefault();
-                        $.post(this.getAttribute('data-link'), null, "script")
+                        status = 1
+                        window.location.href = location;
+                    }
+                });
+                $(window).keydown(function(e){
+                    if (e.keyCode == 116){
+                       status = 0
+                    }
+                })
+
+                $(window).bind('beforeunload', function (e) {
+
+                    $.ajax({
+                        url: '<%= recruiter_view_path(@recruiter_view, 0) %>'+status,
+                        type: 'PUT',
+                        data: '&action=update_recruiter_view',
+                        success: function(data) {
+                        },
+                        async : false
                     });
+                });
 
-
+                $("a.get_introduce").click(function(e){
+                    e.preventDefault();
+                    $.post(this.getAttribute('data-link'), null, "script")
+                });
             <% end %>
         });
     </script>

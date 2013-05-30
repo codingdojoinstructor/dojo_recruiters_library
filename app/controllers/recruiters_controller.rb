@@ -35,6 +35,7 @@ class RecruitersController < ApplicationController
   def update_view
       @view = RecruiterView.find(params[:id])
       @view.updated_at = Time.now
+      @view.status = params[:status]
       @view.save
   end
 

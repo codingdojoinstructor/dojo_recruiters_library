@@ -14,17 +14,6 @@ class StudentsController < ApplicationController
     else
       @students = Student.where("status > ?", 0)
     end
-
-    if is_recruiter?
-        @recruiter_views = RecruiterView.where(:recruiter_id => current_user.id, :status => 0)
-
-        @recruiter_views.each do |recruiter_view|
-            recruiter_view.status = 1
-            recruiter_view.updated_at = recruiter_view.updated_at
-            recruiter_view.save
-        end
-    end
-
   end
 
   def show
@@ -39,12 +28,9 @@ class StudentsController < ApplicationController
             @recruiter_views.save
         end
 
-        @recruiter_views = RecruiterView.where(:recruiter_id => current_user.id, :status => 0).last
+        @recruiter_views = RecruiterView.where(:recruiter_id => current_user.id, :student_id => @student.id, :status => 0).last
 
         if @recruiter_views.nil?
-            @recruiter_view = RecruiterView.new(:student_id => @student.id, :recruiter_id => current_user.id, :status => 0)
-            @recruiter_view.save
-        elsif @recruiter_views.student_id != @student.id
             @recruiter_view = RecruiterView.new(:student_id => @student.id, :recruiter_id => current_user.id, :status => 0)
             @recruiter_view.save
         else

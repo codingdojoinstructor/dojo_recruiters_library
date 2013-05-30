@@ -20,7 +20,7 @@ Codingdojo::Application.routes.draw do
  match "/leads",  :to => 'recruiters#request_leads'
 
 
- match "/recruiter_view/:id",  :to => 'recruiters#update_view', :as => 'recruiter_view'
+ match "/recruiter_view/:id/:status",  :to => 'recruiters#update_view', :as => 'recruiter_view'
 
  match '/recruiters/:id/:filter', :as => 'recruiter_filter', :controller => 'recruiters', :action => 'show', :conditions => { :method => :get }
 
