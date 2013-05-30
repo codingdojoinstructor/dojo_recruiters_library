@@ -2,7 +2,18 @@
 <html lang="en-US">
 <head>
 	<meta charset="UTF-8">
-	<title>Dashboard</title>
+	<title>
+      <%= if is_recruiter?
+            if params[:controller] == 'recruiters' and params[:action] == 'show'
+                "Profile"
+            elsif params[:controller] == 'recruiters' and params[:action] == 'edit'
+                "Edit Profile"
+            end
+         else
+             "Dashboard"
+         end
+      %>
+      </title>
 	  <%= stylesheet_link_tag    "application", "students", "recruiters" %>
 	  <%= javascript_include_tag "application" %>
 	  <%= csrf_meta_tags %>
@@ -26,9 +37,16 @@
 						<a href="<%= recruiters_path %>">Companies</a>
 					</li>
 					<% end %>
-					<li>
-						<a href="/students/<%= @current_user.id %>/edit/">Edit Profile</a>
-					<li>
+                    <% if is_recruiter? %>
+                          <li <%= 'class=active' if params[:controller] == 'recruiters' and (params[:action] == 'show' or  params[:action] == 'edit' or  params[:action] == 'update') %>>
+                                <a href="/recruiters/<%= @current_user.id %>">Profile</a>
+                          </li>
+                    <% else %>
+                        <li>
+                            <a href="/students/<%= @current_user.id %>/edit/">Edit Profile</a>
+                        <li>
+                    <% end %>
+                    <li>
 						<a href="<%= signout_path %>">Log Off</a>
 					</li>
 				</ul>

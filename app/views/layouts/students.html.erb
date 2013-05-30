@@ -30,6 +30,10 @@
 					<li <%= 'class=active' if params[:controller] == 'students' and params[:action] == 'edit' %>>
 						<a href="/students/<%= @current_user.id %>/edit/">Edit Profile</a>
 					</li>
+                    <% else %>
+                          <li <%= 'class=active' if params[:controller] == 'recruiters' and params[:action] == 'edit' %>>
+                            <a href="/recruiters/<%= @current_user.id %>">Profile</a>
+                          </li>
 					<% end %>
 					<li>
 						<a href="<%= signout_path %>">Log Off</a>

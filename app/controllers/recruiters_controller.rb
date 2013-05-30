@@ -44,10 +44,20 @@ class RecruitersController < ApplicationController
     @recruiter = Recruiter.find(params[:id])
 
     if @recruiter.update_attributes(params[:recruiter])
-      redirect_to @recruiter, notice: 'Recruiter was successfully updated.'
+        if is_recruiter?
+            flash[:success] = 'Your information was successfully updated.'
+        else
+            flash[:success] = 'Recruiter was successfully updated.'
+        end
     else
-      render action: "edit"
+        flash[:error] = ''
+
+        @recruiter.errors.full_messages.each do |message|
+            flash[:error] = flash[:error] + message
+        end
     end
+
+    redirect_to edit_recruiter_path(@recruiter)
   end
 
   def destroy
@@ -153,9 +163,12 @@ class RecruitersController < ApplicationController
   end
 
   def require_admin_access
+
     unless is_admin? or inactive_recruiter?
-      flash[:error] = "You don't have sufficient privilege to perform that action. You have been redirected."
-      redirect_to signin_path
+        unless (is_recruiter? and (:edit || :show || :update) and  (!Recruiter.where(:id=>params[:id]).nil? and current_user?(Recruiter.find(params[:id]))))
+              flash[:error] = "You don't have sufficient privilege to perform that action. You have been redirected."
+              redirect_to signin_path
+        end
     end
   end
 

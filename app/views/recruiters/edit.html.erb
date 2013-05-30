@@ -1,5 +1,19 @@
 <div id='alt_wrapper'>
-<h1>Editing Recruiter Information</h1>
+<% if !is_recruiter? %>
+    <h1>Editing Recruiter Information</h1>
+<% else %>
+    <h3 class='pull-left'>Edit your Information</h3>
+    <%= link_to 'Return to Profile', @recruiter, :class=>'btn pull-right recruiter_back_button' %>
+    <div class='clear'></div>
+<% end %>
+
+<% if defined?(flash[:error]) && !flash[:error].nil? %>
+    <div id="notice" class='alert alert-error'><%= flash[:error] %></div>
+<% elsif defined?(flash[:success]) && !flash[:success].nil? %>
+    <div id="notice" class='alert alert-success'><%= flash[:success] %></div>
+<% end %>
+
+
 
 <%= simple_form_for(@recruiter) do |f| %>
 	<%= f.input :name %>
@@ -10,9 +24,14 @@
 	<%= f.input :company_website %>
 	<%= f.input :engineers_managed %>
 	<%= f.input :company_description %>
-	<%= f.submit :text=>"Create new recruiter", :class => 'btn btn-primary' %>
+    <% if !is_recruiter? %>
+	    <%= f.submit :value=> "Update Recruiter", :class => 'btn btn-primary' %>
+    <% else %>
+        <%= f.submit :value=> "Save Information", :class => 'btn btn-primary' %>
+    <% end %>
 <% end %>
-
-<%= link_to 'Show', @recruiter %> |
-<%= link_to 'Back', recruiters_path %>
+<% if !is_recruiter? %>
+    <%= link_to 'Show', @recruiter %> |
+    <%= link_to 'Back', recruiters_path %>
+<% end %>
 </div>
