@@ -24,6 +24,7 @@ class Student < ActiveRecord::Base
   	   		  :confirmation 	 => true,
   	        :length	        => { :within => 6..40 },
             :if => :password_changed?
+
   validates :password_confirmation, :presence => true,
             :if => :password_changed?
 
