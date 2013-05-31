@@ -17,9 +17,7 @@ class Emailer < ActionMailer::Base
         #encrypted_link["/"] = "@"
 
         @link = @link + encrypted_link.gsub("\/", '@')
-        mail(:to => user.email, :subject => "Coding Dojo Recruiters Library, Please reset your password") do |format|
-             format.html
-        end
+        mail(:to => user.email, :subject => "Coding Dojo Recruiters Library, Please reset your password")
     end
 
     def email_password_changed(user)
@@ -40,8 +38,6 @@ class Emailer < ActionMailer::Base
 
         mail(:to => @student.email,
              :subject => @student.title,
-             :reply_to => @recruiter.email) do |format|
-             format.html
-        end
+             :reply_to => @recruiter.email)
     end
 end
