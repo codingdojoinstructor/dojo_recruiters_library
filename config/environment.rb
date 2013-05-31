@@ -5,20 +5,7 @@ require File.expand_path('../application', __FILE__)
 Codingdojo::Application.initialize!
 
 
-if ENV['RAILS_ENV'] == 'production'
-
-  ActionMailer::Base.smtp_settings = {
-    :address => 'ssl://smtp.googlemail.com',
-    :port => 587,
-    :authentication => :plain,
-    :user_name => ENV['GMAIL_USERNAME'],
-    :password => ENV['GMAIL_PASSWORD'],
-    :domain => 'heroku.com'
-   }
-
-  ActionMailer::Base.delivery_method = :smtp
-
-else
+if ENV['RAILS_ENV'] == 'development'
 	ActionMailer::Base.smtp_settings = {
 	:address              => 'smtp.gmail.com',
 	:port                 => 587,
