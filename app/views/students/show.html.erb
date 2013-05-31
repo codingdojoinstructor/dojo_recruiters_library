@@ -64,7 +64,7 @@
                 
                 });
 
-                 <% if current_user.candidate_list.length > 0 and current_user.candidate_list.length < 5 %>
+                 <% if current_user.candidate_list.length > 0 and current_user.candidate_list.length <= 5 %>
                     $("a.carousel-control").hide();
                  <% end %>
             <% end %>
@@ -110,7 +110,7 @@
                             if count > 5 
                                 count = 1
                         %>                   
-                                </div><div class='clear'></div><div class='item pull-left'>
+                                </div><div class='item'>
                         <% elsif count == 1%>
                                 <div class='item active'>
                         <% end %>
@@ -125,10 +125,10 @@
                         end 
                         %>
                                 </div>
-                                <div class='clear'></div>
                         </ul>
-                        <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-                        <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+                        <div class='clear'></div>
+                        <a class="carousel-control left" href="#candidates" data-slide="prev">&lsaquo;</a>
+                        <a class="carousel-control right" href="#candidates" data-slide="next">&rsaquo;</a>
                     </div>
                 <% end %>
             <% end %>
