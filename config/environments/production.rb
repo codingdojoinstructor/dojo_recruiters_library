@@ -81,7 +81,7 @@ Codingdojo::Application.configure do
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default :charset => "utf-8"
   config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
+    address: "ssl://smtp.googlemail.com",
     port: 587,
     domain: "codingdojo.herokuapp.com",
     authentication: "plain",
