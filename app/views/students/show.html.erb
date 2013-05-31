@@ -44,9 +44,13 @@
                     });
                 });
 
-                $('div.item').children("li").mouseenter(function(){ $(this).find("p.trigger_tooltip").tooltip('show'); }).mouseout(function(){ $(this).find("p.trigger_tooltip").tooltip('hide'); });
+                $('div.item').children("li").mouseenter(function(){ 
+                    $(this).find("p.trigger_tooltip").tooltip('show'); 
+                })
+                .mouseout(function(){
+                    $(this).find("p.trigger_tooltip").tooltip('hide'); 
+                });
 
-                
 
                 $("a.get_introduce").click(function(e){
                     e.preventDefault();
@@ -64,8 +68,16 @@
                 
                 });
 
+                $('.carousel').carousel({
+                  interval: 0
+                })
+
                  <% if current_user.candidate_list.length > 0 and current_user.candidate_list.length <= 5 %>
                     $("a.carousel-control").hide();
+                 <% else %>
+                    $('div#candidates, ul.carousel-inner, ul.carousel-inner img, ul.carousel-inner li, ul.carousel-inner a, ul.carousel-inner p, a.carousel-control')
+                        .mouseenter(function(){ $('a.carousel-control').css('opacity', '0.8')  })
+                        .mouseout(function(){ $('a.carousel-control').css('opacity', '0')  });
                  <% end %>
             <% end %>
         });
@@ -110,7 +122,7 @@
                             if count > 5 
                                 count = 1
                         %>                   
-                                </div><div class='item'>
+                                <div class='clear'></div></div><div class='item'>
                         <% elsif count == 1%>
                                 <div class='item active'>
                         <% end %>

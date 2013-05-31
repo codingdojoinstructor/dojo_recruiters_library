@@ -228,9 +228,13 @@
               }
             }
 
-
             a.carousel-control{ 
               top: 55px;
+              opacity: 0;
+            }
+
+            a.carousel-control:hover { 
+              opacity: 0.8;
             }
 
             a.left{
