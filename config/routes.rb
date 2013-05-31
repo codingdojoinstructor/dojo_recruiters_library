@@ -25,6 +25,9 @@ Codingdojo::Application.routes.draw do
  match '/recruiters/:id/:filter', :as => 'recruiter_filter', :controller => 'recruiters', :action => 'show', :conditions => { :method => :get }
 
  match '/recruiter/student/:id', :as => 'send_email_to_student', :controller => 'recruiters', :action => 'get_introduce'
+ match '/recruiter/candidate/:id', :as => 'add_to_short_list', :controller => 'recruiters', :action => 'save_to_short_list'
+
+ match '/recruiter/candidate/remove/:id', :as => 'remove_from_short_list', :controller => 'recruiters', :action => 'remove_from_short_list'
 
  root :to => 'sessions#new'
 

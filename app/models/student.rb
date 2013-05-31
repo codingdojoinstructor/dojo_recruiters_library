@@ -5,7 +5,10 @@ class Student < ActiveRecord::Base
   has_many :skills, :through=> :student_skills
 
   has_many :recruiter_views
-  has_many :recruiters, :through => :recruiter_views
+  has_many :viewers, :through => :recruiter_views, :source => :recruiter
+
+  has_many :recruiter_candidates
+  has_many :recruiter_lists, :through => :recruiter_candidates, :source => :recruiter
   
   attr_accessor :password, :title, :message
 

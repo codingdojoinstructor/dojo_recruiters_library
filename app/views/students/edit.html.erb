@@ -32,7 +32,7 @@
 
 	<div class="edit_profile">
         <div class='picture_box pull-right'>
-            <img src="<%= @profile.image_src.nil? || @profile.image_src == "" ? @profile.avatar.url(:medium) : @profile.image_src %>" alt="<%= @student.name %>" class='picture' />
+            <img src="<%=@profile.avatar.url(:medium)%>" alt="<%= @student.name %>" class='picture' />
             <%  if is_admin? or @current_user.id == @student.id %>
                 <%= simple_form_for(@profile, :url => student_path, :html => {:class=>'upload_picture', :multipart => true}) do |f| %>
                     <div class='form-inline'>

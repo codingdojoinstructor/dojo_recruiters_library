@@ -7,9 +7,9 @@ class StudentProfile < ActiveRecord::Base
 
 
     has_attached_file :avatar,
-                      :styles => { :medium => "300x300>", :thumb => "100x100>" },
-                      :default_url => "/assets/default_prof_pic.jpg",
-                      :default_style => [:medium, :thumb]
+                      :styles => { :medium => "300x250>", :small => "130x110>", :thumb => "100x100>" },
+                      :default_url =>  lambda { |attach| "/assets/default_prof_pic.jpg"},
+                      :default_style => :medium
 
     has_attached_file :resume,
                       :s3_domain_url => 'General_V88.s3.amazonaws.com/codingdojo-network'

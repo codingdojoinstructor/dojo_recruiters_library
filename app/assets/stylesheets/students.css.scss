@@ -32,14 +32,19 @@
         margin-bottom: 5px;
     }
     h4{
-        padding-left: 20px;
         margin-left: 20px;
         margin-right: 10px;
+        margin-top: 2px;
+        padding: 10px 20px;
     }
 
     img{
         width: 160px;
-        height: 107px;
+        height: 120px;
+    }
+
+    #student_select{
+      min-height: 379px;
     }
 
     ul{
@@ -58,7 +63,7 @@
                 font-size: 13px;
                 position: absolute;
                 width:140px;
-                top: 87px;
+                top: 100px;
                 margin: 0 auto;
                 padding-left: 20px;
                 background-color: rgba(255, 255, 255, 0.8);
@@ -109,6 +114,12 @@
     width: 190px;
     float: left;
 
+    legend{
+      margin-bottom: 10px;
+      line-height: 33px;  
+    }
+
+
     label{
         font-size: 11px;
         display: block;
@@ -148,18 +159,100 @@
     }
 
     .main_profile{
-      margin: 0px 0px 30px 0px;
+      margin: 0px 0px 10px 0px;
 
         img.main-photo{
-        width:275px;
-        vertical-align: top;
+          vertical-align: top;
+          margin-top: 15px;
+          width: 300px;
+          max-width: 300px;
+          height: 250px;
+          max-height: 250px;
         }
+
+        div.recruiter_candidates{
+          margin-top: 25px;
+          
+          ol li{
+            list-style: none;
+            background: transparent;
+          }
+
+
+          ul.recruiter_candidate_lists{
+            list-style: none;
+            display: inline-block;
+            margin: 12px 0 0 0px;
+
+              li{
+                  float: left;
+                  position: relative;
+                  padding: 0 0 20px 0;
+                  cursor: pointer;
+                  height: 67px;
+                  overflow: hidden;
+                  margin-right: 10px;
+                  border: 1px solid #FFF;
+
+                  a{
+                      color:black;
+                      margin-left: 0;
+
+                      p{
+                          color:black;
+                      }
+                      p:hover{
+                          color:#777777;
+                      }
+
+                      img{
+                        max-width: 100px;
+                      }
+
+                      p{
+                          background-color: rgba(255, 255, 255, 0.8);
+                          font-weight: bold;
+                          font-size: 10px;
+                          position: absolute;
+                          width: 90px;
+                          top: 67px;
+                          margin: 0 auto;
+                          padding: 0 5px;
+                      }
+
+                      .tooltip{
+                          top: 66px !important;
+                          width: 100px !important;
+                          opacity: 1 !important;
+                          left: 0 !important;
+                      }
+                  }
+              }
+            }
+
+
+            a.carousel-control{ 
+              top: 55px;
+            }
+
+            a.left{
+              left: -30px;
+            }
+
+            a.right{
+              left: auto;
+              right: 50px;
+            }
+
+        }
+        
+        
     }
 
     .student_info{
         margin: 0px;
         display:inline-block;
-        width: 660px;
+        width: 630px;
         padding: 0px;
         min-height:190px;
         margin-left: 20px;
@@ -167,11 +260,11 @@
 
         h2{
         font-size:18px;
-        margin:10px 0px;
+        margin:0px;
         }
 
         p{
-        margin:10px 0px;
+        margin:10px 0 0 0;
         }
     } //end of .student_info for the show student page
 
@@ -315,9 +408,13 @@ div.profile_information{
 }
 
 .edit_profile{
-    .well label{
-        color:black;
-    }
+  .well{
+    width: 520px;    
+  }
+
+      .well label{
+          color:black;
+      }
 }
 
   .edit_profile .picture_box{
@@ -327,8 +424,6 @@ div.profile_information{
   }
 
       .edit_profile .picture_box img{
-         width: 275px;
-         height: 160px;
          margin-left: 2px;
       }
 
@@ -450,4 +545,8 @@ form.upload_resume input[type='text']{
 
 a.recruiter_back_button{
   margin-top: 15px;
+}
+
+div.recruiter_controls p{
+   margin-right: 10px !important;
 }

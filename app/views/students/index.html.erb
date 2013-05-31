@@ -117,13 +117,44 @@
 							<% else %>
 								<span class="student_belt white_belt"></span>
 							<% end %>
-								<img src="<%= student.student_profile.image_src.nil? || student.student_profile.image_src == "" ? student.student_profile.avatar.url(:thumb) : student.student_profile.image_src  %>" alt="<%= student.name %>">
+								<img src="<%= student.student_profile.image_src.nil? || student.student_profile.image_src == "" ? student.student_profile.avatar.url(:small) : student.student_profile.image_src  %>" alt="<%= student.name %>">
 								<p><%= student.name %></p>
 							</a>
 						</li>
 						<% end %>
+						<div class='clear'></div>
 					</ul>
 				</div>
+
+				<% if is_recruiter? and current_user.candidate_list.length > 0 %>
+					<div class='recruiter_candidates'>
+						<h4 class="well">Candidate in your short list</h4>
+						<ul>
+						<% current_user.candidate_list.each do |student| %>
+						<li class="<%= displayBelt(student) %>">
+							<a href="/students/<%= student.id %>">
+							<!-- CHECKS FOR STUDENT BELT SCORES AND ECHOES THE HIGHEST RANKING BELT -->
+							<% if student.student_profile.black_belt_score %>
+								<span class="student_belt black_belt"></span>
+							<% elsif student.student_profile.red_belt_score %>
+								<span class="student_belt red_belt"></span>
+							<% elsif student.student_profile.green_belt_score %>
+								<span class="student_belt green_belt"></span>
+							<% elsif student.student_profile.yellow_belt_score %>								
+								<span class="student_belt yellow_belt"></span>
+							<% else %>
+								<span class="student_belt white_belt"></span>
+							<% end %>
+								<img src="<%= student.student_profile.image_src.nil? || student.student_profile.image_src == "" ? student.student_profile.avatar.url(:small) : student.student_profile.image_src  %>" alt="<%= student.name %>">
+								<p><%= student.name %></p>
+							</a>
+						</li>
+						<% end %>
+						<div class='clear'></div>
+					</ul>
+					</div>
+				<% end %>
+
 			</div>
             <div class='clear'></div>
 		

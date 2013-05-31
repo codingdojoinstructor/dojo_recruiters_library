@@ -1,7 +1,10 @@
 class Recruiter < ActiveRecord::Base
 
   has_many :recruiter_views
-  has_many :students, :as => :candidate, :through => :recruiter_views
+  has_many :candidate, :through => :recruiter_views, :source => :student
+
+  has_many :recruiter_candidates
+  has_many :candidate_list, :through => :recruiter_candidates, :source => :student
 
   attr_accessor :password
   attr_accessible :name, :email, :password, :password_confirmation, :individual_description, :company, :company_description, :title, :engineers_managed, :status, :terms_and_condition, :company_website
@@ -15,6 +18,7 @@ class Recruiter < ActiveRecord::Base
   validates :email,	:presence	=> true,
   					:format		=> { :with => email_regex },
            	:uniqueness => { :case_sensitive => false }
+            
   validates :password, :presence => true,
   	   		:confirmation 	 	=> true,
   	        :length	        	=> { :within => 6..40 },

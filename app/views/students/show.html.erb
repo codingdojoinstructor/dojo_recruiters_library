@@ -44,10 +44,29 @@
                     });
                 });
 
+                $('div.item').children("li").mouseenter(function(){ $(this).find("p.trigger_tooltip").tooltip('show'); }).mouseout(function(){ $(this).find("p.trigger_tooltip").tooltip('hide'); });
+
+                
+
                 $("a.get_introduce").click(function(e){
                     e.preventDefault();
                     $.post(this.getAttribute('data-link'), null, "script")
                 });
+
+                $("a.add_to_short_list").click(function(e){
+                    e.preventDefault();
+                    $.post(this.getAttribute('data-link'), null, "script")
+                });
+
+                $("a.remove_from_short_list").click(function(e){
+                    e.preventDefault();
+                    $.post(this.getAttribute('data-link'), null, "script");
+                
+                });
+
+                 <% if current_user.candidate_list.length > 0 and current_user.candidate_list.length < 5 %>
+                    $("a.carousel-control").hide();
+                 <% end %>
             <% end %>
         });
     </script>
@@ -67,7 +86,51 @@
             <% if is_admin? %>
             <p><a href="/students/<%= @student.id %>/edit" class="btn btn-primary">Edit Info</a></p>
              <% elsif is_recruiter? %>
-            <p><a href="#modal" class='get_introduce btn btn-primary' data-link='<%= send_email_to_student_path(@student.id) %>' data-action='get_introduces'>Get Introduce</a></p>
+                <div class='recruiter_controls'>
+                    <p class='pull-left'><a href="#modal" class='get_introduce btn btn-primary' data-link='<%= send_email_to_student_path(@student.id) %>' data-action='get_introduces'>Get Introduce</a></p>
+                    <% if @student.recruiter_lists.where(:id => current_user.id).length == 0 %>
+                        <p class='pull-left'><a class='add_to_short_list btn btn-primary' data-link='<%= add_to_short_list_path(@student.id) %>'>Save to a short list</a></p>
+                    <% else  %>
+                        <p class='pull-left'><a class='remove_from_short_list btn btn-primary' data-link='<%= remove_from_short_list_path(@student.id) %>'>Remove from short list</a></p>
+                    <% end %>
+                    <div class='clear'></div>
+                </div>
+                <% if current_user.candidate_list.length > 0 %>
+                     <div id='candidates' class='recruiter_candidates carousel slide'>
+                        <ol class="carousel-indicators">
+                            <% for count in 0..(current_user.candidate_list.length / 5).round %>
+                                <li data-target="#candidates" data-slide-to="<%=count%>" class="<%= count == 0 ? 'active' : '' %>"></li>
+                            <% end %>
+                        </ol>
+                        <ul class='carousel-inner recruiter_candidate_lists'>
+                        <% 
+                        count = 1
+                        current_user.candidate_list.each do |student| 
+
+                            if count > 5 
+                                count = 1
+                        %>                   
+                                </div><div class='clear'></div><div class='item pull-left'>
+                        <% elsif count == 1%>
+                                <div class='item active'>
+                        <% end %>
+
+                                    <li class='<%= student.id == @student.id ? "active " : "" %>'  title='<%= student.name %>'>
+                                        <a href="<% if student.id != @student.id %>/students/<%= student.id %> <% else %> # <% end %>">
+                                            <img src="<%= student.student_profile.image_src.nil? || student.student_profile.image_src == "" ? student.student_profile.avatar.url(:thumb) : student.student_profile.image_src  %>" alt="<%= student.name %>">
+                                            <p><%= truncate(student.name, :length => 16) %></p>
+                                        </a>
+                                    </li>
+                        <%  count = count + 1;
+                        end 
+                        %>
+                                </div>
+                                <div class='clear'></div>
+                        </ul>
+                        <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+                        <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+                    </div>
+                <% end %>
             <% end %>
         </div>
     </div>

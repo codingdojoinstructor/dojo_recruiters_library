@@ -103,7 +103,7 @@
 
              @recruiter.recruiter_views.all(:select=> select_columns, :order => "created_at desc, student_id asc", :group => group_filter).each do |recruiter_view|
 
-                 student = @recruiter.students.find(recruiter_view.student_id)
+                 student = @recruiter.candidate.find(recruiter_view.student_id)
 
                  if defined?(params[:filter]) && params[:filter] == 'group_by_student'
                      total = @recruiter.recruiter_views.get_total_hours(nil, student.id)

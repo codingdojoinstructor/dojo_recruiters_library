@@ -152,6 +152,39 @@ class RecruitersController < ApplicationController
       end
   end
 
+  def save_to_short_list
+      if(RecruiterCandidate.where(:recruiter_id => current_user.id, :student_id=> params[:id]).length == 0)
+          recruiter_candidate = RecruiterCandidate.new()
+          recruiter_candidate.recruiter_id = current_user.id
+          recruiter_candidate.student_id = params[:id]
+          recruiter_candidate.save
+
+          @candidate = Student.find(recruiter_candidate.student_id);
+
+          respond_to do |format|
+
+            format.html
+            format.js
+          end
+      end
+  end
+
+  def remove_from_short_list
+      recruiter_candidate = RecruiterCandidate.find_by_recruiter_id_and_student_id(current_user.id, params[:id])
+
+      if !recruiter_candidate.blank?
+        @candidate = recruiter_candidate.student_id
+
+        recruiter_candidate.delete
+
+        respond_to do |format|
+              format.html
+              format.js
+        end
+      end
+  end
+  
+
 
   private
 
