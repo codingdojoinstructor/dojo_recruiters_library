@@ -1,6 +1,6 @@
 class Emailer < ActionMailer::Base
     default :from => "nguillen@village88.com"
-
+    
     def email_verification_password(user)
         @user = user
         @url  = "http://codingdojo.herokuapp.com"
