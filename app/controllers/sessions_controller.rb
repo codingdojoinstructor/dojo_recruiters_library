@@ -42,15 +42,11 @@ class SessionsController < ApplicationController
 
           flash[:notice] = "Password Reset email was sent to " + params[:session][:email]
 
-          respond_to do |format|
-              if student.nil?
-                  format.html { redirect_to @student.new }
-                  format.js
-              else
-                  Emailer.email_verification_password(student).deliver
-                  format.html { redirect_to @student.new }
-              end
+          if !student.nil?
+              Emailer.email_verification_password(student).deliver
+          end
 
+          respond_to do |format|              
               format.html { redirect_to @student.new }
               format.js
           end
@@ -109,13 +105,10 @@ class SessionsController < ApplicationController
           flash[:success] = true
           flash[:message] = "Password updated! You may now login with your new password. "
           flash[:email]  = student.email
+          Emailer.email_password_changed(student).deliver
       end
 
       respond_to do |format|
-          if flash[:success] === true
-              Emailer.email_password_changed(student).deliver
-          end
-
           format.html { redirect_to signin_path, :flash => { :message => flash[:message] , :email => flash[:email]   }}
           format.js
       end
