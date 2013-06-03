@@ -44,10 +44,16 @@ class SessionsController < ApplicationController
 
           if !student.nil?
               Emailer.email_verification_password(student).deliver
+          else
+            recruiter = Recruiter.authenticate_email(params[:session][:email])
+
+            if !recruiter.nil?
+              Emailer.email_verification_password(recruiter).deliver
+            end
           end
 
           respond_to do |format|              
-              format.html { redirect_to @student.new }
+              format.html { redirect_to user }
               format.js
           end
       end
@@ -61,51 +67,66 @@ class SessionsController < ApplicationController
 
       student_exist = Student.user_exist(student[0].to_i, student[1].to_s)
 
+      exist = false
+      user = nil
+
       if student_exist
-          flash[:time_elapsed] = ((Date.today.to_time.to_i - DateTime.parse(student[1]).to_i)/60).to_i
+          time_elapsed = ((Date.today.to_time.to_i - DateTime.parse(student[1]).to_i)/60).to_i
+          exist = true
+          user = student_exist
+      else
+        recruiter_exist = Recruiter.user_exist(student[0].to_i, student[1].to_s)
 
-          if flash[:time_elapsed] < (24*60)
-              flash[:user_id] = new_encryption.encrypt(student[0].to_s)
-              flash[:user] = student_exist
-              flash[:header] = "Enter your new password " + flash[:user].name
-              flash[:expired] = false
-              flash[:failed] = false
-          else
-              flash[:expired] = true
-              flash[:message] = "Change Password already expired. Try to request change password in the Login form"
-          end
+        if recruiter_exist
+          time_elapsed = ((Date.today.to_time.to_i - DateTime.parse(student[1]).to_i)/60).to_i
+          exist = true
+          user = recruiter_exist
+        end
+      end 
 
+
+      if time_elapsed < (24*60) and exist == true
+          @id = new_encryption.encrypt(student[0].to_s)
+          @email = new_encryption.encrypt(student[1].to_s)
+          @user = user
+          flash[:header] = "Enter your new password " + user.name
+          flash[:failed] = false
       else
           flash[:failed] = true
-          flash[:message] = "Change Password already used . Try to request change password in the Login form"
+          flash[:message] = "Change Password is either used or expired . Try to request change password in the Login form"
       end
 
 
   end
 
+
   def update_password
       new_encryption = ActiveSupport::MessageEncryptor.new(SECRET)
-      encrypt = params[:id]
-      id = new_encryption.decrypt(encrypt)
+      id = new_encryption.decrypt(params[:id])
+      email = new_encryption.decrypt(params[:email])
 
-      student = Student.find(id.to_i)
-      student.password =  params[:session][:password]
-      student.password_confirmation =  params[:session][:password_confirmation]
-      save = student.save
+      student = Student.find_by_id_and_email(id.to_i, email)
+
+      user = (!student.nil?) ? student : Recruiter.find_by_id_and_email(id.to_i, email)
+
+      user.password =  params[:session][:password]
+      user.password_confirmation =  params[:session][:password_confirmation]
+      save = user.save
 
       if save == false
           flash[:message] = ""
           flash[:result] = 'alert-error'
           flash[:success] = false
-          student.errors.full_messages.each do |message|
+
+          user.errors.full_messages.each do |message|
               flash[:message] = flash[:message] + message
           end
       else
           flash[:result] = 'alert-success'
           flash[:success] = true
           flash[:message] = "Password updated! You may now login with your new password. "
-          flash[:email]  = student.email
-          Emailer.email_password_changed(student).deliver
+          flash[:email]  = user.email
+          Emailer.email_password_changed(user).deliver
       end
 
       respond_to do |format|

@@ -1,5 +1,5 @@
 class Emailer < ActionMailer::Base
-    default :from => "nguillen@village88.com"
+    default :from => ENV['GMAIL_USERNAME']
     
     def email_verification_password(user)
         @user = user
@@ -17,6 +17,7 @@ class Emailer < ActionMailer::Base
         #encrypted_link["/"] = "@"
 
         @link = @link + encrypted_link.gsub("\/", '@')
+        
         mail(:to => @user.email, :subject => "Coding Dojo Recruiters Library, Please reset your password")
     end
 

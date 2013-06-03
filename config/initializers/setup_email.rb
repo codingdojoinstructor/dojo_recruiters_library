@@ -1,3 +1,8 @@
+if Rails.env.development?
+	ENV['GMAIL_USERNAME'] = 'progdevmtester3102@gmail.com' 	
+	ENV['GMAIL_PASSWORD'] = 'mailtester2013'
+end
+
 ActionMailer::Base.smtp_settings = {  
   	:address              => "smtp.gmail.com",  
   	:port                 => 587,  

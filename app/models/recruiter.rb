@@ -46,6 +46,22 @@ class Recruiter < ActiveRecord::Base
    	return user if user.has_password?(submitted_password)
   end
 
+  def self.authenticate_email(email)
+      user = find_by_email(email)
+
+      return nil if user.nil?
+      return user
+  end
+
+  def self.user_exist(id, email)
+      user = find_by_email(email)
+
+      return nil if user.nil?
+      return user if user.id == id and user.status != 0 #Only active recruiter can change the password
+      return nil
+  end
+
+
 private
 
     # see if the user entered the password information or if it's a new record that needs the password 
