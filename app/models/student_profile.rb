@@ -7,7 +7,7 @@ class StudentProfile < ActiveRecord::Base
 
 
     has_attached_file :avatar,
-                      :styles => { :medium => "300x250>", :small => "130x110>", :thumb => "100x100>" },
+                      :styles => { :medium => "300x250#", :small => "130x110#", :thumb => "100x100#" },
                       :default_url =>  lambda { |attach| "/assets/default_prof_pic.jpg"},
                       :default_style => :medium
 
