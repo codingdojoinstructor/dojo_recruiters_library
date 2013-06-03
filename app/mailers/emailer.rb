@@ -17,14 +17,14 @@ class Emailer < ActionMailer::Base
         #encrypted_link["/"] = "@"
 
         @link = @link + encrypted_link.gsub("\/", '@')
-        mail(:to => user.email, :subject => "Coding Dojo Recruiters Library, Please reset your password")
+        mail(:to => @user.email, :subject => "Coding Dojo Recruiters Library, Please reset your password")
     end
 
     def email_password_changed(user)
         @user = user
         @url  = "http://codingdojo.herokuapp.com"
 
-        mail(:to => user.email, :subject => "Coding Dojo Recruiters Library, Your password has changed")
+        mail(:to => @user.email, :subject => "Coding Dojo Recruiters Library, Your password has changed")
     end
 
     def new_leads(recruiter)
