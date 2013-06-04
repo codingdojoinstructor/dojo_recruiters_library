@@ -17,12 +17,8 @@ class StudentsController < ApplicationController
       student_list = @students
 
     else
-      session[:search] = nil
-
-      if session[:filter].nil?
-        clear_student_list
-      end
-
+      clear_student_list
+      
       if is_admin?
         @students = Student.all if is_admin?
       else
