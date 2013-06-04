@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130524071304) do
+ActiveRecord::Schema.define(:version => 20130530090103) do
 
   create_table "favorites", :force => true do |t|
     t.integer  "recruiter_id"
@@ -22,6 +22,27 @@ ActiveRecord::Schema.define(:version => 20130524071304) do
 
   add_index "favorites", ["recruiter_id"], :name => "index_favorites_on_recruiter_id"
   add_index "favorites", ["student_id"], :name => "index_favorites_on_student_id"
+
+  create_table "recruiter_candidates", :force => true do |t|
+    t.integer  "recruiter_id"
+    t.integer  "student_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "recruiter_candidates", ["recruiter_id"], :name => "index_recruiter_candidates_on_recruiter_id"
+  add_index "recruiter_candidates", ["student_id"], :name => "index_recruiter_candidates_on_student_id"
+
+  create_table "recruiter_views", :force => true do |t|
+    t.integer  "recruiter_id"
+    t.integer  "student_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.integer  "status"
+  end
+
+  add_index "recruiter_views", ["recruiter_id"], :name => "index_recruiter_views_on_recruiter_id"
+  add_index "recruiter_views", ["student_id"], :name => "index_recruiter_views_on_student_id"
 
   create_table "recruiters", :force => true do |t|
     t.string   "email"

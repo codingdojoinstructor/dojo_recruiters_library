@@ -9,7 +9,6 @@ class StudentsController < ApplicationController
   before_filter :require_login
 
   def index
-
     if defined?(params[:search]) and !params[:search].nil?
 
       session[:search] = params[:search]
@@ -19,12 +18,16 @@ class StudentsController < ApplicationController
 
     else
       session[:search] = nil
-      
+
       if session[:filter].nil?
         clear_student_list
       end
 
-      @students = Student.where("status > ?", 0)
+      if is_admin?
+        @students = Student.all if is_admin?
+      else
+        @students = Student.where("status > ?", 0)
+      end
     end
   end
 

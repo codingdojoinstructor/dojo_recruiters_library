@@ -3,6 +3,7 @@ module SessionsHelper
   def sign_in_recruiter(recruiter)
     session[:recruiter_id] = recruiter.id
     self.current_user = recruiter
+    self.clear_student_list
   end
 
   def is_recruiter?
@@ -12,6 +13,7 @@ module SessionsHelper
   def sign_in(user)
     session[:user_id] = user.id
     self.current_user = user
+    self.clear_student_list
   end
   
   # setter method
