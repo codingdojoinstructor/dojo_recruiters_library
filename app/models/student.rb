@@ -79,12 +79,12 @@ class Student < ActiveRecord::Base
 
           search_filter += (search_filter == '' ? '' : ' OR ' )
           if field == 'white_belt'
-            search_filter += "((student_profiles.yellow_belt_score is null or student_profiles.yellow_belt_score = '')";
-            search_filter += "and (student_profiles.green_belt_score is null or student_profiles.green_belt_score = '')";
-            search_filter += "and (student_profiles.red_belt_score is null or student_profiles.red_belt_score = '')";
-            search_filter += "and (student_profiles.black_belt_score is null or student_profiles.black_belt_score = ''))";
+            search_filter += "((student_profiles.yellow_belt_score is null)";
+            search_filter += "and (student_profiles.green_belt_score is null)";
+            search_filter += "and (student_profiles.red_belt_score is null)";
+            search_filter += "and (student_profiles.black_belt_score is null))";
           else
-            search_filter += "(student_profiles.#{field}_score is not null AND student_profiles.#{field}_score != '')";
+            search_filter += "(student_profiles.#{field}_score is not null)";
           end
         end
       end
