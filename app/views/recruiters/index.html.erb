@@ -1,35 +1,34 @@
+
+<h1 class='pull-left'>Recruiters/Companies</h1>
+<%= link_to 'Add a New Recruiter', new_recruiter_path, :class=>'btn btn-primary new_recruiter pull-right' %>
+<div class='clear'></div>
+
 <div id='alt_wrapper'>
-<h1>Recruiters/Companies</h1>
+    <table class="table">
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Title</th>
+        <th>Company</th>
+        <th>Website</th>
+        <th>No. of Engineers</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
 
-<table class="table">
-  <tr>
-    <th>Name</th>
-    <th>Email</th>
-    <th>Title</th>
-    <th>Company</th>
-    <th>Website</th>
-    <th>No. of Engineers</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @recruiters.each do |recruiter| %>
-  <tr>
-    <td><%= recruiter.name %></td>
-    <td><%= recruiter.email %></td>
-    <td><%= recruiter.title %></td>
-    <td><%= recruiter.company %></td>
-    <td><%= recruiter.company_website %></td>
-    <td><%= recruiter.engineers_managed %></td>
-    <td><%= link_to 'Show', recruiter, :class=>'btn btn-primary' %></td>
-    <td><%= link_to 'Edit', edit_recruiter_path(recruiter), :class=>'btn' %></td>
-    <td><%= link_to 'Destroy', recruiter, :class=>'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'Add a New Recruiter', new_recruiter_path, :class=>'btn btn-primary' %>
+    <% @recruiters.each do |recruiter| %>
+      <tr>
+        <td><%= recruiter.name %></td>
+        <td><%= recruiter.email %></td>
+        <td><%= recruiter.title %></td>
+        <td><%= recruiter.company %></td>
+        <td><%= recruiter.company_website %></td>
+        <td><%= recruiter.engineers_managed %></td>
+        <td><%= link_to 'Show', recruiter, :class=>'btn btn-primary' %></td>
+        <td><%= link_to 'Edit', edit_recruiter_path(recruiter), :class=>'btn' %></td>
+        <td><%= link_to 'Destroy', recruiter, :class=>'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+    </table>
 </div>

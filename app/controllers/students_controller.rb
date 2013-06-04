@@ -9,10 +9,30 @@ class StudentsController < ApplicationController
   before_filter :require_login
 
   def index
-    if is_admin?
-      @students = Student.all if is_admin?
+
+    if defined?(params[:search]) and !params[:search].nil?
+
+      session[:search] = params[:search]
+      @students = Student.search(session[:search], nil)
+
+      student_list = @students
+
     else
+      session[:search] = nil
+      
+      if session[:filter].nil?
+        clear_student_list
+      end
+
       @students = Student.where("status > ?", 0)
+    end
+  end
+
+  def save_filter    
+    if params[:data] == 'nil'
+      session[:filter] = nil 
+    else
+      session[:filter] = ActiveSupport::JSON.decode( params[:data] )
     end
   end
 
@@ -147,16 +167,13 @@ class StudentsController < ApplicationController
         sign_out
         redirect_to signin_path
     end
-
   end
+
   def require_user_access
     unless current_user?(Student.find(params[:id])) or is_admin?
       flash[:error] = "User access required. You don't have sufficient privilege to perform that action. You have been redirected."
       redirect_to students_path
     end
-
-
-
   end
 
   def require_admin_access

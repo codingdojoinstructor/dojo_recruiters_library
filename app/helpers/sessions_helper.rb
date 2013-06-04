@@ -56,4 +56,21 @@ module SessionsHelper
     redirect_to signin_path, :notice => "Please sign in to access this page."
   end
 
+  def student_list=(students)
+    @student_list = students
+  end
+
+  def student_list
+    if @student_list.nil? and (!session[:search].nil? or !session[:filter].nil?)
+      @student_list = Student.search(session[:search], session[:filter])
+    end
+
+    return @student_list
+  end
+
+  def clear_student_list    
+    self.student_list = nil
+    session[:search] = nil
+    session[:filter] = nil
+  end  
 end

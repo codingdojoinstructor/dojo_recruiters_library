@@ -60,6 +60,47 @@ class Student < ActiveRecord::Base
       return nil
   end
 
+  def self.search(search, belt_filters)
+    search_query = "status = 1";
+
+    if !search.nil? 
+      search_condition = "%" + search + "%"
+      search_query = "#{search_query} and (name LIKE '#{search_condition}' OR email LIKE '#{search_condition}' OR location LIKE '#{search_condition}')"
+    end
+
+    if belt_filters.nil?
+      self.where(search_query)
+    else
+      search_filter = ''
+
+      belt_filters['filters'].each do |belts|
+        belts.each do |filter|
+          field = filter.downcase.gsub(/-/, "_")
+
+          search_filter += (search_filter == '' ? '' : ' OR ' )
+          if field == 'white_belt'
+            search_filter += "((student_profiles.yellow_belt_score is null or student_profiles.yellow_belt_score = '')";
+            search_filter += "and (student_profiles.green_belt_score is null or student_profiles.green_belt_score = '')";
+            search_filter += "and (student_profiles.red_belt_score is null or student_profiles.red_belt_score = '')";
+            search_filter += "and (student_profiles.black_belt_score is null or student_profiles.black_belt_score = ''))";
+          else
+            search_filter += "(student_profiles.#{field}_score is not null AND student_profiles.#{field}_score != '')";
+          end
+        end
+      end
+
+      if search.nil?  
+          search_query = "#{search_query} and (#{search_filter})" 
+
+          self.joins(:student_profile).where(search_query)
+      else
+          search_query = search_query + " and (#{search_filter})"
+          
+          self.joins(:student_profile).where(search_query)
+      end
+    end
+  end
+
 
 
   private

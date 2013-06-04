@@ -1,6 +1,6 @@
 Codingdojo::Application.routes.draw do
 
-  get "recruiter_view/create"
+ get "recruiter_view/create"
 
  resources :students, :recruiters
  resources :sessions, :only => [:new, :create, :request_password, :change_password, :update_password, :destroy]
@@ -30,6 +30,8 @@ Codingdojo::Application.routes.draw do
  match '/recruiter/candidate/:id', :as => 'add_to_short_list', :controller => 'recruiters', :action => 'save_to_short_list'
 
  match '/recruiter/candidate/remove/:id', :as => 'remove_from_short_list', :controller => 'recruiters', :action => 'remove_from_short_list'
+
+ match '/belt/filters', :controller => 'students', :action => 'save_filter'
 
  root :to => 'sessions#new'
 

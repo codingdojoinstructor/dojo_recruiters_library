@@ -44,7 +44,34 @@
     }
 
     #student_select{
-      min-height: 379px;
+
+
+      p.search_crumbs{
+        margin: 0px 10px 20px 18px;
+      }
+
+      div.actions{
+        height: 40px;
+        padding: 10px 0px 0px 0px;
+        margin-bottom: 20px;
+        margin-left: 19px;
+        width: 703px;
+        margin-top: 3px;
+
+        p.search_crumbs{
+          margin: 0;
+        }
+
+        form#main_search{
+          padding-right: 0;
+          width: 160px;
+          margin: 0;
+
+          input{
+            margin-right: 0!important;
+          }
+        }
+      }
     }
 
     ul{
@@ -551,4 +578,8 @@ a.recruiter_back_button{
 
 div.recruiter_controls p{
    margin-right: 10px !important;
+}
+
+p.search_crumbs{
+  margin: 0px 10px 20px 18px;
 }

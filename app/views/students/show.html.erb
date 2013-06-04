@@ -86,7 +86,42 @@
 
 <div class="student_profile">
     <div class="main_profile">
-        <p><a href="<%= students_path %>">Dashboard</a> > <%= @student.name %></p>
+        <div>
+            <p class='pull-left'><a href="<%= students_path %>">Dashboard</a> > <%= @student.name %></p>
+            <% if !student_list.nil? and student_list.all.length > 1 %>
+                <p class='pull-right'>
+                    <% if student_list.first.id == @student.id %>
+
+                        <a href='#' class='btn btn-small btn-danger' disable><span class='icon-chevron-left icon-white'></span> Prev</a>                         
+                        <a href="/students/<%= student_list[1].id %>" class='btn btn-small btn-primary'>Next <span class='icon-chevron-right icon-white'></a> 
+
+                    <% elsif student_list.last.id == @student.id %>   
+
+                        <a href="/students/<%= student_list[student_list.length-2].id %>" class='btn btn-small btn-primary'><span class='icon-chevron-left icon-white'></span> Prev</a> 
+                        <a href='#' class='btn btn-small btn-danger'>Next <span class='icon-chevron-right icon-white'></a>
+
+                    <% else %>
+                        <%  current_student = nil
+
+                            student_list.each do |student| 
+
+                                if !current_student.nil? and current_student.id == @student.id %>                                    
+
+                                    <a href="/students/<%= student.id %>" class='btn btn-small btn-primary'>Next <span class='icon-chevron-right icon-white'></span></a> 
+
+                        <%      elsif student.id == @student.id %>  
+
+                                    <a href="/students/<%= current_student.id %>" class='btn btn-small btn-primary'><span class='icon-chevron-left icon-white'></span> Prev</a>   
+
+                        <%      end
+
+                                current_student = student
+                            end %>
+                    <% end %>
+                </p>
+            <% end %>
+            <div class='clear'></div>
+        </div>
         <img id="main_photo" class="main-photo" src="<%= @profile.image_src.nil? || @profile.image_src == "" ? @profile.avatar.url(:medium) : @profile.image_src %>" />
         <div class="student_info">
             <h1><%= @student.name %></h1>
