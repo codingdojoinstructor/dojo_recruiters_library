@@ -73,66 +73,35 @@
 
 	});
 	</script>
-<% end %>		
-			<%= session[:filter] %>
-			<% 
-				white_belt_active  = nil
-				yellow_belt_active = nil
-				green_belt_active  = nil
-				red_belt_active    = nil
-				black_belt_active  = nil
-
-				belts = []
-
-				if !session[:filter].nil? 
-					session[:filter]['filters'].each do |belts|
-	        			belts.each do |filter|
-	        				if filter == 'white-belt'
-	        					white_belt_active = 'checked=checked'	
-	        				elsif filter == 'yellow-belt'
-	        					yellow_belt_active = 'checked=checked'
-	        				elsif filter == 'gree-belt'
-	        					green_belt_active = 'checked=checked'
-	        				elsif filter == 'red-belt'
-	        					red_belt_active = 'checked=checked'
-	        				elsif filter == 'red-belt'
-	        					black_belt_active = 'checked=checked'
-	        				end		
-
-	        				belts.push(filter)
-	        			end
-	        		end
-	        	end
-
-			%>
+<% end %>					
 			<form id="skill_search" class="well" action="" method="post">
 				<legend>Refine your search</legend>
 				<div class="white-belt">
-					<label class="belt"><input id="white-belt-cat" type="checkbox" <%= white_belt_active %> >White Belt</input></label>
+					<label class="belt"><input id="white-belt-cat" type="checkbox">White Belt</input></label>
 					<label>Just started</label>
 				</div>
 				<div class="yellow-belt">
-					<label class="belt"><input id="yellow-belt-cat" type="checkbox" <%= yellow_belt_active %> >Yellow Belt</input></label>
+					<label class="belt"><input id="yellow-belt-cat" type="checkbox">Yellow Belt</input></label>
 					<label>HTML</label>
 					<label>CSS</label>
 					<label>JQuery/Javascript</label>
 				</div>
 				<div class="green-belt">
-					<label class="belt"><input id="yellow-belt-cat" type="checkbox" <%= green_belt_active %> >Green Belt</input></label>
+					<label class="belt"><input id="yellow-belt-cat" type="checkbox">Green Belt</input></label>
 					<label>PHP</label>
 					<label>Ajax</label>
 					<label>MySQL/Database Design</label>
 					<label>Agile</label>
 				</div>
 				<div class="red-belt">
-					<label class="belt"><input id="green-belt-cat" type="checkbox" <%= red_belt_active %> >Red Belt</input></label>
+					<label class="belt"><input id="green-belt-cat" type="checkbox">Red Belt</input></label>
 					<label>OOP</label>
 					<label>Git/SVN</label>
 					<label>Ruby</label>
 					<label>Linux and Cloud Server</label>
 				</div>
 				<div class="black-belt">
-					<label class="belt"><input id="red-belt-cat" type="checkbox" <%= black_belt_active %> >Black Belt</input></label>
+					<label class="belt"><input id="red-belt-cat" type="checkbox">Black Belt</input></label>
 					<label>Ruby on Rails</label>
 					<label>CodeIgniter</label>
 					<label>TDD</label>
@@ -162,13 +131,9 @@
 						<p class='search_crumbs'><a href="<%= students_path %>">Dashboard</a> > <%= params[:search] %></p>
 					<% end %>
 					<ul>
-						<% @students.each do |student| 
-							if !belts.include?(displayBelt(student).gsub(/-student/,''))
-						%>
-							<li class="<%= displayBelt(student) %> hidden">
-						<% else %>
+						<% @students.each do |student| %>
+						
 							<li class="<%= displayBelt(student) %>">
-						<% end %>
 							<a href="/students/<%= student.id %>">
 							<!-- CHECKS FOR STUDENT BELT SCORES AND ECHOES THE HIGHEST RANKING BELT -->
 							<% if student.student_profile.black_belt_score %>

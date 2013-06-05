@@ -14,4 +14,17 @@ module StudentsHelper
 
 	    belt_class
 	end
+
+	def embed_video(video_link)
+		if video_link[/youtu\.be\/([^\?]*)/]
+			link = "http://www.youtube.com/embed/#{ $5 }"
+		elsif video_link[/^.*((v\/)|(embed\/)|(watch\?))\??v?=?([^\&\?]*).*/]
+			link = "http://www.youtube.com/embed/#{ $5 }"
+		else
+			link = video_link
+		end
+
+		%Q{<iframe class="profile-video" src="#{link}"  frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>}
+
+	end
 end
