@@ -40,8 +40,7 @@ module StudentsHelper
         file_path = path
       else
         file_name = profile[:pdf_resume_file_name]
-        path = profile.resume.path.split("?")
-        file_path = path[0]
+        file_path = profile.resume.path
       end
 
       file_path

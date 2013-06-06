@@ -267,11 +267,16 @@
                     <%
                        file_path = get_resume_path(@profile)
 
-                       if (!file_path.include?(".doc") and !file_path.include?(".docx")) or file_path.include?("docs.google") %>
-                        <embed class='view_resume' src='<%= resume_path(@student.id) %>'></embed>
-                    <% else %>
-                        <%= raw(google_doc_viewer(file_path)) %>
-                    <% end %>
+                       if !file_path.nil?
+                           if (!file_path.include?(".doc") and !file_path.include?(".docx")) or file_path.include?("docs.google") %>
+                            <embed class='view_resume' src='<%= resume_path(@student.id) %>'></embed>
+                        <% else %>
+                            <%= raw(google_doc_viewer(file_path)) %>
+                        <% end 
+                        else %>
+                            <embed class='view_resume' src=''></embed>
+                        <% end %>
+
                 </div>
             </div>
         </div>
