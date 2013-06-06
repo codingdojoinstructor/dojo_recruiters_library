@@ -33,7 +33,7 @@ module StudentsHelper
 
         path = profile.resume_url
 
-        if path.index("http://").nil? 
+        if path.index("http://").nil? and path.index("https://").nil?
           path = "http://#{path}"
         end
 

@@ -12,8 +12,7 @@ class StudentProfile < ActiveRecord::Base
                       :default_style => :medium
 
     has_attached_file :resume,
-                      :s3_domain_url => 'General_V88.s3.amazonaws.com/codingdojo-network',
-                      :processors => :resume_to_pdf 
+                      :s3_domain_url => 'General_V88.s3.amazonaws.com/codingdojo-network'
 
     validates_attachment_content_type :avatar,
                                       :content_type => ['image/jpeg', 'image/png', 'image/jpg', 'image/gif']

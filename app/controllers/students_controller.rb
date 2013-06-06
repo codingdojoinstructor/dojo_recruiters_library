@@ -12,7 +12,7 @@ class StudentsController < ApplicationController
     if defined?(params[:search]) and !params[:search].nil?
 
       session[:search] = params[:search]
-      @students = Student.search(session[:search], nil)
+      @students = Student.search(session[:search], nil).shuffle
 
       student_list = @students
 
@@ -20,9 +20,9 @@ class StudentsController < ApplicationController
       clear_student_list
       
       if is_admin?
-        @students = Student.all if is_admin?
+        @students = Student.all.shuffle if is_admin?
       else
-        @students = Student.where("status > ?", 0)
+        @students = Student.where("status > ?", 0).shuffle
       end
     end
   end
