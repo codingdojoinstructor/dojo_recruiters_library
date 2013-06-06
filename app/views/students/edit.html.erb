@@ -21,6 +21,14 @@
                                 .show()
                             .siblings('input[name="student_profile[action]"]')
                                 .val($(this).attr('data-action'));
+
+
+                if($(this).attr('data-action') == 'add_resume_link'){
+                    $(this).parents('form.upload_resume').find("p.upload_type.add_resume_link").show()
+                }
+                else
+                    $(this).parents('form').find("p.upload_type.add_resume_link").hide()
+
             });
 
             $("a[data-action='upload_picture_file']").click();
@@ -88,6 +96,7 @@
                   </div>
                   <div class='form-inline'>
                     <%= f.file_field :resume, label: 'Resume', :class=>'pull-left upload_type upload_resume_file' %>
+                    <p class='upload_type add_resume_link'>Note: Please make sure that you're google docs is accessible</p>
                     <%= f.text_field :resume_url, label: 'Resume', :class=>'pull-left upload_type add_resume_link' %>
                     <%= f.hidden_field :action, :value => "" %>
                     <div class='clear'></div>

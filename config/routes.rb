@@ -11,7 +11,7 @@ Codingdojo::Application.routes.draw do
  match "/change_password/:id", :to => 'sessions#change_password'
  match "/signout", :to => 'sessions#destroy'
 
- match "/resume/:id", :to => 'students#display_resume'
+ match "/resume/:id", :as => 'resume',:to => 'students#display_resume'
 
  match "/terms_and_conditions", :to => 'recruiters#display_terms'
 

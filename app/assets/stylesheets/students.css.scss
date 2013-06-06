@@ -193,6 +193,7 @@
           margin-top: 15px;
           max-width: 300px;
           max-height: 250px;
+          min-width: 300px;
         }
 
         div.recruiter_candidates{
@@ -454,10 +455,11 @@ div.profile_information{
 
       .edit_profile .picture_box img{
          margin-left: 2px;
+         min-width: 300px;
       }
 
       .edit_profile .picture_box form.upload_picture{
-        width: 275px;
+        width: 302px;
         margin: 5px 0;
         color: #fff;
       }

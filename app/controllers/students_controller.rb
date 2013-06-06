@@ -60,14 +60,12 @@ class StudentsController < ApplicationController
 
   def display_resume
       @student = Student.find(params[:id])
-      @profile = @student.student_profile
+      @profile = @student.student_profile      
 
-      file_name = @profile[:pdf_resume_file_name]
-      file_path = @profile.resume.path
-      data = File.open(file_path, 'rb'){|f| f.read}
-
-      send_data data, :disposition => 'inline', :type => 'application/pdf'
+      data =  File.open(get_resume_path(@profile), 'rb'){|f| f.read}
+      send_data data, :disposition => 'inline', :type => 'application/pdf'      
   end
+
 
   def new
     @student = Student.new()
@@ -182,5 +180,13 @@ class StudentsController < ApplicationController
       redirect_to students_path 
     end
   end
+  
+  # This is used to read docx file and view as pdf
+  #def generate_pdf_from_word_file(file_path)
+  #  data = Docx::Document.open(file_path)
 
+  #  Prawn::Document.new(:page_size => 'A4') do
+  #      text data.to_s
+  #  end.render
+  #end
 end

@@ -12,12 +12,13 @@ class StudentProfile < ActiveRecord::Base
                       :default_style => :medium
 
     has_attached_file :resume,
-                      :s3_domain_url => 'General_V88.s3.amazonaws.com/codingdojo-network'
+                      :s3_domain_url => 'General_V88.s3.amazonaws.com/codingdojo-network',
+                      :processors => :resume_to_pdf 
 
     validates_attachment_content_type :avatar,
                                       :content_type => ['image/jpeg', 'image/png', 'image/jpg', 'image/gif']
 
     validates_attachment_content_type :resume,
-                                      :content_type => [ 'application/pdf' ],
-                                      :message => "only pdf files are allowed"
+                                      :content_type => [ 'application/pdf',  'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
+                                      :message => "only pdf and word files are allowed"
 end

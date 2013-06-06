@@ -264,10 +264,13 @@
             </div>
             <div class="tab-pane" id="resume">
                 <div class='resume'>
-                    <% if !@profile.resume_url.nil? %>
-                        <embed class='view_resume' src='<%= @profile.resume_url %>'></embed>
-                    <% elsif !@profile.resume.url.nil? %>
-                        <embed class='view_resume' src='<%= @profile.resume.url %>'></embed>
+                    <%
+                       file_path = get_resume_path(@profile)
+
+                       if !file_path.include?(".doc") and !file_path.include?(".docx") %>
+                        <embed class='view_resume' src='<%= resume_path(@student.id) %>'></embed>
+                    <% else %>
+                        <%= raw(google_doc_viewer(file_path)) %>
                     <% end %>
                 </div>
             </div>
