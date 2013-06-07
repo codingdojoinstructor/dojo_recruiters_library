@@ -63,6 +63,7 @@ class StudentsController < ApplicationController
       @profile = @student.student_profile      
 
       data =  File.open(get_resume_path(@profile), 'rb'){|f| f.read}
+      
       send_data data, :disposition => 'inline', :type => 'application/pdf'      
   end
 

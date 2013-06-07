@@ -47,7 +47,13 @@ module StudentsHelper
 	end
 
 	def google_doc_viewer(file_path)
-		google_link = file_path.gsub(/:/, "%3F").gsub("/", "%2F")
-		%Q{<embed class="view_resume"  src="http://docs.google.com/viewer?url=#{google_link}&embedded=true" width="600" height="780" style="border: none;"></embed>}
+		if file_path.include?('docs.google.com')
+			google_link = file_path
+		else
+			google_link = file_path.gsub(/:/, "%3F").gsub("/", "%2F")
+			google_link = "http://docs.google.com/viewer?url=#{google_link}"
+		end
+
+		%Q{<embed class="view_resume"  src="#{google_link}&embedded=true" width="600" height="780" style="border: none;"></embed>}
 	end
 end
