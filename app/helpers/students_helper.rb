@@ -29,19 +29,24 @@ module StudentsHelper
 	end
 
 	def get_resume_path(profile)
-		if !profile.resume_url.nil?
-
-        path = profile.resume_url
-
-        if path.index("http://").nil? and path.index("https://").nil?
-          path = "http://#{path}"
-        end
-
-        file_path = path
+	  if !profile.resume_url.nil?
+        file_path = profile.resume_url
       else
         file_name = profile[:pdf_resume_file_name]
         file_path = profile.resume.path
+
+        if Rails.env == 'production'
+        	file_path = profile.resume.url
+    	end
       end
+
+      if !file_path.nil?
+	      if file_path.index("http://").nil? and file_path.index("https://").nil?
+	      	  if Rails.env == 'production' or !profile.resume_url.nil?
+	          	file_path = "http://#{file_path}"
+	          end
+	      end
+	  end
 
       file_path
 	end

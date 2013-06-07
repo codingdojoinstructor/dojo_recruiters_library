@@ -11,9 +11,10 @@ Codingdojo::Application.routes.draw do
  match "/change_password/:id", :to => 'sessions#change_password'
  match "/signout", :to => 'sessions#destroy'
 
- match "/resume/:id", :as => 'resume',:to => 'students#display_resume'
-
  match "/terms_and_conditions", :to => 'recruiters#display_terms'
+
+#This display_resume route is intended for development only since only resume are only stored in local storage
+ match "/resume/:id", :as => 'resume',:to => 'students#display_resume'
 
  match "/terms",  :to => 'recruiters#term_approval'
 

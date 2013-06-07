@@ -58,6 +58,7 @@ class StudentsController < ApplicationController
     end
   end
 
+  #This display_resume method is intended for development only since only resume are only stored in local storage
   def display_resume
       @student = Student.find(params[:id])
       @profile = @student.student_profile      
