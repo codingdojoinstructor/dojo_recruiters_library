@@ -268,7 +268,7 @@
                        file_path = get_resume_path(@profile)
 
                        if !file_path.nil?
-                           if !file_path.include?("docs.google") %>
+                           if !file_path.include?("docs.google") and (!file_path.include?(".doc") or !file_path.include?(".docx")) %>
                             <embed class='view_resume' src='<%= resume_path(@student.id) %>'></embed>
                         <% else %>
                             <%= raw(google_doc_viewer(file_path)) %>
