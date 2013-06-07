@@ -55,7 +55,7 @@ module StudentsHelper
 		if file_path.include?('docs.google.com')
 			google_link = file_path
 		else
-			google_link = file_path.gsub(/:/, "%3F").gsub("/", "%2F")
+			google_link = file_path.gsub(/:/, "%3A").gsub("/", "%2F")
 			google_link = "http://docs.google.com/viewer?url=#{google_link}"
 		end
 
