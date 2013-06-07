@@ -117,6 +117,7 @@
 					<div class='actions'>						
 						<% if is_admin? %>
 							<a class='btn btn-primary pull-left' href="<%= new_student_path %>">Add a new student</a>
+							<a class='btn btn-primary new_batch pull-left' href="<%= import_students_path %>">Import students</a>
 						<% else %>
 							<% if defined?params[:search] and !params[:search].nil? %> 
 								<p class='search_crumbs pull-left'><a href="<%= students_path %>">Dashboard</a> > <%= params[:search] %></p>
@@ -148,7 +149,7 @@
 								<span class="student_belt white_belt"></span>
 							<% end %>
 								<img src="<%= student.student_profile.image_src.nil? || student.student_profile.image_src == "" ? student.student_profile.avatar.url(:small) : student.student_profile.image_src  %>" alt="<%= student.name %>">
-								<p><%= truncate(student.name, :length => 22) %></p>
+								<p><%= truncate(student.name, :length => 21) %></p>
 							</a>
 						</li>
 						<% end %>

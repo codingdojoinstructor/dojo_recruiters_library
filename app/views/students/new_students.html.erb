@@ -1,0 +1,35 @@
+<% content_for :title do %>
+	Import students | CodingDojo's Network Library
+<% end %>
+
+<% if @student_lists.nil? %>
+	<h1>Import student from CSV</h1>
+	<div class='well new_batch_div'>
+		<% if flash[:notice] %>
+			<p class='alert alert-error'><%=flash[:notice]%></p>
+		<% end %>
+
+		<%= simple_form_for(:student, :url=>process_batch_path, :html=>{:class=>'new_batch form-horizontal'}) do |f| %>
+			<div class='control-group'>
+				<label class='control-label'>CSV File:</label>
+				<div class="controls">
+					<%= f.file_field :user, required: true, :accept => '.csv' %>
+				</div>
+			</div>
+			<div class='control-group'>
+				<label class='control-label'>Email:</label>
+				<div class="controls">
+					<%= f.email_field :email, value: current_user.email %>	
+				</div>
+			</div>
+			<%= f.submit "Upload CSV", :class => 'btn btn-primary pull-right' %>
+			<div class='clear'></div>
+		<% end %>
+	</div>
+<% else %>
+		<h1>CSV was successfully imported</h1>
+		<div class='well new_batch_div  alert alert-success'>
+			<h4 class=''>Check your email for more information</h4>
+			<a href="/students" class='btn'>Return to student dashboard</a>
+		</div>
+<%	end %>

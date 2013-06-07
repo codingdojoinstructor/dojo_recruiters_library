@@ -18,19 +18,19 @@ class Emailer < ActionMailer::Base
 
         @link = @link + encrypted_link.gsub("\/", '@')
         
-        mail(:to => @user.email, :subject => "Coding Dojo Recruiters Library, Please reset your password")
+        mail(:to => @user.email, :subject => "CodingDojo Recruiters Library, Please reset your password")
     end
 
     def email_password_changed(user)
         @user = user
         @url  = "http://codingdojo.herokuapp.com"
 
-        mail(:to => @user.email, :subject => "Coding Dojo Recruiters Library, Your password has changed")
+        mail(:to => @user.email, :subject => "CodingDojo Recruiters Library, Your password has changed")
     end
 
     def new_leads(recruiter)
         @recruiter = recruiter
-        mail(:to => CODINGDOJO_MASTER, :subject => "Coding Dojo Recruiters Library, New Recruiter Request")
+        mail(:to => CODINGDOJO_MASTER, :subject => "CodingDojo Recruiters Library, New Recruiter Request")
     end
 
     def send_introduction_email(student, recruiter)
@@ -40,5 +40,14 @@ class Emailer < ActionMailer::Base
         mail(:to => @student.email,
              :subject => @student.title,
              :reply_to => @recruiter.email)
+    end
+
+    def import_notification(user, students)
+        @students = students 
+        @user = user
+        @url  = "http://codingdojo.herokuapp.com"
+
+        mail(:to => @user.email,
+             :subject => "CodingDojo Recruiters Library, New Import from CSV")
     end
 end

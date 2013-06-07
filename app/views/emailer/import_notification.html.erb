@@ -1,0 +1,86 @@
+<!DOCTYPE Html>
+<html lang="en">
+    <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    </head>
+    <body>
+        <div class='content'>
+            <div class='header' style='width: 700px; background: #333; border: 1px solid #111; color: #fff;text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5); padding: 10px 0 10px 10px;  margin: 0 auto;'>
+                <h3>Students was successfully imported</h3>
+            </div>
+            <div style='border: 1px solid #ccc; padding: 20px; width: 670px; margin: 0 auto;'>
+
+                <div class='content' style='min-height: 100px;'>
+                    <h4>Hello <%= @user.name %>,</h4>
+
+                    <%  @students.each do |student| 
+                            div_style = student[:student][:error].nil? ? "" : "background-color: #f2dede; border-color: #eed3d7; color: #b94a48;"
+                    %>
+                            <div style='<%=div_style%>; margin: 15px 0;border: 1px solid #ccc; padding: 20px;'>
+                                <h3> Student Information </h3>
+                                <div>
+                                    <p style='display:inline-block; width: 120px;margin:0;'>Name:</p>
+                                    <p style='display:inline;margin:0;'><%= student[:student][:name] %></p>
+                                </div>
+                                <div>
+                                    <p style='display:inline-block; width: 120px;margin:0;'>Email:</p>
+                                    <p style='display:inline;margin:0;'><%= student[:student][:email] %></p>
+                                </div>
+                                <% if defined?(student[:student][:password]) %>
+                                    <div>
+                                        <p style='display:inline-block; width: 120px;margin:0;'>Password:</p>
+                                        <p style='display:inline;margin:0;'><%= student[:student][:password] %></p>
+                                    </div>
+                                <% end %>
+                                <% if defined?(student[:student][:location]) %>
+                                    <div>
+                                        <p style='display:inline-block; width: 120px;margin:0;'>Location:</p>
+                                        <p style='display:inline;margin:0;'><%= student[:student][:location] %></p>
+                                    </div>
+                                <% end %>
+                                <% if defined?(student[:student][:status]) %>
+                                    <div>
+                                        <p style='display:inline-block; width: 120px;margin:0;'>Status:</p>
+                                        <p style='display:inline;margin:0;'><%= student[:student][:status] %></p>
+                                    </div>
+                                <% end %>
+
+                                <% if student[:student][:error].nil? 
+                                        ["video_url", "project1_name", "project1_url", "project2_name", "project2_url", "project3_name" ,"project3_url", "resume_url", "image_src", "white_belt_score", "white_belt_date", "yellow_belt_score", "yellow_belt_date", "green_belt_score", "green_belt_date", "red_belt_score", "red_belt_date", "black_belt_score", "black_belt_date"].each do |profile| %>
+                                                <div>
+                                                    <p style='display:inline-block; width: 120px;margin:0;'><%=profile%>:</p>
+                                                    <% if defined?(student[:profile][profile.to_sym]) and !student[:profile][profile.to_sym].nil? %>
+                                                        <p style='display:inline;margin:0;'><%= student[:profile][profile.to_sym] %></p>
+                                                    <% else %>
+                                                        <p style='display:inline;margin:0;'>N/A</p>
+                                                    <% end %>
+                                                </div>
+                                        <% end %>
+
+                                    <% if !student[:profile][:error].nil? %>
+                                        <div style='<%=div_style%>'>
+                                            <p style='display:inline-block; width: 120px;margin:0;'>Error:</p>
+                                            <p style='display:inline;margin:0;'><%= student[:profile][:error] %></p>
+                                        </div>
+                                    <% end %>
+                                <% else %>                                    
+                                    <div>
+                                        <p style='display:inline-block; width: 120px;margin:0;'>Error:</p>
+                                        <p style='display:inline;margin:0;'><%= student[:student][:error] %></p>
+                                    </div>
+                                <% end %>
+                            </div>
+                    <%  end %>
+                </div>
+                <div class='footer' style='margin-top: 10px;'>
+                      Sincerely,
+                      <p style='margin-bottom: 0;'><b>Conding Dojo Admins</b></p>
+                      <p style='margin: 0;'><small style='font-size: 12px; margin: 0;'><%= @url %></small></p>
+                </div>
+            </div>
+            <div class='message_footer' style=' width: 700px;  margin: 0 auto;'>
+                <h3 style='float: right;'><a href='http://codingdojo.herokuapp.com/recruiters'>Powered by CodingDojo Network Library</a></h3>
+            </div>
+        </div>
+    </body>
+</html>

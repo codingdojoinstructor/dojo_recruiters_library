@@ -34,6 +34,10 @@ Codingdojo::Application.routes.draw do
 
  match '/belt/filters', :controller => 'students', :action => 'save_filter'
 
+ match '/student/new_batch', :to => 'students#new_students', :as => 'import_students'
+
+  match '/student/new_batch/create', :to => 'students#process_batch', :as => 'process_batch'
+
  root :to => 'sessions#new'
 
   # The priority is based upon order of creation:

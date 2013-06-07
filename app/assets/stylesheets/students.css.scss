@@ -52,7 +52,7 @@
 
       div.actions{
         height: 40px;
-        padding: 10px 0px 0px 0px;
+        padding: 0;
         margin-bottom: 20px;
         margin-left: 19px;
         width: 703px;
@@ -60,6 +60,10 @@
 
         p.search_crumbs{
           margin: 0;
+        }
+
+        a.new_batch{
+          margin: 0 10px;
         }
 
         form#main_search{
@@ -585,3 +589,41 @@ div.recruiter_controls p{
 p.search_crumbs{
   margin: 0px 10px 20px 18px;
 }
+
+div.new_batch_div {
+
+  padding: 15px;
+}
+
+div.new_batch_div p.alert.alert-error{
+  color: #b94a48;
+}
+
+div.new_batch_div h4{
+  margin: 10px 0;
+}
+
+
+form.new_batch{
+  width: 330px;
+  margin-top: 15px;
+}
+
+
+  form.new_batch input {
+    display: block!important;
+  }
+
+  form.new_batch input[type=file] {
+    line-height: 15px;
+  }
+
+  form.new_batch label{
+    color: #000;
+    text-align: left!important;
+    width: 94px!important;
+  }
+
+  form.new_batch div.controls{
+    margin-left: 0!important;
+  }
