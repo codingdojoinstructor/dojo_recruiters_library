@@ -115,11 +115,14 @@ class Student < ActiveRecord::Base
     end
 
   	def encrypt_password
-  		# generate a unique salt if it's a new user
-  		self.salt = Digest::SHA2.hexdigest("#{Time.now.utc}--#{password}") if self.new_record?
-  	
-  		# encrypt the password and store that in the encrypted_password field
-  		self.encrypted_password = encrypt(password)
+      if self.new_record? or (!self.new_record? and (!password.nil? and password != ""))
+
+        # generate a unique salt if it's a new user
+    		self.salt = Digest::SHA2.hexdigest("#{Time.now.utc}--#{password}") if self.new_record?
+    	
+    		# encrypt the password and store that in the encrypted_password field
+    		self.encrypted_password = encrypt(password)
+      end
   	end
 
   	# encrypt the password using both the salt and the passed password

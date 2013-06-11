@@ -285,7 +285,6 @@ class StudentsController < ApplicationController
     elsif(params[:student]) 
       # prevent normal user from updating the status
       params[:student].delete("status") unless is_admin?
-      params[:student].delete("password") if params[:student][:password] == ""
 
       if @student.update_attributes(params[:student])
         flash.now[:notice] = 'Student information was successfully updated.'
