@@ -62,12 +62,19 @@ class Student < ActiveRecord::Base
 
   def self.search(search, belt_filters)
     search_query = "status = 1";
+
+    #this should be arranged from lowest to highest 
     student_belts = ['yellow_belt', 'green_belt', 'red_belt', 'black_belt']
 
 
     if !search.nil? 
       search_condition = "%" + search + "%"
-      search_query = "#{search_query} and (name LIKE '#{search_condition}' OR email LIKE '#{search_condition}' OR location LIKE '#{search_condition}')"
+      if Rails.env == 'production'
+        search_query = "#{search_query} and (name ILIKE '#{search_condition}' OR email ILIKE '#{search_condition}' OR location ILIKE '#{search_condition}')"
+      else
+        search_query = "#{search_query} and (name LIKE '#{search_condition}' OR email LIKE '#{search_condition}' OR location LIKE '#{search_condition}')"
+      end
+      
     end
 
     if belt_filters.nil?
@@ -88,11 +95,23 @@ class Student < ActiveRecord::Base
             search_filter += "and (student_profiles.black_belt_score is null))";
           else
             search_filter += "((student_profiles.#{field}_score is not null)";
+            belt_found = false
 
-            student_belts.each do |belt| 
-              if belt != field
-                search_filter += "and (student_profiles.#{belt}_score is null)";
-              end  
+            # check if the selected filter it's not the highest belt, if yes ignore the condition below
+            if field != student_belts[student_belts.length - 1] 
+
+              student_belts.each do |belt| 
+                
+                # get the next belt of the filtered belt. 
+                # for example, if filtered by yellow belt student
+                # next belt rank (green, red and black belt) should be all empty or null
+
+                if belt != field and belt_found == true
+                  search_filter += "and (student_profiles.#{belt}_score is null)";
+                else
+                  belt_found = true
+                end  
+              end
             end
 
             search_filter += ")"
