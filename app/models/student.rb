@@ -62,6 +62,8 @@ class Student < ActiveRecord::Base
 
   def self.search(search, belt_filters)
     search_query = "status = 1";
+    student_belts = ['yellow_belt', 'green_belt', 'red_belt', 'black_belt']
+
 
     if !search.nil? 
       search_condition = "%" + search + "%"
@@ -78,13 +80,23 @@ class Student < ActiveRecord::Base
           field = filter.downcase.gsub(/-/, "_")
 
           search_filter += (search_filter == '' ? '' : ' OR ' )
+
           if field == 'white_belt'
             search_filter += "((student_profiles.yellow_belt_score is null)";
             search_filter += "and (student_profiles.green_belt_score is null)";
             search_filter += "and (student_profiles.red_belt_score is null)";
             search_filter += "and (student_profiles.black_belt_score is null))";
           else
-            search_filter += "(student_profiles.#{field}_score is not null)";
+            search_filter += "((student_profiles.#{field}_score is not null)";
+
+            student_belts.each do |belt| 
+              if belt != field
+                search_filter += "and (student_profiles.#{belt}_score is null)";
+              end  
+            end
+
+            search_filter += ")"
+
           end
         end
       end
