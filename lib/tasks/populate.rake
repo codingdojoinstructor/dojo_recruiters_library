@@ -4,7 +4,7 @@ include SessionsHelper
 namespace :db do
   desc "Populate Database"
   task :populate_student_skills, [:action] => :environment do |t, argument|
-    argument.with_defaults(:action => false)
+    argument.with_defaults(:action => "codingdojo new")
 
     if argument.action == "codingdojo new"
 
