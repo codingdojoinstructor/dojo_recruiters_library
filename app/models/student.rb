@@ -1,7 +1,11 @@
 class Student < ActiveRecord::Base
+
+
   has_one :student_profile, :dependent => :destroy
 
   has_many :student_skills
+  accepts_nested_attributes_for :student_skills
+
   has_many :skills, :through=> :student_skills
 
   has_many :recruiter_views
@@ -9,6 +13,7 @@ class Student < ActiveRecord::Base
 
   has_many :recruiter_candidates
   has_many :recruiter_lists, :through => :recruiter_candidates, :source => :recruiter
+
   
   attr_accessor :password, :title, :message
 
@@ -60,79 +65,48 @@ class Student < ActiveRecord::Base
       return nil
   end
 
-  def self.search(search, belt_filters)
-    search_query = "status = 1";
-
-    #this should be arranged from lowest to highest 
-    student_belts = ['yellow_belt', 'green_belt', 'red_belt', 'black_belt']
-
-
+  def self.search_by_keyword_and_filter(search, filters)
     if !search.nil? 
       search_condition = "%" + search + "%"
       if Rails.env == 'production'
-        search_query = "#{search_query} and (name ILIKE '#{search_condition}' OR email ILIKE '#{search_condition}' OR location ILIKE '#{search_condition}')"
+        search_query = "(name ILIKE '#{search_condition}' OR email ILIKE '#{search_condition}' OR location ILIKE '#{search_condition}')"
       else
-        search_query = "#{search_query} and (name LIKE '#{search_condition}' OR email LIKE '#{search_condition}' OR location LIKE '#{search_condition}')"
+        search_query = "(name LIKE '#{search_condition}' OR email LIKE '#{search_condition}' OR location LIKE '#{search_condition}')"
       end
-      
+
+      search_query += " AND  (status = 1) " 
+    else
+      search_query = " status = 1 " 
     end
 
-    if belt_filters.nil?
+    if filters.nil?
       self.where(search_query)
     else
-      search_filter = ''
+      if !filters[:belt_id].nil? 
+        if !filters[:skill_id].nil? 
+          search_query += "AND ((student_skills.belt_id in (#{filters[:belt_id].join(',')}))"
+        else
 
-      belt_filters['filters'].each do |belts|
-        belts.each do |filter|
-          field = filter.downcase.gsub(/-/, "_")
+          student_belts =   StudentSkill.find(:all, :select => 'student_id',
+                            :group  => "student_id HAVING MAX(belt_id) in (#{filters[:belt_id].join(",")})")
 
-          search_filter += (search_filter == '' ? '' : ' OR ' )
-
-          if field == 'white_belt'
-            search_filter += "((student_profiles.yellow_belt_score is null)";
-            search_filter += "and (student_profiles.green_belt_score is null)";
-            search_filter += "and (student_profiles.red_belt_score is null)";
-            search_filter += "and (student_profiles.black_belt_score is null))";
-          else
-            search_filter += "((student_profiles.#{field}_score is not null)";
-            belt_found = false
-
-            # check if the selected filter it's not the highest belt, if yes ignore the condition below
-            if field != student_belts[student_belts.length - 1] 
-
-              student_belts.each do |belt| 
-                
-                # get the next belt of the filtered belt. 
-                # for example, if filtered by yellow belt student
-                # next belt rank (green, red and black belt) should be all empty or null
-
-                if belt != field and belt_found == true
-                  search_filter += "and (student_profiles.#{belt}_score is null)";
-                else
-                  belt_found = true
-                end  
-              end
-            end
-
-            search_filter += ")"
-
-          end
+          return self.where("id in (#{student_belts.map(&:student_id).to_s.gsub(/\[/, '').gsub(/\]/, '')}) AND  (status = 1)")
         end
+
       end
 
-      if search.nil?  
-          search_query = "#{search_query} and (#{search_filter})" 
+      if !filters[:skill_id].nil?
 
-          self.joins(:student_profile).where(search_query)
-      else
-          search_query = search_query + " and (#{search_filter})"
-          
-          self.joins(:student_profile).where(search_query)
+        if !filters[:belt_id].nil?           
+          search_query += "OR (student_skills.skill_id in (#{filters[:skill_id].join(',')})))"
+        else
+          search_query += "AND (student_skills.skill_id in (#{filters[:skill_id].join(',')}))"
+        end
+
+        self.includes(:student_skills).where(search_query)
       end
     end
   end
-
-
 
   private
     def create_profile
@@ -160,5 +134,4 @@ class Student < ActiveRecord::Base
   	def encrypt(pass)
   		Digest::SHA2.hexdigest("#{self.salt}--#{pass}")
   	end
-
 end

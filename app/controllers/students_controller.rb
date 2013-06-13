@@ -9,22 +9,41 @@ class StudentsController < ApplicationController
   before_filter :require_user_access, :only => [:edit, :update]
   before_filter :require_login
 
-  def index
-    if defined?(params[:search]) and !params[:search].nil?
 
-      session[:search] = params[:search]
-      @students = Student.search(session[:search], nil).shuffle
+  def index
+    @search_keyword = nil
+
+    if (defined?(session[:search]) and !session[:search].nil?) or (defined?(session[:filter]) and !session[:filter].nil?)
+
+      @students = Student.search_by_keyword_and_filter(session[:search], session[:filter])
 
       student_list = @students
-
     else
-      clear_student_list
-      
+
       if is_admin?
         @students = Student.all.shuffle if is_admin?
       else
         @students = Student.where("status > ?", 0).shuffle
       end
+    end
+
+    @skills = Skill.order(:id).all
+  end
+
+
+  def search
+    session[:search] = params[:search]
+    session[:filter] = params[:student_skills]
+
+    if params[:student_skills].nil?
+      @students = Student.search_by_keyword_and_filter(params[:search], nil)
+    else
+      @students = Student.search_by_keyword_and_filter(params[:search], params[:student_skills])
+    end
+
+    respond_to do |format|              
+        format.html 
+        format.js
     end
   end
 
@@ -196,12 +215,14 @@ class StudentsController < ApplicationController
                   student_information[:profile][:error] = ninja.student_profile.errors.full_messages
                 else
                   student_information[:profile][:error] = nil
+                  update_student_skills(ninja, "import_from_csv")
                 end
               else
                 if !ninja.student_profile.update_attributes(student_information[:profile])
                   student_information[:profile][:error] = ninja.student_profile.errors.full_messages
                 else
                   student_information[:profile][:error] = nil
+                  update_student_skills(ninja, "import_from_csv")
                 end
               end
             end
@@ -238,6 +259,7 @@ class StudentsController < ApplicationController
   end
 
   def update
+
     @student = Student.find(params[:id])
     @profile = @student.student_profile
 
@@ -279,6 +301,7 @@ class StudentsController < ApplicationController
           end
       elsif(@profile.update_attributes(params[:student_profile]))
             flash.now[:notice] = 'Student profile/project information was successfully updated.'
+            update_student_skills(@student, "user_update")
       else
             flash.now[:error] = "Something went wrong"
       end

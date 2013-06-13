@@ -6,57 +6,6 @@
 	<script>
 	$(document).ready(function(){
 
-		//temporary - when the topics are clicked automatically make the belt toggle
-		$('#skill_search div label').click(function(){
-			if(!$(this).hasClass('belt'))
-			{
-				$(this).parent().children('.belt').click();
-			}
-		});
-
-		$('.belt').click(function(){
-
-			var shown_belts = new Array;
-			var filter_belts = new Array;
-			// if($(this).children().prop("checked")){
-			// 	$(this).siblings().children().prop("checked", true);
-			// }
-			// else{
-			// 	$(this).siblings().children().prop("checked", false);
-			// }; //This bit controls the behavior of sub-checkboxes
-			$('.belt').each(function(){
-				if($(this).children().prop("checked")){
-					var a_belt = $(this).parent().attr("class") + "-student";
-					shown_belts.push(a_belt);
-					filter_belts.push($(this).parent().attr("class"));
-				}
-			}); //This puts the class names of the selected belts into an array
-
-			belts = 'nil'
-
-			if(shown_belts.length > 0){
-				belts = JSON.stringify({'filters' : [filter_belts] })
-			}
-			$.post('/belt/filters', {data: belts}, null);
-
-			if(shown_belts.length == 0)
-				$("#student_select").children('ul').children("li").fadeIn();
-			else
-			{
-				$("#student_select").find("li").each(function(){
-					var current_student = $(this);
-					var visible = false;
-					for(var i=0; i<shown_belts.length; i++){ //go through all the selected belts
-						if(current_student.hasClass(shown_belts[i])){
-							visible = true; //make current student not visible if they don't have a matching belt
-						}
-					}
-					visible ? current_student.fadeIn() : current_student.fadeOut(); //show or hide the current student
-				});
-			}				
-			// console.log(shown_belts);
-		});// END OF BELT CLICK EVENT
-
 		$('#short_list button').click(function(){
 			$(this).parent().hide();
 		});
@@ -71,41 +20,92 @@
 			//redirect to page according to student_id
 		});
 
+
+		// Submit form when checkbock was checked
+		$(".belt, .skill").click(function(){
+			
+			/* auto check skills when belt color was checked
+			if($(this).hasClass('belt')){
+				if($(this).children().prop("checked")){
+					$(this).siblings('div.skill_box').find("input[type='checkbox']").prop('checked', true)
+				}else{					
+					$(this).siblings('div.skill_box').find("input[type='checkbox']").prop('checked', false)
+				}
+			}
+			*/
+
+			$(this).parents("form.student-search").submit();
+		});
+
+		// Before form submit, get all the filters and search keyword
+		$("form.student-search").bind("ajax:beforeSend", function(event,xhr,settings){
+			formData = []
+			existedParams = []
+
+			$("form.student-search").each(function(){
+				dataArray = $(this).serializeArray()
+
+				if(dataArray.length > 0){
+					temp = existedParams
+
+					for(key in dataArray){					
+						if(temp.join(",").indexOf(dataArray[key].name) === -1 && dataArray[key].name.indexOf("[]") === -1 && dataArray[key].value !== ""){
+							existedParams.push(dataArray[key].name)
+							temp = existedParams
+
+							jsonObject = {}
+							jsonObject[dataArray[key].name] = dataArray[key].value
+							formData.push(jsonObject)
+						}
+						else if (dataArray[key].name.indexOf("[]") !== -1 && dataArray[key].value !== "")
+						{
+							jsonObject = {}
+							jsonObject[dataArray[key].name] = dataArray[key].value
+							formData.push(jsonObject)
+						}
+					}
+				}
+			});
+			 
+		});
+
 	});
 	</script>
 <% end %>					
-			<form id="skill_search" class="well" action="" method="post">
-				<legend>Refine your search</legend>
-				<div class="white-belt">
-					<label class="belt"><input id="white-belt-cat" type="checkbox">White Belt</input></label>
-					<label>Just started</label>
-				</div>
-				<div class="yellow-belt">
-					<label class="belt"><input id="yellow-belt-cat" type="checkbox">Yellow Belt</input></label>
-					<label>HTML</label>
-					<label>CSS</label>
-					<label>JQuery/Javascript</label>
-				</div>
-				<div class="green-belt">
-					<label class="belt"><input id="yellow-belt-cat" type="checkbox">Green Belt</input></label>
-					<label>PHP</label>
-					<label>Ajax</label>
-					<label>MySQL/Database Design</label>
-					<label>Agile</label>
-				</div>
-				<div class="red-belt">
-					<label class="belt"><input id="green-belt-cat" type="checkbox">Red Belt</input></label>
-					<label>OOP</label>
-					<label>Git/SVN</label>
-					<label>Ruby</label>
-					<label>Linux and Cloud Server</label>
-				</div>
-				<div class="black-belt">
-					<label class="belt"><input id="red-belt-cat" type="checkbox">Black Belt</input></label>
-					<label>Ruby on Rails</label>
-					<label>CodeIgniter</label>
-					<label>TDD</label>
-				</div>
+			<%= simple_form_for :student, :url => search_path, :html=> {:id=>'skill_search', :class=> 'well student-search'}, :method => 'post', :remote => true do %>
+					<legend>Refine your search</legend>
+					<h5>Filter by Belts:</h5>
+					<% CODINGDOJO_BELTS[0].each_with_index do |belt, index|
+						belt_selected = ""
+
+						if !session[:filter].nil?
+							if !session[:filter][:belt_id].nil? and session[:filter][:belt_id].include?(CODINGDOJO_BELTS[0][index][:id].to_s)
+								belt_selected = "checked='checked'"
+							end
+						end
+
+						
+					%>
+						<div class="<%=CODINGDOJO_BELTS[0][index][:belt]%>">
+							<label class="belt"><input id="<%=CODINGDOJO_BELTS[0][index][:belt]%>-cat" name="student_skills[belt_id][]" type="checkbox" value="<%=CODINGDOJO_BELTS[0][index][:id]%>" <%= belt_selected %> ><%=CODINGDOJO_BELTS[0][index][:label]%></input></label>
+							<% @skills.each do |skill| 			
+									skill_selected = ""					
+
+									if !session[:filter].nil?
+										if !session[:filter][:skill_id].nil? and session[:filter][:skill_id].include?(skill.id.to_s)
+											skill_selected = "checked='checked'"
+										end
+									end
+							%>
+								<% if skill.belt_id == CODINGDOJO_BELTS[0][index][:id] %>
+									<div class="skill_box skill_<%=skill.id%>">
+										<label class="skill"><input id="skill_<%=skill.id%>" name="student_skills[skill_id][]" type="checkbox" value="<%=skill.id%>" <%= skill_selected %> ><%=skill.name%></input></label>
+									</div>
+								<% end %>
+							<% end %>
+						</div>
+					<% end %>
+				<% end %>
 			</form>
 
 			<div class="dashboard_students">
@@ -119,40 +119,47 @@
 							<a class='btn btn-primary pull-left' href="<%= new_student_path %>">Add a new student</a>
 							<a class='btn btn-primary new_batch pull-left' href="<%= import_students_path %>">Import students</a>
 						<% else %>
-							<% if defined?params[:search] and !params[:search].nil? %> 
+							<% if !params[:search].nil? %> 
 								<p class='search_crumbs pull-left'><a href="<%= students_path %>">Dashboard</a> > <%= params[:search] %></p>
 							<% end %>
 						<% end %>			
-						 <%= simple_form_for :student, :controller => 'students', :action => 'search', :html=> {:id=>'main_search', :class=> 'navbar-search pull-right'}, :method => 'get' do %>
-						      	<%= text_field_tag :search, params[:search], :id => 'search_field', :class=>"search-query span2", :placeholder=>'Search' %>
+						 <%= simple_form_for :student, :url => search_path, :html=> {:id=>'main_search', :class=> 'student-search pull-right'}, :method => 'post', :remote => true do %>
+						      	<%= text_field_tag :search, @search_keyword, :id => 'search_field', :class=>"search-query span2", :placeholder=>'Search' %>
 						    <% end %> 				
 							<div class='clear'></div>
 					</div>
 					<% if defined?params[:search] and !params[:search].nil? and is_admin? %> 
 						<p class='search_crumbs'><a href="<%= students_path %>">Dashboard</a> > <%= params[:search] %></p>
 					<% end %>
-					<ul>
-						<% @students.each do |student| %>
-						
-							<li class="<%= displayBelt(student) %>">
-							<a href="/students/<%= student.id %>">
-							<!-- CHECKS FOR STUDENT BELT SCORES AND ECHOES THE HIGHEST RANKING BELT -->
-							<% if student.student_profile.black_belt_score %>
-								<span class="student_belt black_belt"></span>
-							<% elsif student.student_profile.red_belt_score %>
-								<span class="student_belt red_belt"></span>
-							<% elsif student.student_profile.green_belt_score %>
-								<span class="student_belt green_belt"></span>
-							<% elsif student.student_profile.yellow_belt_score %>								
-								<span class="student_belt yellow_belt"></span>
-							<% else %>
-								<span class="student_belt white_belt"></span>
-							<% end %>
-								<img src="<%= student.student_profile.image_src.nil? || student.student_profile.image_src == "" ? student.student_profile.avatar.url(:small) : student.student_profile.image_src  %>" alt="<%= student.name %>">
-								<p><%= truncate(student.name, :length => 21) %></p>
-							</a>
-						</li>
-						<% end %>
+					<ul class='student_lists'>
+						<% 
+
+							if !@students.nil?  and @students.length > 0
+
+								@students.each do |student| %>
+
+									<li class="<%= displayBelt(student) %>" data-skills="<%= displaySkills(student) %>">
+										<a href="/students/<%= student.id %>">
+										<!-- CHECKS FOR STUDENT BELT SCORES AND ECHOES THE HIGHEST RANKING BELT -->
+										<% if student.student_profile.black_belt_score %>
+											<span class="student_belt black_belt"></span>
+										<% elsif student.student_profile.red_belt_score %>
+											<span class="student_belt red_belt"></span>
+										<% elsif student.student_profile.green_belt_score %>
+											<span class="student_belt green_belt"></span>
+										<% elsif student.student_profile.yellow_belt_score %>								
+											<span class="student_belt yellow_belt"></span>
+										<% else %>
+											<span class="student_belt white_belt"></span>
+										<% end %>
+											<img src="<%= student.student_profile.image_src.nil? || student.student_profile.image_src == "" ? student.student_profile.avatar.url(:small) : student.student_profile.image_src  %>" alt="<%= student.name %>">
+											<p><%= truncate(student.name, :length => 21) %></p>
+										</a>
+									</li>
+							<%  end 
+							else  %>
+								<li class='error_message'>No Student found...</li>
+						<%  end %>
 						<div class='clear'></div>
 					</ul>
 				</div>

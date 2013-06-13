@@ -111,6 +111,15 @@
                 }
             }
         }
+
+        li.error_message{
+          color: #FF9494;
+          font-weight: bold;
+          font-size: 20px;
+          text-align: center;
+          margin-top: 30px;
+          width: 700px;
+        }
     }
     span.student_belt{
         background-image: image-url('border_belts/white_border.png');
@@ -158,15 +167,25 @@
         color:black;
     }
 
-    label.belt{
+    label.belt,
+    label.skill{
         font-weight: bold;
-        font-size: 13px;
+        font-size: 12px;
         margin-left: 0px;
 
         input[type="checkbox"]{
-            margin: 0;
-            margin-right: 10px;
+            margin: 0 5px;
         }
+    }
+
+    div.skill_box{
+      margin-left: 18px;
+
+      label.skill{
+        font-weight: normal;
+        font-size: 11px;
+        margin-left: 0px;
+      }
     }
 }
 

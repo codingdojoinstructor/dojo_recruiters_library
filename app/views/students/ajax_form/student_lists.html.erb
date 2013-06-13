@@ -1,0 +1,29 @@
+
+<%  if !students.nil? and students.length > 0
+
+		students.each do |student| %>
+
+			<li class="<%= displayBelt(student) %>" data-skills="<%= displaySkills(student) %>">
+			<a href="/students/<%= student.id %>">
+			<!-- CHECKS FOR STUDENT BELT SCORES AND ECHOES THE HIGHEST RANKING BELT -->
+			<% if student.student_profile.black_belt_score %>
+				<span class="student_belt black_belt"></span>
+			<% elsif student.student_profile.red_belt_score %>
+				<span class="student_belt red_belt"></span>
+			<% elsif student.student_profile.green_belt_score %>
+				<span class="student_belt green_belt"></span>
+			<% elsif student.student_profile.yellow_belt_score %>								
+				<span class="student_belt yellow_belt"></span>
+			<% else %>
+				<span class="student_belt white_belt"></span>
+			<% end %>
+				<img src="<%= student.student_profile.image_src.nil? || student.student_profile.image_src == "" ? student.student_profile.avatar.url(:small) : student.student_profile.image_src  %>" alt="<%= student.name %>">
+				<p><%= truncate(student.name, :length => 21) %></p>
+			</a>
+		</li>
+<% 
+		end
+	else %>
+		<li class='error_message'>No Student found...</li>
+<%	end %>
+<div class='clear'></div>

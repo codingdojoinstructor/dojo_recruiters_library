@@ -2,17 +2,13 @@ module StudentsHelper
 
 	def displayBelt(student)
 
-		profile = student.student_profile
-		puts profile
-
-		belt_class = "white-belt-student "
-
-		belt_class = "yellow-belt-student " unless profile.yellow_belt_score.nil?
-	    belt_class = "green-belt-student " unless profile.green_belt_score.nil?
-	    belt_class = "red-belt-student " unless profile.red_belt_score.nil?
-	    belt_class = "black-belt-student " unless profile.black_belt_score.nil?
-
+		belt_class = student.student_skills.belt.length == 0 ? "white-belt-student " : CODINGDOJO_BELTS[0] [student.student_skills.belt[0].belt_id - 1][:belt] + "-student"
 	    belt_class
+	end
+
+	def displaySkills(student)
+		skill_sets = student.student_skills.map(&:skill_id).to_s
+		skill_sets
 	end
 
 	def embed_video(video_link)

@@ -106,9 +106,9 @@ class RecruitersController < ApplicationController
     elsif flash[:action] == 'submit company profile'
         @recruiter = Recruiter.new(params[:recruiter])
     elsif flash[:action] == 'request leads'
-        @recruiter = Recruiter.where(:email=>params[:recruiter][:email])
+        @recruiter = Recruiter.find_by_email(params[:recruiter][:email])
 
-        if @recruiter.length == 0
+        if @recruiter.nil?
 
             @recruiter = Recruiter.new(params[:recruiter])
             @recruiter.status = 0

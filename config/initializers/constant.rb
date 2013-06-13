@@ -23,3 +23,14 @@ FLOAT_HEADER = ["white_belt_score", "yellow_belt_score", "green_belt_score", "re
 
 #INTEGER HEADER
 INTEGER_HEADER = ["status"]
+
+
+# ------------------------------------- BELT TYPE --------------------------------------------------
+
+CODINGDOJO_BELTS =  [
+						0 => {:id => 1, :belt => 'white-belt', :label => 'White Belt'}, 
+						1 => {:id => 2, :belt => 'yellow-belt', :label => 'Yellow Belt'},
+						2 => {:id => 3, :belt => 'green-belt', :label => 'Green Belt'}, 
+						3 => {:id => 4, :belt => 'red-belt', :label => 'Red Belt'}, 
+						4 => {:id => 5, :belt => 'black-belt', :label => 'Black Belt'}
+					]

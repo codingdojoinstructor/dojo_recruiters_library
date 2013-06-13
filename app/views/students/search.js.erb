@@ -1,0 +1,1 @@
+$("ul.student_lists").html('<%= escape_javascript(render :template => "students/ajax_form/student_lists.html.erb", :formats  => [:html], :locals   => {:students => @students }) %>').fadeIn();

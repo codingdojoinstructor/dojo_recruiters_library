@@ -32,7 +32,7 @@ Codingdojo::Application.routes.draw do
 
  match '/recruiter/candidate/remove/:id', :as => 'remove_from_short_list', :controller => 'recruiters', :action => 'remove_from_short_list'
 
- match '/belt/filters', :controller => 'students', :action => 'save_filter'
+ match '/search', :controller => 'students', :action => 'search'
 
  match '/student/new_batch', :to => 'students#new_students', :as => 'import_students'
 
