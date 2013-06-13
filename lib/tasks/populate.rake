@@ -10,8 +10,8 @@ namespace :db do
 
       [Skill, StudentSkill].each(&:destroy_all)
 
-      ActiveRecord::Base.connection.execute("DELETE from sqlite_sequence where name = 'skills'")
-      ActiveRecord::Base.connection.execute("DELETE from sqlite_sequence where name = 'student_skills'")
+      #ActiveRecord::Base.connection.execute("DELETE from sqlite_sequence where name = 'skills'")
+      #ActiveRecord::Base.connection.execute("DELETE from sqlite_sequence where name = 'student_skills'")
       
       Skill.create(name: "HTML", description: "HTML", belt_id: 2)
       Skill.create(name: "CSS", description: "CSS", belt_id: 2)
