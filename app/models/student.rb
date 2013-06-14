@@ -85,7 +85,7 @@ class Student < ActiveRecord::Base
       if !filters[:belt_id].nil? 
 
         white_belt = false
-        with_white_belt = true
+        with_white_belt = false
 
         if filters[:belt_id].length == 1
             if filters[:belt_id].include?("1")
