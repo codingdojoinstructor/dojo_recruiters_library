@@ -49,7 +49,7 @@ class RecruitersController < ApplicationController
         if is_recruiter?
             flash[:success] = 'Your information was successfully updated.'
         else
-          if recruiter_status == 0 and is_admin
+          if recruiter_status == 0 and is_admin?
             password = (0...7).map{ @recruiter.name.gsub(" ", "").split("").to_a[rand(@recruiter.name.length)] }.join
             @recruiter.password = password
             @recruiter.password_confirmation = password
