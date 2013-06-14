@@ -83,29 +83,68 @@ class Student < ActiveRecord::Base
       self.where(search_query)
     else
       if !filters[:belt_id].nil? 
+
+        white_belt = false
+        with_white_belt = true
+
+        if filters[:belt_id].length == 1
+            if filters[:belt_id].include?("1")
+              white_belt = true
+            end
+        else
+            if filters[:belt_id].include?("1")                
+              with_white_belt = true
+            else
+              with_white_belt = false
+            end
+        end
+
+        if white_belt == true or with_white_belt == true
+            white_belt_students = []
+
+            Student.all.each do |student|
+              if student.student_skills.length == 0
+                white_belt_students.push(student)
+              end
+            end
+        end
+
         if !filters[:skill_id].nil? 
           search_query += "AND ((student_skills.belt_id in (#{filters[:belt_id].join(',')}))"
         else
-
-          student_belts =   StudentSkill.find(:all, :select => 'student_id',
-                            :group  => "student_id HAVING MAX(belt_id) in (#{filters[:belt_id].join(",")})")
-
-          return self.where("id in (#{student_belts.map(&:student_id).to_s.gsub(/\[/, '').gsub(/\]/, '')}) AND  (status = 1)")
+          if white_belt == false and with_white_belt == false
+            student_belts =   StudentSkill.find(:all, :select => 'student_id', :group  => "student_id HAVING MAX(belt_id) in (#{filters[:belt_id].join(",")})")
+            return self.where("id in (#{student_belts.map(&:student_id).to_s.gsub(/\[/, '').gsub(/\]/, '')}) AND  (status = 1)")
+          elsif with_white_belt == true
+            student_belts =   StudentSkill.find(:all, :select => 'student_id', :group  => "student_id HAVING MAX(belt_id) in (#{filters[:belt_id].join(",")})")
+            return self.where("(id in (#{student_belts.map(&:student_id).to_s.gsub(/\[/, '').gsub(/\]/, '')}) or id in (#{white_belt_students.map(&:id).to_s.gsub(/\[/, '').gsub(/\]/, '')})) AND  (status = 1)")
+          elsif white_belt == true
+            return self.where("id in (#{white_belt_students.map(&:id).to_s.gsub(/\[/, '').gsub(/\]/, '')}) AND  (status = 1)")
+          end
         end
 
       end
 
       if !filters[:skill_id].nil?
-
-        if !filters[:belt_id].nil?           
-          search_query += "OR (student_skills.skill_id in (#{filters[:skill_id].join(',')})))"
+        if !filters[:belt_id].nil?      
+          if white_belt == false and with_white_belt == false
+            search_query += " OR (student_skills.skill_id in (#{filters[:skill_id].join(',')})))"
+          else
+            search_query += " OR students.id in (#{white_belt_students.map(&:id).to_s.gsub(/\[/, '').gsub(/\]/, '')}) OR (student_skills.skill_id in (#{filters[:skill_id].join(',')})))"
+          end     
+          
         else
-          search_query += "AND (student_skills.skill_id in (#{filters[:skill_id].join(',')}))"
+          search_query += " AND (student_skills.skill_id in (#{filters[:skill_id].join(',')}))"
         end
+
+
+        #abort(self.includes(:student_skills).where(search_query).to_sql)
 
         self.includes(:student_skills).where(search_query)
       end
     end
+
+
   end
 
   private

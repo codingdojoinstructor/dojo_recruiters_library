@@ -5,7 +5,7 @@ class StudentSkill < ActiveRecord::Base
 
   scope :belt, order("belt_id DESC").limit(1)
 
-  validates :earned_at,	:presence 	=> true
+  #validates :earned_at,	:presence 	=> true
 
   validates :scores,	:presence 	=> true
 end

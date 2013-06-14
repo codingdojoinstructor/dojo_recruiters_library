@@ -37,22 +37,22 @@ module SessionsHelper
 
         if CODINGDOJO_BELTS[0][index][:id] == 2 and !student.student_profile.yellow_belt_score.nil? and !student.student_profile.yellow_belt_score.blank?
           skills.each do |skill|
-            StudentSkill.create(student_id: student.id, skill_id: skill.id, scores: student.student_profile.yellow_belt_score, earned_at: student.student_profile.yellow_belt_date, belt_id: skill.belt_id)
+            new_student =StudentSkill.new(student_id: student.id, skill_id: skill.id, scores: student.student_profile.yellow_belt_score, earned_at: student.student_profile.yellow_belt_date, belt_id: skill.belt_id).save
             display_task(task, "Added #{student.name}'s skill: #{skill.name}: #{student.student_profile.yellow_belt_score}")
           end
         elsif CODINGDOJO_BELTS[0][index][:id] == 3 and !student.student_profile.green_belt_score.nil? and !student.student_profile.green_belt_score.blank?
           skills.each do |skill|
-            StudentSkill.create(student_id: student.id, skill_id: skill.id, scores: student.student_profile.green_belt_score, earned_at: student.student_profile.green_belt_date, belt_id: skill.belt_id)
+            StudentSkill.new(student_id: student.id, skill_id: skill.id, scores: student.student_profile.green_belt_score, earned_at: student.student_profile.green_belt_date, belt_id: skill.belt_id).save
             display_task(task, "Added #{student.name}'s skill: #{skill.name}: #{student.student_profile.green_belt_score}")
           end          
         elsif CODINGDOJO_BELTS[0][index][:id] == 4 and !student.student_profile.red_belt_score.nil? and !student.student_profile.red_belt_score.blank?
           skills.each do |skill|
-            StudentSkill.create(student_id: student.id, skill_id: skill.id, scores: student.student_profile.red_belt_score, earned_at: student.student_profile.red_belt_date, belt_id: skill.belt_id)
+            StudentSkill.new(student_id: student.id, skill_id: skill.id, scores: student.student_profile.red_belt_score, earned_at: student.student_profile.red_belt_date, belt_id: skill.belt_id).save
             display_task(task, "Added #{student.name}'s skill: #{skill.name}: #{student.student_profile.red_belt_score}")
           end
         elsif CODINGDOJO_BELTS[0][index][:id] == 5 and !student.student_profile.black_belt_score.nil? and !student.student_profile.black_belt_score.blank?
           skills.each do |skill|
-            StudentSkill.create(student_id: student.id, skill_id: skill.id, scores: student.student_profile.black_belt_score, earned_at: student.student_profile.black_belt_date, belt_id: skill.belt_id)
+            StudentSkill.new(student_id: student.id, skill_id: skill.id, scores: student.student_profile.black_belt_score, earned_at: student.student_profile.black_belt_date, belt_id: skill.belt_id).save
             display_task(task, "Added #{student.name}'s skill: #{skill.name}: #{student.student_profile.black_belt_date}")
           end
         end
