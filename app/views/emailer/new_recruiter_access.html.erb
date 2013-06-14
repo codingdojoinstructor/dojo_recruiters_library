@@ -1,0 +1,35 @@
+<!DOCTYPE Html>
+<html lang="en">
+    <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    </head>
+    <body>
+        <div class='content'>
+            <div class='header' style='width: 700px; background: #333; border: 1px solid #111; color: #fff;text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5); padding: 10px 0 10px 10px;  margin: 0 auto;'>
+                <h3>Welcome!</h3>
+            </div>
+            <div class='recruiter_message' style='border: 1px solid #ccc; padding: 20px; width: 670px; margin: 0 auto;'>
+
+                <div class='content' style='min-height: 100px;'>
+                    <h4>Hello <%=@recruiter.name%>,</h4>
+                    <p style='margin-bottom: 0;'>Congratulations!</p><br />
+                    <p style='margin-bottom: 0;'>You are now an official member of CodingDojo Network Library. </p><br />
+                    <p style='margin-bottom: 0;'>Your new password is: <b><%=@password%></b>.</p><br />
+                    <p style='margin-bottom: 0;'>You may now login at <%=@url%></p><br />
+					<p style='margin-bottom: 0;'>Thanks and have a great day!</p><br />
+                </div>
+                <div class='footer' style='margin-top: 10px;'>
+                      Sincerely,
+                      <p style='margin-bottom: 0;'><b>Conding Dojo Admins</b></p>
+                </div>
+            </div>
+            <div class='message_footer' style=' width: 700px;  margin: 0 auto;'>
+                <h3 style='float: right;'><a href='http://codingdojo.herokuapp.com/recruiters'>Powered by CodingDojo Network Library</a></h3>
+            </div>
+        </div>
+    </body>
+</html>
+
+
+
+

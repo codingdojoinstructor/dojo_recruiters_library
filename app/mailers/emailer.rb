@@ -50,4 +50,13 @@ class Emailer < ActionMailer::Base
         mail(:to => @user.email,
              :subject => "CodingDojo Recruiters Library, New Import from CSV")
     end
+
+    def new_recruiter_access(recruiter, password)
+        @recruiter = recruiter 
+        @password = password 
+        @url  = "http://codingdojo.herokuapp.com"
+
+        mail(:to => @recruiter.email,
+             :subject => "CodingDojo Recruiters Library, Welcome to Community")
+    end
 end

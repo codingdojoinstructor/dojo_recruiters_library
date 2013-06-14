@@ -18,13 +18,21 @@
 <%= simple_form_for(@recruiter) do |f| %>
 	<%= f.input :name %>
 	<%= f.input :email %>
+
+    <% if is_recruiter? %>
+        <%= f.input :password %>
+        <%= f.input :password_confirmation %>
+    <% end %>
+
 	<%= f.input :title %>
 	<%= f.input :individual_description %>
 	<%= f.input :company %>
 	<%= f.input :company_website %>
 	<%= f.input :engineers_managed %>
 	<%= f.input :company_description %>
+
     <% if !is_recruiter? %>
+        <%= f.input :status,  priority: [@recruiter.status], include_blank: false,collection: {'Select Status' => 0, 'Active' => 1, 'Inactive'=> 2} %>
 	    <%= f.submit :value=> "Update Recruiter", :class => 'btn btn-primary' %>
     <% else %>
         <%= f.submit :value=> "Save Information", :class => 'btn btn-primary' %>

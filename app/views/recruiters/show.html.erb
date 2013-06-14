@@ -41,7 +41,7 @@
     <p><a href="<%= recruiters_path %>">Recruiters</a> > <%= @recruiter.name %></p>
     <div class='recruiter_information'>
        <h2><%= @recruiter.name %></h2>
-       <h4><%= @recruiter.title %> - <%= @recruiter.email %></h4>
+       <h4><%= @recruiter.title %> - <%= @recruiter.email %> (<%= @recruiter.status == 1 ? "Active" : (@recruiter.status == 0 ? "New" : "Inactive") %>)</h4>
     </div>
 </div>
 <div id='alt_wrapper'>

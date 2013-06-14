@@ -43,11 +43,22 @@ class RecruitersController < ApplicationController
   def update
     @recruiter = Recruiter.find(params[:id])
 
+    recruiter_status = @recruiter.status
+
     if @recruiter.update_attributes(params[:recruiter])
         if is_recruiter?
             flash[:success] = 'Your information was successfully updated.'
         else
-            flash[:success] = 'Recruiter was successfully updated.'
+          if recruiter_status == 0 and is_admin
+            password = (0...7).map{ @recruiter.name.gsub(" ", "").split("").to_a[rand(@recruiter.name.length)] }.join
+            @recruiter.password = password
+            @recruiter.password_confirmation = password
+            @recruiter.save
+
+            Emailer.new_recruiter_access(@recruiter, password).deliver
+          end
+          
+          flash[:success] = 'Recruiter was successfully updated.'
         end
     else
         flash[:error] = ''
