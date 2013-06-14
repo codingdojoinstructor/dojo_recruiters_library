@@ -4,72 +4,81 @@
 
 <% content_for :jquery do %>
 	<script>
-	$(document).ready(function(){
 
-		$('#short_list button').click(function(){
-			$(this).parent().hide();
-		});
+		jQuery.ajaxSetup({
+		    'async' : false
+		})
 
-		$('#student_select li').click(function(){
-			//var student_id = $(this).attr("id");
-			//redirect to page according to student_id
-		});
+		$(document).ready(function(){
 
-		$('#short_list li').click(function(){
-			//var student_id = $(this).attr("id");
-			//redirect to page according to student_id
-		});
+			$('#short_list button').click(function(){
+				$(this).parent().hide();
+			});
+
+			$('#student_select li').click(function(){
+				//var student_id = $(this).attr("id");
+				//redirect to page according to student_id
+			});
+
+			$('#short_list li').click(function(){
+				//var student_id = $(this).attr("id");
+				//redirect to page according to student_id
+			});
 
 
-		// Submit form when checkbock was checked
-		$(".belt, .skill").click(function(){
-			
-			/* auto check skills when belt color was checked
-			if($(this).hasClass('belt')){
-				if($(this).children().prop("checked")){
-					$(this).siblings('div.skill_box').find("input[type='checkbox']").prop('checked', true)
-				}else{					
-					$(this).siblings('div.skill_box').find("input[type='checkbox']").prop('checked', false)
-				}
-			}
-			*/
-
-			$(this).parents("form.student-search").submit();
-		});
-
-		// Before form submit, get all the filters and search keyword
-		$("form.student-search").bind("ajax:beforeSend", function(event,xhr,settings){
-			formData = []
-			existedParams = []
-
-			$("form.student-search").each(function(){
-				dataArray = $(this).serializeArray()
-
-				if(dataArray.length > 0){
-					temp = existedParams
-
-					for(key in dataArray){					
-						if(temp.join(",").indexOf(dataArray[key].name) === -1 && dataArray[key].name.indexOf("[]") === -1 && dataArray[key].value !== ""){
-							existedParams.push(dataArray[key].name)
-							temp = existedParams
-
-							jsonObject = {}
-							jsonObject[dataArray[key].name] = dataArray[key].value
-							formData.push(jsonObject)
-						}
-						else if (dataArray[key].name.indexOf("[]") !== -1 && dataArray[key].value !== "")
-						{
-							jsonObject = {}
-							jsonObject[dataArray[key].name] = dataArray[key].value
-							formData.push(jsonObject)
-						}
+			// Submit form when checkbock was checked
+			$(".belt, .skill").click(function(){
+				
+				/* auto check skills when belt color was checked
+				if($(this).hasClass('belt')){
+					if($(this).children().prop("checked")){
+						$(this).siblings('div.skill_box').find("input[type='checkbox']").prop('checked', true)
+					}else{					
+						$(this).siblings('div.skill_box').find("input[type='checkbox']").prop('checked', false)
 					}
 				}
-			});
-			 
-		});
+				*/
 
-	});
+				$(this).parents("form.student-search").submit();
+			});
+
+			// Before form submit, get all the filters and search keyword
+			$("form.student-search").bind("ajax:beforeSend", function(event,xhr,settings){
+				xhr.setRequestHeader("Accept", "text/javascript")
+				
+				formData = []
+				existedParams = []
+
+				$("ul.student_lists").hide();
+
+				$("form.student-search").each(function(){
+					dataArray = $(this).serializeArray()
+
+					if(dataArray.length > 0){
+						temp = existedParams
+
+						for(key in dataArray){					
+							if(temp.join(",").indexOf(dataArray[key].name) === -1 && dataArray[key].name.indexOf("[]") === -1 && dataArray[key].value !== ""){
+								existedParams.push(dataArray[key].name)
+								temp = existedParams
+
+								jsonObject = {}
+								jsonObject[dataArray[key].name] = dataArray[key].value
+								formData.push(jsonObject)
+							}
+							else if (dataArray[key].name.indexOf("[]") !== -1 && dataArray[key].value !== "")
+							{
+								jsonObject = {}
+								jsonObject[dataArray[key].name] = dataArray[key].value
+								formData.push(jsonObject)
+							}
+						}
+					}
+				});
+				 
+			});
+
+		});
 	</script>
 <% end %>					
 			<%= simple_form_for :student, :url => search_path, :html=> {:id=>'skill_search', :class=> 'well student-search'}, :method => 'post', :remote => true do %>
