@@ -38,6 +38,10 @@ Codingdojo::Application.routes.draw do
 
   match '/student/new_batch/create', :to => 'students#process_batch', :as => 'process_batch'
 
+  
+ match "/students/:id", :to => 'students#show_user', :method => :post
+
+
  root :to => 'sessions#new'
 
   # The priority is based upon order of creation:

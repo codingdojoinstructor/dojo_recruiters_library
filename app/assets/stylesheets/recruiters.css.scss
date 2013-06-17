@@ -57,3 +57,116 @@ p.paragraph{
 a.new_recruiter{
   margin-top: 20px;
 }
+
+div.profile_container{
+  min-height: 410px;
+  padding: 10px 5px;
+  background: #fff;
+  border: 2px solid #ccc;
+}
+
+  div.profile_container div.side_panel{
+    width: 120px;
+  }
+
+    div.profile_container div.side_panel ul.panel_controls{
+      list-style: none;
+      margin-left: 0;
+    }
+
+      div.profile_container div.side_panel ul.panel_controls li.parent,
+      div.profile_container div.side_panel ul.panel_controls li{
+        padding:2px 10px;
+        font-size: 12px;
+      }
+
+      div.profile_container div.side_panel ul.panel_controls li.parent{
+        border-bottom: 1px solid #ccc;
+        font-size: 14px;
+        padding: 10px;
+      }
+
+      div.profile_container div.side_panel ul.panel_controls li.active a{
+        color: #333;
+      }
+
+  div.profile_container div.content_panel{
+    min-height: 410px;
+    width: 770px;
+    border-left: 1px solid #ccc;
+    padding-top: 10px;
+  }
+
+  div.content_panel{
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+    div.content_panel h3{
+      line-height: 22px;
+      margin: 0;
+    }
+
+    div.content_panel p{
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    div.content_panel{
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+      div.content_panel div.student_info{
+        width: 440px;
+      }
+
+      div.content_panel a.student_link{
+        color: #333;
+      }
+
+        div.content_panel div.student_info h1{
+          font-size: 24px;
+          color: #333;
+        }
+
+        div.content_panel div.student_info h2{
+          font-size: 20px;
+          color: #333;
+        }
+
+        div.content_panel div.tab-content{
+          background: #000;
+        }
+
+        div.content_panel div.tab-content h3{
+          margin-bottom: 20px !important;
+        }
+
+        div.content_panel ul.video-list li iframe,
+        div.content_panel ul.video-list li p{
+          width: 173px!important;
+        }
+
+        div.content_panel div.belt-scores{
+          width: 150px!important;
+        }
+
+          div.content_panel div.belt-scores h3.belt-title{
+            text-align: center;
+          }
+
+          div.content_panel div.belt-scores ul{              
+            margin-left: 13px;
+            margin-top: 10px;
+          }
+
+          div.content_panel div.activity #alt_wrapper{
+            overflow-x: hidden;
+            max-width: 750px;
+          }
+
+div.hidden{
+  display: none;
+}

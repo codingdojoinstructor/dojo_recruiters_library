@@ -50,7 +50,7 @@ class StudentsController < ApplicationController
   def show
     @student = Student.find(params[:id])
     @profile = @student.student_profile
-
+    
     if is_recruiter?
         if !Net::HTTPNotModified
             @recruiter_views = RecruiterView.where(:recruiter_id => current_user.id, :student_id => @student.id, :status => 0)
@@ -67,6 +67,15 @@ class StudentsController < ApplicationController
         else
             @recruiter_view = @recruiter_views
         end
+    end
+  end
+
+  def show_user
+    @student = Student.find(params[:id])
+    @profile = @student.student_profile   
+
+    respond_to do |format|
+        format.js
     end
   end
   

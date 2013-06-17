@@ -1,0 +1,130 @@
+<div class="student_profile">
+    <div class="main_profile">
+        <img id="main_photo" class="main-photo" src="<%= @profile.image_src.nil? || @profile.image_src == "" ? @profile.avatar.url(:medium) : @profile.image_src %>" />
+        <div class="student_info">
+            <h1><a href='/students/<%= @student.id %>' class='student_link'><%= @student.name %></a></h1>
+            <h2><%= @student.location %></h2>
+            
+            <div class='recruiter_controls'>
+                <p class='pull-left'><a href="#modal" class='get_introduce btn btn-primary' data-link='<%= send_email_to_student_path(@student.id) %>' data-action='get_introduces'>Get Introduce</a></p>
+                <% if @student.recruiter_lists.where(:id => current_user.id).length == 0 %>
+                    <p class='pull-left'><a class='add_to_short_list btn btn-primary' data-link='<%= add_to_short_list_path(@student.id) %>'>Save to a short list</a></p>
+                <% else  %>
+                    <p class='pull-left'><a class='remove_from_short_list btn btn-primary' data-link='<%= remove_from_short_list_path(@student.id) %>'>Remove from short list</a></p>
+                <% end %>
+                <div class='clear'></div>
+            </div>
+        </div>
+    </div>
+    <div class='profile_information'>
+        <ul class="nav nav-tabs" id="profile_tab">
+            <li class="active"><a href="#overview">Overview</a></li>
+            <li><a href="#resume">Resume</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="overview">
+                <div class="certified">
+                    <ul class="video-list">
+                        <% if @profile.video_url != nil and @profile.video_url != '' %>
+                            <li>
+                                <%= raw(embed_video(@profile.video_url)) %><p>Video introduction</p>
+                            </li>
+                        <% end %>
+
+                        <% if @profile.project1_url != nil and @profile.project1_url != '' %>
+                            <li>
+                                <%= raw(embed_video(@profile.project1_url)) %><p><%= @profile.project1_name %></p>
+                            </li>
+                        <% end %>
+
+                        <% if @profile.project2_url != nil and @profile.project2_url != '' %>
+                            <li>
+                                <%= raw(embed_video(@profile.project2_url)) %><p><%= @profile.project2_name %></p>
+                            </li>
+                        <% end %>
+
+                        <% if @profile.project3_url != nil and @profile.project3_url != '' %>
+                            <li>
+                                <%= raw(embed_video(@profile.project3_url)) %><p><%= @profile.project3_name %></p>
+                            </li>
+                        <% end %>
+                    </ul>
+                    <h3 class="title">Certified Topics</h3>
+                    <div class="belt-scores <%= "no-score" if @profile.yellow_belt_score.nil? %>">
+                        <div class="competencies">
+                            <h3 class="belt-title">Yellow Belt</h3>
+                            <ul>
+                                <li>HTML</li>
+                                <li>CSS</li>
+                                <li>jQuery/Javascript</li>
+                            </ul>
+                        </div>
+                        <div class="yellow-belt"><h3 class="score"><%= @profile.yellow_belt_score %>&nbsp;</h3></div>
+                    </div>
+                    <div class="belt-scores <%= "no-score" if @profile.green_belt_score.nil? %>">
+                        <div class="competencies">
+                            <h3 class="belt-title">Green Belt</h3>
+                            <ul>
+                                <li>PHP</li>
+                                <li>MySQL/Database Design</li>
+                                <li>Agile</li>
+                            </ul>
+                        </div>
+                        <div class="green-belt"><h3 class="score"><%= @profile.green_belt_score %>&nbsp;</h3></div>
+                    </div>
+                    <div class="belt-scores <%= "no-score" if @profile.red_belt_score.nil? %>">
+                        <div class="competencies">
+                            <h3 class="belt-title">Red Belt</h3>
+                            <ul>
+                             <li>OOP</li>
+                                <li>Git/SVN</li>
+                                <li>Ruby</li>
+                                <li>Ajax</li>
+                            </ul>
+                        </div>
+                        <div class="red-belt"><h3 class="score"><%= @profile.red_belt_score %>&nbsp;</h3></div>
+                    </div>
+                    <div class="belt-scores <%= "no-score" if @profile.black_belt_score.nil? %>">
+                        <div class="competencies">
+                            <h3 class="belt-title">Black Belt</h3>
+                            <ul>
+                                <li>Ruby on Rails</li>
+                                <li>CodeIgniter</li>
+                                <li>Linux and Cloud</li>
+                            </ul>
+                        </div>
+                        <div class="black-belt"><h3 class="score"><%= @profile.black_belt_score %>&nbsp;</h3></div>
+                    </div>
+                 </div><!-- end certified -->
+            </div>
+            <div class="tab-pane" id="resume">
+                <div class='resume'>
+                    <%
+                       file_path = get_resume_path(@profile)
+
+                       if !file_path.nil? 
+                            if Rails.env == 'production'
+                       %>
+                                <%= raw(google_doc_viewer(file_path)) %>
+                       <% 
+                            elsif @profile.resume_url.nil? %>
+                                <embed class='view_resume' src='<%= resume_path(@student.id) %>'></embed>  
+                       <%
+                            else %>
+                                <embed class='view_resume' src='<%= file_path %>'></embed>  
+                       <%
+                            end
+                        else %>
+                            <embed class='view_resume' src=''></embed>
+                       <% end %>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- end of student profile -->
+
+<!-- CREATE MODAL -->
+<div id='modal' class="modal hide fade">
+  <div class="modal-footer"></div>
+</div>

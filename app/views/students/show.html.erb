@@ -65,7 +65,7 @@
                 $("a.remove_from_short_list").click(function(e){
                     e.preventDefault();
                     $.post(this.getAttribute('data-link'), null, "script");
-                
+                    window.location.href = "/students/" + this.getAttribute('data-user')
                 });
 
                 $('.carousel').carousel({
@@ -135,7 +135,7 @@
                     <% if @student.recruiter_lists.where(:id => current_user.id).length == 0 %>
                         <p class='pull-left'><a class='add_to_short_list btn btn-primary' data-link='<%= add_to_short_list_path(@student.id) %>'>Save to a short list</a></p>
                     <% else  %>
-                        <p class='pull-left'><a class='remove_from_short_list btn btn-primary' data-link='<%= remove_from_short_list_path(@student.id) %>'>Remove from short list</a></p>
+                        <p class='pull-left'><a class='remove_from_short_list btn btn-primary' data-link='<%= remove_from_short_list_path(@student.id) %>' data-user='<%= @student.id %>'>Remove from short list</a></p>
                     <% end %>
                     <div class='clear'></div>
                 </div>

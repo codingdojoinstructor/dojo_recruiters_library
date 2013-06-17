@@ -1,0 +1,23 @@
+$("div.content_panel").children("div.candidate").html('<%= escape_javascript(render :template => "students/show_user.html.erb", :formats => [:html], :locals => {:student => @student, :profile => @profile}) %>');
+
+$('#profile_tab a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+});
+
+$("a.get_introduce").click(function(e){
+    e.preventDefault();
+    $.post(this.getAttribute('data-link'), null, "script")
+});
+
+$("a.remove_from_short_list").click(function(e){
+    e.preventDefault();
+    $.post(this.getAttribute('data-link'), { recruiter: "true"}, "script");
+    $("div.candidate").addClass("hidden");
+    $("li.active[data-parent='candidate']").remove();
+    if($("li[data-parent='candidate']").length == 0){
+    	$("li[data-group='profile'] a").click();
+    	$("li[data-group='candidate']").remove();
+    }
+    $("li[data-group='candidate'] a").click();
+});
