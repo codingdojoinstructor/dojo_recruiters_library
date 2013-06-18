@@ -5,15 +5,17 @@
             <h1><a href='/students/<%= @student.id %>' class='student_link'><%= @student.name %></a></h1>
             <h2><%= @student.location %></h2>
             
-            <div class='recruiter_controls'>
-                <p class='pull-left'><a href="#modal" class='get_introduce btn btn-primary' data-link='<%= send_email_to_student_path(@student.id) %>' data-action='get_introduces'>Get Introduce</a></p>
-                <% if @student.recruiter_lists.where(:id => current_user.id).length == 0 %>
-                    <p class='pull-left'><a class='add_to_short_list btn btn-primary' data-link='<%= add_to_short_list_path(@student.id) %>'>Save to a short list</a></p>
-                <% else  %>
-                    <p class='pull-left'><a class='remove_from_short_list btn btn-primary' data-link='<%= remove_from_short_list_path(@student.id) %>'>Remove from short list</a></p>
-                <% end %>
-                <div class='clear'></div>
-            </div>
+            <% if is_recruiter? %>
+                <div class='recruiter_controls'>
+                    <p class='pull-left'><a href="#modal" class='get_introduce btn btn-primary' data-link='<%= send_email_to_student_path(@student.id) %>' data-action='get_introduces'>Get Introduce</a></p>
+                    <% if @student.recruiter_lists.where(:id => current_user.id).length == 0 %>
+                        <p class='pull-left'><a class='add_to_short_list btn btn-primary' data-link='<%= add_to_short_list_path(@student.id) %>'>Save to a short list</a></p>
+                    <% else  %>
+                        <p class='pull-left'><a class='remove_from_short_list btn btn-primary' data-link='<%= remove_from_short_list_path(@student.id) %>'>Remove from short list</a></p>
+                    <% end %>
+                    <div class='clear'></div>
+                </div>
+            <% end %>
         </div>
     </div>
     <div class='profile_information'>
