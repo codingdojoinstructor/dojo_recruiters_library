@@ -624,9 +624,14 @@ div.new_batch_div h4{
 
 
 form.new_batch{
-  width: 330px;
+  width: 430px;
   margin-top: 15px;
 }
+
+  form.new_batch div.control-group{
+    margin: 3px 0;
+  }
+
 
 
   form.new_batch input {
@@ -634,7 +639,7 @@ form.new_batch{
   }
 
   form.new_batch input[type=file] {
-    line-height: 15px;
+    line-height: 28px;
   }
 
   form.new_batch label{
