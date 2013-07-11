@@ -1,5 +1,6 @@
+require 'roo';
 class Student < ActiveRecord::Base
-
+  
 
   has_one :student_profile, :dependent => :destroy
 
@@ -146,7 +147,7 @@ class Student < ActiveRecord::Base
 
 
   end
-
+  
   private
     def create_profile
       profile = StudentProfile.new()

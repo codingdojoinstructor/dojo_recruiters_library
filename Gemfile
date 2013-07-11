@@ -18,7 +18,10 @@ end
 gem "paperclip", "~> 3.4.1"
 gem 'aws-sdk'
 gem "pdf-reader"
+#gem 'docx'
+#gem 'prawn'
 gem 'jquery-tablesorter'
+gem 'roo'
 
 gem 'bootstrap-sass', '~> 2.3.1.0'
 gem 'jquery-rails'

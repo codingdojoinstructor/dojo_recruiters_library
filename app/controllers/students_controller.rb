@@ -1,6 +1,7 @@
 require 'open-uri'
 require 'net/http'
 require 'csv'
+require 'roo'
 
 class StudentsController < ApplicationController
   include StudentsHelper
@@ -86,171 +87,196 @@ class StudentsController < ApplicationController
   def new_students
     @student_lists = nil
   end
+  
+    def open_spreadsheet(file)
+	  case File.extname(file.original_filename)
+		  when ".csv" then  Roo::Csv.new(file.path, nil, :ignore)
+		  when ".xls" then Roo::Excel.new(file.path, nil, :ignore)
+		  when ".xlsx" then Roo::Excelx.new(file.path, nil, :ignore)
+		  else false
+	  end
+	end
 
   def process_batch
     new_encryption = ActiveSupport::MessageEncryptor.new(SECRET)
+	
+    if defined?(params[:student][:user])
+	
     
-    if defined?(params[:student][:user]) and params[:student][:user].content_type == "application/vnd.ms-excel"
-      csv = CSV.parse(params[:student][:user].read)
+		csv = open_spreadsheet(params[:student][:user])
+		if csv != false
 
-      headers = Hash.new 
-      missing_headers = []
-      index = 0
+			headers = Hash.new 
+			missing_headers = []
+			index = 0
+			  
+			row_header = csv.row(1)
+			
+			student_headers = row_header.take(4)
+			profile_headers = row_header.slice(4, row_header.length)
+			#Check Student header in the CSV file. 
+			STUDENT_HEADER.each do |student_header|
+				header_found = false
 
-      #Check Student header in the CSV file. 
-      STUDENT_HEADER.each do |student_header|
-        header_found = false
+				student_headers.each do |header|
+				  if header == student_header
+					#GET THE POSITION OF THE HEADER IN THE CSV FILE
+					headers[header.to_sym] = index.to_i
+					header_found = true
+				  end 
+				end
 
-        csv[0].to_a.each do |header|
-          if header == student_header
-            #GET THE POSITION OF THE HEADER IN THE CSV FILE
-            headers[header.to_sym] = index.to_i
-            header_found = true
-          end 
-        end
-
-        if header_found == false
-          missing_headers.push(student_header)
-        end
-
-
-        index = index.to_i + 1
-      end
-
-      STUDENT_PROFILE_HEADER.each do |profile_header|
-        header_found = false
-
-        #Check Profile header in the CSV file. 
-        csv[0].to_a.each do |header|
-          if header == profile_header          
-            #GET THE POSITION OF THE HEADER IN THE CSV FILE
-            headers[header.to_sym] = index
-            header_found = true
-          end 
-        end
-
-        if header_found == false
-          missing_headers.push(profile_header)
-        end
-        
-        index = index + 1
-      end
+				if header_found == false
+				  missing_headers.push(student_header)
+				end
 
 
-      if missing_headers.length == 0
-        students = []
-        index = 0
-        inserted = 0
-        updated = 0
-        error = 0
+				index = index.to_i + 1
+			end
+			
+			
+			STUDENT_PROFILE_HEADER.each do |profile_header|
+				header_found = false
 
-        csv.each do |row|
-          #skip header
-          if index > 0
-            student_information = Hash.new
-            student_valid = false
+				#Check Profile header in the CSV file. 
+				profile_headers.each do |header|
+				  if header == profile_header          
+					#GET THE POSITION OF THE HEADER IN THE CSV FILE
+					headers[header.to_sym] = index
+					header_found = true
+				  end 
+				end
 
-            # GET STUDENT INFORMATION
-            student_information[:student] = Hash.new
-            STUDENT_HEADER.each do |student_header|
-              value = row[headers[student_header.to_sym]]
+				if header_found == false
+				  missing_headers.push(profile_header)
+				end
 
-              if !value.nil?
-
-                INTEGER_HEADER.each do |header|
-                  if header == student_header
-                    value = value.to_i
-                  end
-                end 
-
-                student_information[:student][student_header.to_sym] = value
-              end
-            end 
-
-            # CHECK IF STUDENT EMAIL EXIST
-            ninja = Student.authenticate_email(student_information[:student][:email])
-            
-            if ninja.nil?
-              # CREATE PASSWORD FOR NEW STUDENT
-              student_information[:student][:password] = new_encryption.encrypt(student_information[:student][:name] + student_information[:student][:email])[0..10]
-              student_information[:student][:password_confirmation] = student_information[:student][:password]
-              ninja = Student.new(student_information[:student])
-              if ninja.save
-                student_information[:student][:error] = nil
-                inserted += 1
-                student_valid = true                
-              else
-                student_information[:student][:error] = ninja.errors.full_messages
-                error += 1
-              end
-            else
-              # UPDATE WHEN STUDENT ALREADY EXIST
-              if ninja.update_attributes(student_information[:student])
-                student_valid = true
-                student_information[:student][:error] = nil
-                updated += 1
-              else
-                student_information[:student][:error] = ninja.errors.full_messages
-                error += 1
-              end
-            end
-
-            #CREATE / UPDATE PROFILE WHEN STUDENT WAS CREATED / UPDATED
-            student_information[:profile] = Hash.new
-
-            if student_valid
-              STUDENT_PROFILE_HEADER.each do |profile_header|
-                value = row[headers[profile_header.to_sym]]
-
-                if !value.nil?
-                  FLOAT_HEADER.each do |header|
-                    if header == profile_header
-                      value = value.to_f
-                    end
-                  end 
-
-                  DATE_HEADER.each do |header|
-                    if header == profile_header
-                      value = value.to_date
-                    end
-                  end 
-                  
-                  student_information[:profile][profile_header.to_sym] = value
-                end
-              end 
-
-              if ninja.student_profile.nil?
-                if !ninja.student_profile.new(student_information[:profile])
-                  student_information[:profile][:error] = ninja.student_profile.errors.full_messages
-                else
-                  student_information[:profile][:error] = nil
-                  update_student_skills(ninja, "import_from_csv")
-                end
-              else
-                if !ninja.student_profile.update_attributes(student_information[:profile])
-                  student_information[:profile][:error] = ninja.student_profile.errors.full_messages
-                else
-                  student_information[:profile][:error] = nil
-                  update_student_skills(ninja, "import_from_csv")
-                end
-              end
-            end
-
-            students.push(student_information)
-          end
-
-          index = index + 1
-          @student_lists = students
-        end
-
-        Emailer.import_notification(current_user, students).deliver
+				index = index + 1
+			end
 
 
-      else
-        flash[:notice] = "Import students failed. You have missing headers: #{missing_headers.to_s}"
-      end
+			if missing_headers.length == 0
+				students = []
+				index = 0
+				inserted = 0
+				updated = 0
+				error = 0
+				
+
+				(2..csv.last_row).each do |row|
+					#skip header
+					student_information = Hash.new
+					student_valid = false
+
+					# GET STUDENT INFORMATION
+					student_information[:student] = Hash.new
+					
+					STUDENT_HEADER.each do |student_header|
+					  value = csv.row(row)[headers[student_header.to_sym]]
+					  
+					  if !value.nil?
+
+						INTEGER_HEADER.each do |header|
+						  if header == student_header
+							value = value.to_i
+						  end
+						end 
+
+						student_information[:student][student_header.to_sym] = value
+					  else									
+						if student_header == "status"
+							student_information[:student][student_header.to_sym] = 1
+						end
+					  end
+					end 
+					
+
+					# CHECK IF STUDENT EMAIL EXIST
+					ninja = Student.authenticate_email(student_information[:student][:email])
+
+					if ninja.nil?
+					  # CREATE PASSWORD FOR NEW STUDENT
+					  student_information[:student][:password] = new_encryption.encrypt(student_information[:student][:name] + student_information[:student][:email])[0..10]
+					  student_information[:student][:password_confirmation] = student_information[:student][:password]
+					  ninja = Student.new(student_information[:student])
+					  if ninja.save
+						student_information[:student][:error] = nil
+						inserted += 1
+						student_valid = true                
+					  else
+						student_information[:student][:error] = ninja.errors.full_messages
+						error += 1
+					  end
+					else
+					  # UPDATE WHEN STUDENT ALREADY EXIST
+					  if ninja.update_attributes(student_information[:student])
+						student_valid = true
+						student_information[:student][:error] = nil
+						updated += 1
+					  else
+						student_information[:student][:error] = ninja.errors.full_messages
+						error += 1
+					  end
+					end
+
+					#CREATE / UPDATE PROFILE WHEN STUDENT WAS CREATED / UPDATED
+					student_information[:profile] = Hash.new
+
+					if student_valid
+					  STUDENT_PROFILE_HEADER.each do |profile_header|
+						value = csv.row(row)[headers[profile_header.to_sym]]
+
+						if !value.nil?
+						  FLOAT_HEADER.each do |header|
+							if header == profile_header
+							  value = value.to_f
+							end
+						  end 
+
+						  DATE_HEADER.each do |header|
+							if header == profile_header
+							  value = value.to_date
+							end
+						  end 
+						  
+						  student_information[:profile][profile_header.to_sym] = value
+						end
+					  end 
+
+					  if ninja.student_profile.nil?
+						if !ninja.student_profile.new(student_information[:profile])
+						  student_information[:profile][:error] = ninja.student_profile.errors.full_messages
+						else
+						  student_information[:profile][:error] = nil
+						  update_student_skills(ninja, "import_from_csv")
+						end
+					  else
+						if !ninja.student_profile.update_attributes(student_information[:profile])
+						  student_information[:profile][:error] = ninja.student_profile.errors.full_messages
+						else
+						  student_information[:profile][:error] = nil
+						  update_student_skills(ninja, "import_from_csv")
+						end
+					  end
+					end
+
+					students.push(student_information)
+				end
+
+				index = index + 1
+				@student_lists = students
+
+
+				Emailer.import_notification(current_user, students).deliver
+
+			else
+				flash[:notice] = "Import students failed. You have missing headers: #{missing_headers.to_s}"
+			end
+		else
+			flash[:notice] = "Unknown file type: #{params[:student][:user].original_filename}"
+		end
     else
-      flash[:notice] = "Import students failed. CSV file cannot be processed."
+      flash[:notice] = "Import students failed. File cannot be processed."
     end
 
     render "new_students"
