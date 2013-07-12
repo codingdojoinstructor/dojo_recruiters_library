@@ -1,4 +1,3 @@
-require 'roo';
 class Student < ActiveRecord::Base
   
 

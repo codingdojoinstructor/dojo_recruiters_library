@@ -71,14 +71,14 @@ class SessionsController < ApplicationController
       user = nil
 
       if student_exist
-          time_elapsed = ((Date.today.to_time.to_i - DateTime.parse(student[2]).to_i)/60).to_i
+          time_elapsed = ((Date.today.to_time.to_i - student[2].to_i)/60).to_i
           exist = true
           user = student_exist
       else
         recruiter_exist = Recruiter.user_exist(student[0].to_i, student[1].to_s)
 
         if recruiter_exist
-          time_elapsed = ((Date.today.to_time.to_i - DateTime.parse(student[2]).to_i)/60).to_i
+          time_elapsed = ((Date.today.to_time.to_i - student[2].to_i)/60).to_i
           exist = true
           user = recruiter_exist
         end
